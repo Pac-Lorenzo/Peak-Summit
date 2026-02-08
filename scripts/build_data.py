@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from email import parser
 import hashlib
+import argparse
 import json
 import math
 import random
@@ -59,8 +61,8 @@ def load_portfolio() -> Tuple[str, str, str, List[Holding]]:
     return portfolio_name, inception, benchmark, holdings
 
 
-def _cache_key(tickers: List[str], start: str) -> str:
-    s = ",".join(sorted(tickers)) + "|" + start
+def _cache_key(tickers: List[str], start: str, salt: str = "") -> str:
+    s = ",".join(sorted(tickers)) + "|" + start + "|" + salt
     return hashlib.md5(s.encode("utf-8")).hexdigest()
 
 
@@ -130,12 +132,12 @@ def _download_batch_adjclose(tickers: List[str], start: str) -> pd.DataFrame:
     raise RuntimeError(f"Batch failed after retries. Last error: {last_err}")
 
 
-def download_prices_adjclose_batched(tickers: List[str], start: str) -> pd.DataFrame:
+def download_prices_adjclose_batched(tickers: List[str], start: str, force_refresh: bool = False) -> pd.DataFrame:
     """
     Download tickers in batches, join columns, cache final result.
     """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    key = _cache_key(tickers, start)
+    key = _cache_key(tickers, start, salt=iso_today_utc() if force_refresh else "")
 
     cached = _load_cached_adjclose(key)
     if cached is not None and not cached.empty:
@@ -235,12 +237,16 @@ def main() -> None:
 
     portfolio_name, inception, benchmark, holdings = load_portfolio()
 
-    # remove CASH if you ever add it later
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force-refresh", action="store_true")
+    args = parser.parse_args()
+
+   # remove CASH if you ever add it later
     equity_holdings = [h for h in holdings if h.ticker.upper() != "CASH"]
     tickers = sorted(set([h.ticker for h in equity_holdings] + [benchmark]))
 
     try:
-        prices = download_prices_adjclose_batched(tickers=tickers, start=inception)
+        prices = download_prices_adjclose_batched(tickers=tickers, start=inception, force_refresh=args.force_refresh)
     except Exception as e:
         if _all_outputs_exist():
             print(f"⚠️ Download failed ({e}) but JSON outputs exist. Keeping last good data.")
