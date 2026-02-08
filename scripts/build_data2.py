@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from email import parser
 import hashlib
 import argparse
 import json
@@ -9,7 +10,6 @@ import time
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from tracemalloc import start
 from typing import Dict, List, Tuple, Optional
 
 import pandas as pd
@@ -25,7 +25,7 @@ RANGES = {"1M": 31, "3M": 92, "1Y": 366, "MAX": None}
 
 MAX_ATTEMPTS = 6
 BASE_BACKOFF_SECONDS = 2.0
-BATCH_SIZE = 7           # ✅ reduces Yahoo 429 risk
+BATCH_SIZE = 7              # ✅ reduces Yahoo 429 risk
 BATCH_PAUSE_SECONDS = (1.2, 2.8)  # ✅ random pause between batches
 
 
@@ -40,13 +40,11 @@ def iso_today_utc() -> str:
     return datetime.now(timezone.utc).date().isoformat()
 
 
-def load_portfolio() -> Tuple[str, str, str, float, List[Holding]]:
+def load_portfolio() -> Tuple[str, str, str, List[Holding]]:
     cfg = json.loads(PORTFOLIO_PATH.read_text(encoding="utf-8"))
     portfolio_name = cfg["portfolioName"]
     inception = cfg["inceptionDate"]
     benchmark = cfg.get("benchmark", "SPY")
-    initial_capital = float(cfg.get("initialCapital"))
-
 
     holdings = [
         Holding(h["ticker"], h.get("name", h["ticker"]), float(h["weight"]))
@@ -60,7 +58,7 @@ def load_portfolio() -> Tuple[str, str, str, float, List[Holding]]:
     if any(h.weight < 0 for h in holdings):
         raise ValueError("Weights cannot be negative.")
 
-    return portfolio_name, inception, benchmark, initial_capital, holdings
+    return portfolio_name, inception, benchmark, holdings
 
 
 def _cache_key(tickers: List[str], start: str, salt: str = "") -> str:
@@ -139,7 +137,7 @@ def download_prices_adjclose_batched(tickers: List[str], start: str, force_refre
     Download tickers in batches, join columns, cache final result.
     """
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    key = _cache_key(tickers, start)
+    key = _cache_key(tickers, start, salt=iso_today_utc() if force_refresh else "")
 
     print("DEBUG tickers:", tickers)
     print("DEBUG start:", start)
@@ -153,7 +151,7 @@ def download_prices_adjclose_batched(tickers: List[str], start: str, force_refre
         sorted([p.name for p in CACHE_DIR.glob("adjclose_*.parquet")])[:10])
 
 
-    cached = None if force_refresh else _load_cached_adjclose(key)
+    cached = _load_cached_adjclose(key)
     if cached is not None and not cached.empty:
         print("✅ Using cached prices.")
         return cached
@@ -249,7 +247,7 @@ def _all_outputs_exist() -> bool:
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    portfolio_name, inception, benchmark, initial_capital, holdings = load_portfolio()
+    portfolio_name, inception, benchmark, holdings = load_portfolio()
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--force-refresh", action="store_true")
@@ -280,79 +278,49 @@ def main() -> None:
     # Build weights map for available tickers only
     w_map = {h.ticker: h.weight for h in equity_holdings if h.ticker in available}
     w_sum = sum(w_map.values())
+
     if w_sum <= 0:
         raise RuntimeError("No portfolio tickers available after filtering.")
 
     # Renormalize weights so portfolio remains fully invested in available tickers
     w_map = {t: w / w_sum for t, w in w_map.items()}
 
-    # Prices for portfolio tickers only (available)
-    port_prices = prices[list(w_map.keys())].copy().dropna(how="all")
+    # Portfolio return
+    port_ret = pd.Series(0.0, index=rets.index)
+    for t, w in w_map.items():
+        port_ret = port_ret.add(rets[t] * w, fill_value=0.0)
 
-    # Use first date where ALL portfolio tickers have prices
-    first_date = port_prices.dropna(how="any").index[0]
-    p0 = port_prices.loc[first_date]
+    if benchmark not in rets.columns:
+        raise RuntimeError(f"Benchmark {benchmark} not found in downloaded data.")
+    bench_ret = rets[benchmark]
 
-    # Shares bought at inception (partial shares allowed)
-    shares = {t: (initial_capital * w_map[t]) / float(p0[t]) for t in w_map.keys()}
+    # Index series
+    port_idx = compute_index_from_returns(port_ret, base=100.0)
+    bench_idx = compute_index_from_returns(bench_ret, base=100.0)
 
-    # Daily portfolio value series
-    portfolio_value = pd.Series(0.0, index=prices.index)
-    for t, sh in shares.items():
-        portfolio_value = portfolio_value.add(prices[t] * sh, fill_value=0.0)
-
-    # Only keep dates where we have a valid portfolio value
-    portfolio_value = portfolio_value.dropna()
-
-    # Benchmark value series aligned to portfolio dates
-    bench_price = prices[benchmark].dropna()
-    bench_price = bench_price[bench_price.index.isin(portfolio_value.index)]
-    if bench_price.empty:
-        raise RuntimeError("Benchmark series empty after aligning to portfolio dates.")
-
-    # Build base-100 indices for charts/performance
-    port_index = (portfolio_value / portfolio_value.iloc[0]) * 100.0
-    bench_index = (bench_price / bench_price.iloc[0]) * 100.0
-
-    combined = pd.DataFrame({"portfolio": port_index, "benchmark": bench_index}).dropna()
+    combined = pd.DataFrame({"portfolio": port_idx, "benchmark": bench_idx}).dropna()
     if combined.empty:
         raise RuntimeError("Combined series empty.")
 
     # performance files
     for key, days in RANGES.items():
         sliced = slice_last_days(combined, days)
-        _safe_write_json(
-            OUT_DIR / f"performance.{key.lower()}.json",
-            {"range": key, "points": to_points(sliced)},
-        )
-
-    # returns (for vol/sharpe) derived from the true portfolio value series
-    port_ret = portfolio_value.pct_change().fillna(0.0)
+        _safe_write_json(OUT_DIR / f"performance.{key.lower()}.json", {"range": key, "points": to_points(sliced)})
 
     # metrics
-    total_return_pct = (portfolio_value.iloc[-1] / portfolio_value.iloc[0] - 1.0) * 100.0
+    total_return_pct = (combined["portfolio"].iloc[-1] / combined["portfolio"].iloc[0] - 1.0) * 100.0
 
     today = date.today()
     ytd_start = date(today.year, 1, 1)
-    ytd_vals = portfolio_value[portfolio_value.index >= ytd_start]
-    if len(ytd_vals) >= 2:
-        ytd_return_pct = (ytd_vals.iloc[-1] / ytd_vals.iloc[0] - 1.0) * 100.0
+    ytd_df = combined[combined.index >= ytd_start]
+    if len(ytd_df) >= 2:
+        ytd_return_pct = (ytd_df["portfolio"].iloc[-1] / ytd_df["portfolio"].iloc[0] - 1.0) * 100.0
     else:
         ytd_return_pct = 0.0
 
     vol_pct = annualized_vol(port_ret) * 100.0
     sharpe = sharpe_ratio(port_ret, rf_annual=0.0)
-    mdd_pct = max_drawdown(port_index) * 100.0
-
-    aum_usd = float(portfolio_value.iloc[-1])
-    profit_usd = aum_usd - initial_capital
-
-    # current weights (drift) from latest prices * shares
-    latest_date = portfolio_value.index[-1]
-    latest_prices = prices.loc[latest_date, list(shares.keys())]
-    pos_values = {t: float(latest_prices[t]) * float(shares[t]) for t in shares.keys()}
-    aum_calc = sum(pos_values.values()) or 1.0
-    current_weights = {t: v / aum_calc for t, v in pos_values.items()}
+    mdd_pct = max_drawdown(combined["portfolio"]) * 100.0
 
     metrics = {
         "portfolioName": portfolio_name,
@@ -364,24 +332,14 @@ def main() -> None:
         "volatilityAnnualPct": round(float(vol_pct), 3),
         "sharpe": round(float(sharpe), 3),
         "maxDrawdownPct": round(float(mdd_pct), 3),
-        "aumUsd": round(aum_usd, 2),
-        "profitUsd": round(profit_usd, 2),
-        "initialCapitalUsd": round(initial_capital, 2),
+        "aumUsd": 0,
     }
     _safe_write_json(OUT_DIR / "metrics.json", metrics)
 
     holdings_out = {
         "asOf": iso_today_utc(),
         "holdings": [
-            {
-                "ticker": h.ticker,
-                "name": h.name,
-                "weight": round(float(current_weights.get(h.ticker, 0.0)), 6),   # drifted
-                "targetWeight": round(float(h.weight), 6),                      # original target
-                "shares": round(float(shares.get(h.ticker, 0.0)), 8),
-                "price": round(float(latest_prices[h.ticker]), 4) if h.ticker in shares else 0.0,
-                "marketValue": round(float(pos_values.get(h.ticker, 0.0)), 2),
-            }
+            {"ticker": h.ticker, "name": h.name, "weight": round(float(h.weight), 6)}
             for h in holdings
         ],
         "missingTickersDropped": missing,

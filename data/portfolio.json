@@ -3,6 +3,7 @@
   "inceptionDate": "2025-07-28",
   "benchmark": "SPY",
   "currency": "USD",
+  "initialCapital": "8000",
   "weights": [
     { "ticker": "AAPL", "name": "Apple", "weight": 0.05 },
     { "ticker": "AMZN", "name": "Amazon", "weight": 0.045 },
