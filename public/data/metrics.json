@@ -3,10 +3,12 @@
   "benchmarkName": "S&P 500 (SPY)",
   "since": "Since inception",
   "asOf": "2026-02-08",
-  "totalReturnPct": 12.23,
-  "ytdReturnPct": 0.916,
-  "volatilityAnnualPct": 19.436,
-  "sharpe": 1.206,
-  "maxDrawdownPct": -11.071,
-  "aumUsd": 0
+  "totalReturnPct": 11.988,
+  "ytdReturnPct": 1.476,
+  "volatilityAnnualPct": 19.448,
+  "sharpe": 1.185,
+  "maxDrawdownPct": -10.702,
+  "aumUsd": 8959.08,
+  "profitUsd": 959.08,
+  "initialCapitalUsd": 8000.0
 }
