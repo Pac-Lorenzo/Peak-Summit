@@ -1,0 +1,18 @@
+{
+  "range": "MAX",
+  "points": [
+    { "date": "2025-01-02", "portfolio": 100, "benchmark": 100 },
+    { "date": "2025-02-01", "portfolio": 102.3, "benchmark": 101.1 },
+    { "date": "2025-03-01", "portfolio": 101.7, "benchmark": 100.4 },
+    { "date": "2025-04-01", "portfolio": 104.9, "benchmark": 102.2 },
+    { "date": "2025-05-01", "portfolio": 107.4, "benchmark": 103.8 },
+    { "date": "2025-06-01", "portfolio": 110.2, "benchmark": 105.1 },
+    { "date": "2025-07-01", "portfolio": 112.8, "benchmark": 107.4 },
+    { "date": "2025-08-01", "portfolio": 115.6, "benchmark": 109.0 },
+    { "date": "2025-09-01", "portfolio": 113.9, "benchmark": 108.1 },
+    { "date": "2025-10-01", "portfolio": 117.8, "benchmark": 110.3 },
+    { "date": "2025-11-01", "portfolio": 121.4, "benchmark": 112.7 },
+    { "date": "2025-12-01", "portfolio": 124.8, "benchmark": 115.9 },
+    { "date": "2026-01-01", "portfolio": 127.5, "benchmark": 117.2 }
+  ]
+}

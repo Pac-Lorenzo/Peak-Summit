@@ -1,0 +1,33 @@
+{
+  "portfolioName": "Peak Summit Capital",
+  "inceptionDate": "2025-07-28",
+  "benchmark": "SPY",
+  "currency": "USD",
+  "weights": [
+    { "ticker": "AAPL", "name": "Apple", "weight": 0.05 },
+    { "ticker": "AMZN", "name": "Amazon", "weight": 0.045 },
+    { "ticker": "MSFT", "name": "Microsoft", "weight": 0.06 },
+    { "ticker": "GOOGL", "name": "Google", "weight": 0.05 },
+    { "ticker": "NVDA", "name": "NVIDIA", "weight": 0.06 },
+    { "ticker": "META", "name": "Meta", "weight": 0.06 },
+    { "ticker": "PANW", "name": "Palo Alto Networks", "weight": 0.04 },
+    { "ticker": "AVGO", "name": "Broadcom", "weight": 0.04 },
+    { "ticker": "PLTR", "name": "Palantir", "weight": 0.05 },
+    { "ticker": "TSM", "name": "Taiwan Semiconductor", "weight": 0.05 },
+    { "ticker": "AMD", "name": "Advanced Micro Devices", "weight": 0.045 },
+    { "ticker": "CRWV", "name": "Coreweave", "weight": 0.045 },
+    { "ticker": "ZS", "name": "Zscaler", "weight": 0.03 },
+    { "ticker": "CRM", "name": "Salesforce", "weight": 0.035 },
+    { "ticker": "GFS", "name": "GlobalFoundries", "weight": 0.04 },
+    { "ticker": "RTX", "name": "Raytheon", "weight": 0.05 },
+    { "ticker": "LMT", "name": "Lockheed Martin", "weight": 0.03 },
+    { "ticker": "BA", "name": "Boeing", "weight": 0.02 },
+    { "ticker": "NOC", "name": "Northrop Grumman", "weight": 0.025 },
+    { "ticker": "GD", "name": "General Dynamics", "weight": 0.03 },
+    { "ticker": "HII", "name": "Huntington Ingalls Industries", "weight": 0.03 },
+    { "ticker": "LHX", "name": "L3Harris Technologies", "weight": 0.025 },
+    { "ticker": "LDOS", "name": "Leidos", "weight": 0.03 },
+    { "ticker": "CACI", "name": "CACI International", "weight": 0.03 },
+    { "ticker": "MRCY", "name": "Mercury Systems", "weight": 0.03 }
+  ]
+}

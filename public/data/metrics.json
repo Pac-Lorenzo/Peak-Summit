@@ -1,0 +1,12 @@
+{
+  "portfolioName": "Peak Summit Capital",
+  "benchmarkName": "S&P 500 (SPY)",
+  "since": "Since inception",
+  "asOf": "2026-02-08",
+  "totalReturnPct": 12.23,
+  "ytdReturnPct": 0.916,
+  "volatilityAnnualPct": 19.436,
+  "sharpe": 1.206,
+  "maxDrawdownPct": -11.071,
+  "aumUsd": 0
+}

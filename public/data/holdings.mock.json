@@ -1,0 +1,11 @@
+{
+  "asOf": "2026-02-01",
+  "holdings": [
+    { "ticker": "AAPL", "name": "Apple", "weight": 0.18 },
+    { "ticker": "MSFT", "name": "Microsoft", "weight": 0.16 },
+    { "ticker": "NVDA", "name": "NVIDIA", "weight": 0.14 },
+    { "ticker": "AMZN", "name": "Amazon", "weight": 0.12 },
+    { "ticker": "GOOGL", "name": "Alphabet", "weight": 0.10 },
+    { "ticker": "CASH", "name": "Cash", "weight": 0.30 }
+  ]
+}
