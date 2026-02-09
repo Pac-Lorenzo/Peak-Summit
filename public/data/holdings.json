@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-02-08",
+  "asOf": "2026-02-09",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.032385,
       "targetWeight": 0.03,
-      "shares": 1.50339656,
+      "shares": 1.50339641,
       "price": 192.99,
       "marketValue": 290.14
     },
