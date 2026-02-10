@@ -9,7 +9,6 @@ import time
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from tracemalloc import start
 from typing import Dict, List, Tuple, Optional
 
 import pandas as pd
@@ -242,6 +241,7 @@ def _all_outputs_exist() -> bool:
         "performance.max.json",
         "metrics.json",
         "holdings.json",
+        "positions.json",
     ]
     return all((OUT_DIR / f).exists() for f in expected)
 
@@ -354,6 +354,54 @@ def main() -> None:
     aum_calc = sum(pos_values.values()) or 1.0
     current_weights = {t: v / aum_calc for t, v in pos_values.items()}
 
+    valuation_date = latest_date  # last date we have a portfolio value
+    
+    # Inception “entry” prices (the date you actually used to buy)
+    entry_date = first_date
+    entry_prices = p0  # from your existing code: p0 = port_prices.loc[first_date]
+
+    
+       
+    # -------- positions.json (truth source for shares) --------
+    positions = []
+    for t in sorted(shares.keys()):
+        sh = float(shares[t])
+
+        entry_price = float(p0.loc[t])
+        current_price = float(latest_prices.loc[t])
+
+        # “Truth” entry value based on shares * entry price (avoids weight/rounding drift)
+        entry_value = sh * entry_price
+        market_value = sh * current_price
+
+        pnl = market_value - entry_value
+        ret_pct = (market_value / entry_value - 1.0) * 100.0 if entry_value != 0 else 0.0
+
+        positions.append({
+            "ticker": t,
+            "shares": round(sh, 8),
+            "entryPrice": round(entry_price, 4),
+            "currentPrice": round(current_price, 4),
+            "entryValue": round(entry_value, 2),
+            "marketValue": round(market_value, 2),
+            "currentWeight": round(float(current_weights.get(t, 0.0)), 6),
+            "pnlUsd": round(pnl, 2),
+            "returnPct": round(ret_pct, 3),
+        })
+
+    positions_out = {
+        "asOf": iso_today_utc(),
+        "entryDateUsed": entry_date.isoformat() if hasattr(entry_date, "isoformat") else str(entry_date),
+        "valuationDate": valuation_date.isoformat() if hasattr(valuation_date, "isoformat") else str(valuation_date),
+        "initialCapitalUsd": round(float(initial_capital), 2),
+        "aumUsd": round(float(aum_usd), 2),
+        "positions": positions,
+        "missingTickersDropped": missing,
+        "weightsRenormalized": bool(missing),
+    }
+    _safe_write_json(OUT_DIR / "positions.json", positions_out)
+
+    # -------- metrics.json --------
     metrics = {
         "portfolioName": portfolio_name,
         "benchmarkName": f"S&P 500 ({benchmark})" if benchmark.upper() == "SPY" else benchmark,
@@ -370,6 +418,7 @@ def main() -> None:
     }
     _safe_write_json(OUT_DIR / "metrics.json", metrics)
 
+    # -------- holdings.json --------
     holdings_out = {
         "asOf": iso_today_utc(),
         "holdings": [
@@ -379,7 +428,7 @@ def main() -> None:
                 "weight": round(float(current_weights.get(h.ticker, 0.0)), 6),   # drifted
                 "targetWeight": round(float(h.weight), 6),                      # original target
                 "shares": round(float(shares.get(h.ticker, 0.0)), 8),
-                "price": round(float(latest_prices[h.ticker]), 4) if h.ticker in shares else 0.0,
+                "price": round(float(latest_prices[h.ticker]), 4),
                 "marketValue": round(float(pos_values.get(h.ticker, 0.0)), 2),
             }
             for h in holdings
@@ -388,6 +437,37 @@ def main() -> None:
         "weightsRenormalized": bool(missing),
     }
     _safe_write_json(OUT_DIR / "holdings.json", holdings_out)
+
+   
+
+    positions_out = {
+        "asOf": iso_today_utc(),
+        "entryDateUsed": entry_date.isoformat() if hasattr(entry_date, "isoformat") else str(entry_date),
+        "valuationDate": latest_date.isoformat() if hasattr(latest_date, "isoformat") else str(latest_date),
+        "initialCapitalUsd": round(float(initial_capital), 2),
+        "aumUsd": round(float(aum_usd), 2),
+        "positions": [
+            {
+                "ticker": t,
+                "shares": round(float(shares[t]), 8),
+                "entryPrice": round(float(entry_prices[t]), 4),
+                "currentPrice": round(float(latest_prices[t]), 4),
+                "entryValue": round(float(shares[t]) * float(entry_prices[t]), 2),
+                "marketValue": round(float(pos_values[t]), 2),
+                "currentWeight": round(float(current_weights[t]), 6),
+                "pnlUsd": round(float(pos_values[t] - (shares[t] * float(entry_prices[t]))), 2),
+                "returnPct": round(
+                    (float(latest_prices[t]) / float(entry_prices[t]) - 1.0) * 100.0,
+                    3,
+                ),
+            }
+            for t in shares.keys()
+        ],
+        "missingTickersDropped": missing,
+        "weightsRenormalized": bool(missing),
+    }
+    _safe_write_json(OUT_DIR / "positions.json", positions_out)
+
 
     print("✅ Wrote outputs to:", OUT_DIR)
 

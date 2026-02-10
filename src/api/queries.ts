@@ -22,9 +22,32 @@ export type MetricsResponse = {
   since: string;
 };
 
+export type PositionRow = {
+  ticker: string;
+  shares: number;
+  entryPrice: number;
+  currentPrice: number;
+  entryValue: number;
+  marketValue: number;
+  currentWeight: number;
+  pnlUsd: number;
+  returnPct: number;
+};
+
+export type PositionsResponse = {
+  asOf: string;
+  entryDateUsed: string;
+  valuationDate: string;
+  initialCapitalUsd: number;
+  aumUsd: number;
+  positions: PositionRow[];
+  missingTickersDropped: string[];
+  weightsRenormalized: boolean;
+};
+
 export type HoldingsResponse = {
   asOf: string;
-  holdings: { ticker: string; name: string; weight: number }[];
+  holdings: { ticker: string; name: string; weight: number; targetWeight?: number; shares?: number }[];
 };
 
 export function getPerformance(range: RangeKey) {
@@ -43,4 +66,9 @@ export function getMetrics() {
 
 export function getHoldings() {
   return fetchJson<HoldingsResponse>("/data/holdings.json");
+}
+
+
+export function getPositions() {
+  return fetchJson<PositionsResponse>("/data/positions.json");
 }
