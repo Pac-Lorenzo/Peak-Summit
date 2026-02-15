@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-02-14",
+  "asOf": "2026-02-15",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-02-13",
   "initialCapitalUsd": 8000.0,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.57812309,
+      "shares": 0.57812305,
       "entryPrice": 415.1365,
       "currentPrice": 652.58,
       "entryValue": 240.0,
@@ -216,7 +216,7 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.77304244,
+      "shares": 0.77304252,
       "entryPrice": 310.4616,
       "currentPrice": 347.64,
       "entryValue": 240.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50339656,
+      "shares": 1.50339641,
       "entryPrice": 159.6385,
       "currentPrice": 176.3,
       "entryValue": 240.0,
