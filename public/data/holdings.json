@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-02-14",
+  "asOf": "2026-02-15",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.05379,
       "targetWeight": 0.05,
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "price": 255.78,
       "marketValue": 479.44
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.042328,
       "targetWeight": 0.03,
-      "shares": 0.57812305,
+      "shares": 0.57812309,
       "price": 652.58,
       "marketValue": 377.27
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.029737,
       "targetWeight": 0.03,
-      "shares": 1.50339641,
+      "shares": 1.50339656,
       "price": 176.3,
       "marketValue": 265.05
     },
