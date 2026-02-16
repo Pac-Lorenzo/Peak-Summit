@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-02-15",
+  "asOf": "2026-02-16",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.058009,
       "targetWeight": 0.05,
-      "shares": 2.58441439,
+      "shares": 2.58441413,
       "price": 200.06,
       "marketValue": 517.04
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.042328,
       "targetWeight": 0.03,
-      "shares": 0.57812305,
+      "shares": 0.57812309,
       "price": 652.58,
       "marketValue": 377.27
     },
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.030151,
       "targetWeight": 0.03,
-      "shares": 0.77304252,
+      "shares": 0.77304244,
       "price": 347.64,
       "marketValue": 268.74
     },
