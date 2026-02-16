@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-02-15",
+  "asOf": "2026-02-16",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-02-13",
   "initialCapitalUsd": 8000.0,
@@ -172,8 +172,8 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.58441413,
-      "entryPrice": 154.774,
+      "shares": 2.58441439,
+      "entryPrice": 154.7739,
       "currentPrice": 200.06,
       "entryValue": 400.0,
       "marketValue": 517.04,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.57812309,
+      "shares": 0.57812305,
       "entryPrice": 415.1365,
       "currentPrice": 652.58,
       "entryValue": 240.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50339656,
+      "shares": 1.50339641,
       "entryPrice": 159.6385,
       "currentPrice": 176.3,
       "entryValue": 240.0,
