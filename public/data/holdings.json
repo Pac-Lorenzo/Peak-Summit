@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-02-16",
+  "asOf": "2026-02-17",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.05379,
       "targetWeight": 0.05,
-      "shares": 1.8744088,
+      "shares": 1.87440894,
       "price": 255.78,
       "marketValue": 479.44
     },
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.030151,
       "targetWeight": 0.03,
-      "shares": 0.77304252,
+      "shares": 0.77304244,
       "price": 347.64,
       "marketValue": 268.74
     },

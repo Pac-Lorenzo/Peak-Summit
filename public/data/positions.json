@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-02-16",
+  "asOf": "2026-02-17",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-02-13",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.8744088,
+      "shares": 1.87440894,
       "entryPrice": 213.4006,
       "currentPrice": 255.78,
       "entryValue": 400.0,
@@ -216,7 +216,7 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.77304252,
+      "shares": 0.77304244,
       "entryPrice": 310.4616,
       "currentPrice": 347.64,
       "entryValue": 240.0,
