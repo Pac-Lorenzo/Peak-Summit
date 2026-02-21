@@ -2,11 +2,6 @@
   "range": "3M",
   "points": [
     {
-      "date": "2025-11-20",
-      "portfolio": 104.2262,
-      "benchmark": 102.7317
-    },
-    {
       "date": "2025-11-21",
       "portfolio": 104.5069,
       "benchmark": 103.755
@@ -305,6 +300,11 @@
       "date": "2026-02-19",
       "portfolio": 112.3488,
       "benchmark": 108.0802
+    },
+    {
+      "date": "2026-02-20",
+      "portfolio": 112.253,
+      "benchmark": 108.8618
     }
   ]
 }
