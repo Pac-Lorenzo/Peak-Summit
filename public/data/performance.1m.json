@@ -2,11 +2,6 @@
   "range": "1M",
   "points": [
     {
-      "date": "2026-01-27",
-      "portfolio": 119.5258,
-      "benchmark": 109.8187
-    },
-    {
       "date": "2026-01-28",
       "portfolio": 118.9043,
       "benchmark": 109.8076
@@ -110,6 +105,11 @@
       "date": "2026-02-26",
       "portfolio": 112.7744,
       "benchmark": 108.8412
+    },
+    {
+      "date": "2026-02-27",
+      "portfolio": 111.7449,
+      "benchmark": 108.3186
     }
   ]
 }
