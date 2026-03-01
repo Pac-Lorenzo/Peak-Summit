@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-02-28",
+  "asOf": "2026-03-01",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-02-27",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.8744088,
+      "shares": 1.87440894,
       "entryPrice": 213.4006,
       "currentPrice": 264.18,
       "entryValue": 400.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94202613,
+      "shares": 0.94202607,
       "entryPrice": 509.54,
       "currentPrice": 392.74,
       "entryValue": 480.0,
@@ -172,7 +172,7 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.59299818,
+      "shares": 2.59299844,
       "entryPrice": 154.2616,
       "currentPrice": 202.62,
       "entryValue": 400.0,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.57812309,
+      "shares": 0.57812305,
       "entryPrice": 415.1365,
       "currentPrice": 658.08,
       "entryValue": 240.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50339641,
+      "shares": 1.50339656,
       "entryPrice": 159.6385,
       "currentPrice": 175.1,
       "entryValue": 240.0,

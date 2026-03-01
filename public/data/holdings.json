@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-02-28",
+  "asOf": "2026-03-01",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.055392,
       "targetWeight": 0.05,
-      "shares": 1.8744088,
+      "shares": 1.87440894,
       "price": 264.18,
       "marketValue": 495.18
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.041386,
       "targetWeight": 0.06,
-      "shares": 0.94202613,
+      "shares": 0.94202607,
       "price": 392.74,
       "marketValue": 369.97
     },
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.058772,
       "targetWeight": 0.05,
-      "shares": 2.59299818,
+      "shares": 2.59299844,
       "price": 202.62,
       "marketValue": 525.39
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.042558,
       "targetWeight": 0.03,
-      "shares": 0.57812309,
+      "shares": 0.57812305,
       "price": 658.08,
       "marketValue": 380.45
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.029447,
       "targetWeight": 0.03,
-      "shares": 1.50339641,
+      "shares": 1.50339656,
       "price": 175.1,
       "marketValue": 263.24
     },
