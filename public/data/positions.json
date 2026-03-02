@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-01",
+  "asOf": "2026-03-02",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-02-27",
   "initialCapitalUsd": 8000.0,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.57812305,
+      "shares": 0.57812309,
       "entryPrice": 415.1365,
       "currentPrice": 658.08,
       "entryValue": 240.0,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.3556779,
-      "entryPrice": 562.3065,
+      "shares": 0.35567786,
+      "entryPrice": 562.3066,
       "currentPrice": 724.38,
       "entryValue": 200.0,
       "marketValue": 257.65,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50339656,
+      "shares": 1.50339641,
       "entryPrice": 159.6385,
       "currentPrice": 175.1,
       "entryValue": 240.0,
