@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-07",
+  "asOf": "2026-03-08",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.03137,
       "targetWeight": 0.03,
-      "shares": 0.77304252,
+      "shares": 0.77304244,
       "price": 363.49,
       "marketValue": 280.99
     },

@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-07",
+  "asOf": "2026-03-08",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-03-06",
   "initialCapitalUsd": 8000.0,
@@ -216,14 +216,14 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.77304252,
+      "shares": 0.77304244,
       "entryPrice": 310.4616,
       "currentPrice": 363.49,
       "entryValue": 240.0,
       "marketValue": 280.99,
       "currentWeight": 0.03137,
       "pnlUsd": 40.99,
-      "returnPct": 17.081
+      "returnPct": 17.08
     },
     {
       "ticker": "HII",
