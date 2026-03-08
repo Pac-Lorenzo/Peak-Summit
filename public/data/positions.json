@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-07",
+  "asOf": "2026-03-08",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-03-06",
   "initialCapitalUsd": 8000.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94202613,
+      "shares": 0.94202607,
       "entryPrice": 509.54,
       "currentPrice": 408.96,
       "entryValue": 480.0,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.35567786,
-      "entryPrice": 562.3066,
+      "shares": 0.3556779,
+      "entryPrice": 562.3065,
       "currentPrice": 756.13,
       "entryValue": 200.0,
       "marketValue": 268.94,

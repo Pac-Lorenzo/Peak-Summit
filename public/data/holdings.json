@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-07",
+  "asOf": "2026-03-08",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.043009,
       "targetWeight": 0.06,
-      "shares": 0.94202613,
+      "shares": 0.94202607,
       "price": 408.96,
       "marketValue": 385.25
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.030024,
       "targetWeight": 0.025,
-      "shares": 0.35567786,
+      "shares": 0.3556779,
       "price": 756.13,
       "marketValue": 268.94
     },
