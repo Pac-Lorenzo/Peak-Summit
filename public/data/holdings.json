@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-03-08",
+  "asOf": "2026-03-09",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.053875,
       "targetWeight": 0.05,
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "price": 257.46,
       "marketValue": 482.59
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.043009,
       "targetWeight": 0.06,
-      "shares": 0.94202607,
+      "shares": 0.94202613,
       "price": 408.96,
       "marketValue": 385.25
     },

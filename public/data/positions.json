@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-08",
+  "asOf": "2026-03-09",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-03-06",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "entryPrice": 213.4006,
       "currentPrice": 257.46,
       "entryValue": 400.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94202607,
+      "shares": 0.94202613,
       "entryPrice": 509.54,
       "currentPrice": 408.96,
       "entryValue": 480.0,
