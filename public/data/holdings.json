@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-08",
+  "asOf": "2026-03-09",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.044349,
       "targetWeight": 0.03,
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "price": 429.11,
       "marketValue": 397.25
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.030744,
       "targetWeight": 0.025,
-      "shares": 0.75118619,
+      "shares": 0.75118628,
       "price": 366.61,
       "marketValue": 275.39
     },

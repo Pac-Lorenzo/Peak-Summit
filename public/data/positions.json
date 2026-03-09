@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-08",
+  "asOf": "2026-03-09",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-03-06",
   "initialCapitalUsd": 8000.0,
@@ -227,19 +227,19 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "entryPrice": 259.2457,
       "currentPrice": 429.11,
       "entryValue": 240.0,
       "marketValue": 397.25,
       "currentWeight": 0.044349,
       "pnlUsd": 157.25,
-      "returnPct": 65.522
+      "returnPct": 65.523
     },
     {
       "ticker": "LHX",
-      "shares": 0.75118619,
-      "entryPrice": 266.2456,
+      "shares": 0.75118628,
+      "entryPrice": 266.2455,
       "currentPrice": 366.61,
       "entryValue": 200.0,
       "marketValue": 275.39,
