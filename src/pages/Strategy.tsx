@@ -6,7 +6,7 @@ export function Strategy() {
       <header className="space-y-3">
         <h1 className="text-4xl font-semibold tracking-tight">Investment Strategy</h1>
         <p className="max-w-3xl text-lg text-slate-600">
-          Explain your philosophy, process, and risk management clearly. This is the “why we exist” page.
+          Peak Summit Capital runs a concentrated long-only equity strategy focused on two macro themes: AI/semiconductor infrastructure and defense & government technology. The fund bets that sustained government defense spending and the buildout of AI compute infrastructure are multi-year secular tailwinds that will drive outsized returns relative to inflation.
         </p>
       </header>
 

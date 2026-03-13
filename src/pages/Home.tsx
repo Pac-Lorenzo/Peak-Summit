@@ -32,7 +32,7 @@ export function Home() {
             Data-Driven Investment Strategy <span className="text-slate-500">with Proven Results</span>
           </h1>
           <p className="text-lg text-slate-600">
-            Apex Capital combines quantitative analysis with fundamental research to deliver
+            Peak Summit Capital combines quantitative analysis with fundamental research to deliver
             consistent, risk-adjusted returns that outperform market benchmarks.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
