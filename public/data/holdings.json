@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-03-14",
+  "asOf": "2026-03-15",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.053654,
       "targetWeight": 0.05,
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "price": 250.12,
       "marketValue": 468.83
     },
@@ -33,7 +33,7 @@
       "name": "Google",
       "weight": 0.072016,
       "targetWeight": 0.05,
-      "shares": 2.08174095,
+      "shares": 2.08174079,
       "price": 302.28,
       "marketValue": 629.27
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.042966,
       "targetWeight": 0.03,
-      "shares": 0.58116984,
+      "shares": 0.58116989,
       "price": 646.0,
       "marketValue": 375.44
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.029866,
       "targetWeight": 0.025,
-      "shares": 0.3556779,
+      "shares": 0.35567786,
       "price": 733.71,
       "marketValue": 260.96
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.030859,
       "targetWeight": 0.025,
-      "shares": 0.75118619,
+      "shares": 0.75118628,
       "price": 358.96,
       "marketValue": 269.65
     },

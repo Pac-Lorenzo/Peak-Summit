@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-03-14",
+  "asOf": "2026-03-15",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-03-13",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "entryPrice": 213.4006,
       "currentPrice": 250.12,
       "entryValue": 400.0,
@@ -40,7 +40,7 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08174095,
+      "shares": 2.08174079,
       "entryPrice": 192.1469,
       "currentPrice": 302.28,
       "entryValue": 400.0,
@@ -183,8 +183,8 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58116984,
-      "entryPrice": 412.9602,
+      "shares": 0.58116989,
+      "entryPrice": 412.9601,
       "currentPrice": 646.0,
       "entryValue": 240.0,
       "marketValue": 375.44,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.3556779,
-      "entryPrice": 562.3065,
+      "shares": 0.35567786,
+      "entryPrice": 562.3066,
       "currentPrice": 733.71,
       "entryValue": 200.0,
       "marketValue": 260.96,
@@ -238,8 +238,8 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.75118619,
-      "entryPrice": 266.2456,
+      "shares": 0.75118628,
+      "entryPrice": 266.2455,
       "currentPrice": 358.96,
       "entryValue": 200.0,
       "marketValue": 269.65,
