@@ -205,8 +205,13 @@
     },
     {
       "ticker": "NOC",
+<<<<<<< HEAD
       "shares": 0.35567786,
       "entryPrice": 562.3066,
+=======
+      "shares": 0.3556779,
+      "entryPrice": 562.3065,
+>>>>>>> b326cd0 (Update portfolio data)
       "currentPrice": 733.71,
       "entryValue": 200.0,
       "marketValue": 260.96,
@@ -227,7 +232,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "entryPrice": 259.2457,
       "currentPrice": 415.71,
       "entryValue": 240.0,
@@ -249,7 +254,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50339641,
+      "shares": 1.50339656,
       "entryPrice": 159.6385,
       "currentPrice": 173.86,
       "entryValue": 240.0,
