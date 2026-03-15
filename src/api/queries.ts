@@ -17,9 +17,11 @@ export type MetricsResponse = {
   totalReturnPct: number;
   ytdReturnPct: number;
   beta: number;
+  profitUsd: number;
   systematicRiskAnnualPct: number;
   unsystematicRiskAnnualPct: number;
   aumUsd: number;
+  initialCapitalUsd: number;
   benchmarkName: string;
   since: string;
 };
@@ -62,8 +64,12 @@ export function getPerformance(range: RangeKey) {
   return fetchJson<PerformanceResponse>(`/data/${file}`);
 }
 
-export function getMetrics() {
-  return fetchJson<MetricsResponse>("/data/metrics.json");
+export async function getMetrics() {
+  const data = await fetchJson<MetricsResponse>("/data/metrics.json");
+  return {
+    ...data,
+    profitUsd: data.aumUsd - data.initialCapitalUsd,
+  };
 }
 
 export function getHoldings() {

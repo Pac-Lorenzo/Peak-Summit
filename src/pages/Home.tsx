@@ -94,6 +94,29 @@ export function Home() {
                 ) : (
                   <p>Performance summary will appear once data is available.</p>
                 )}
+
+                
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-4 border-t border-slate-200 pt-6 md:grid-cols-4">
+                <MetricTile
+                  title="Systematic Risk"
+                  value={
+                    metricsQ.data
+                      ? fmtPct(metricsQ.data.systematicRiskAnnualPct)
+                      : "—"
+                  }
+                  subtitle="Market-driven"
+                />
+
+                <MetricTile
+                  title="Unsystematic Risk"
+                  value={
+                    metricsQ.data
+                      ? fmtPct(metricsQ.data.unsystematicRiskAnnualPct)
+                      : "—"
+                  }
+                  subtitle="Idiosyncratic"
+                />
               </div>
             </>
           )}
