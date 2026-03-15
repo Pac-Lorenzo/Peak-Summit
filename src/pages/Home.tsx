@@ -56,8 +56,8 @@ export function Home() {
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <MetricTile title="Total Return" value={metricsQ.data ? fmtPct(metricsQ.data.totalReturnPct) : "—"} subtitle={metricsQ.data?.since} />
             <MetricTile title="YTD Return" value={metricsQ.data ? fmtPct(metricsQ.data.ytdReturnPct) : "—"} subtitle="2026" />
-            <MetricTile title="Beta" value={metricsQ.data ? metricsQ.data.beta.toFixed(3) : "—"} subtitle="Systematic Risk" />
-            <MetricTile title="Assets Under Management" value={metricsQ.data ? fmtUsd(metricsQ.data.aumUsd) : "—"} subtitle="Current AUM" />
+            <MetricTile title="Beta" value={metricsQ.data ? metricsQ.data.beta.toFixed(3) : "—"} subtitle="benchmark" />
+            <MetricTile title="Assets Under Management" value={metricsQ.data ? fmtUsd(metricsQ.data.aumUsd) : "—"} subtitle={metricsQ.data  ? `Profit ${fmtUsd(metricsQ.data.profitUsd)}` : "Current AUM" }/>
           </div>
         </Card>
       </section>
