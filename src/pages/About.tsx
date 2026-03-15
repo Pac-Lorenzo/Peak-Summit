@@ -55,7 +55,7 @@ export function About() {
           </div>
           <img
             className="h-52 w-52 rounded-2xl object-cover"
-            src="/profile-pics/paco-profile.jpeg"
+            src="/profile-pics/paco-profile1.jpg"
             alt="Paco Lorenzo"
             loading="lazy"
           />

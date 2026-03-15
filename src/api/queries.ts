@@ -16,7 +16,9 @@ export type PerformanceResponse = {
 export type MetricsResponse = {
   totalReturnPct: number;
   ytdReturnPct: number;
-  sharpe: number;
+  beta: number;
+  systematicRiskAnnualPct: number;
+  unsystematicRiskAnnualPct: number;
   aumUsd: number;
   benchmarkName: string;
   since: string;

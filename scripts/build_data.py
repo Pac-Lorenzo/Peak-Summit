@@ -189,6 +189,44 @@ def download_prices_adjclose_batched(tickers: List[str], start: str, force_refre
 def compute_index_from_returns(returns: pd.Series, base: float = 100.0) -> pd.Series:
     return (1.0 + returns.fillna(0.0)).cumprod() * base
 
+def compute_beta(port_returns: pd.Series, bench_returns: pd.Series) -> float:
+    aligned = pd.concat([port_returns, bench_returns], axis=1).dropna()
+    if aligned.empty:
+        return 0.0
+
+    rp = aligned.iloc[:, 0]
+    rb = aligned.iloc[:, 1]
+
+    bench_var = rb.var(ddof=0)
+    if bench_var == 0 or math.isnan(bench_var):
+        return 0.0
+
+    cov = rp.cov(rb)
+    if math.isnan(cov):
+        return 0.0
+
+    return float(cov / bench_var)
+
+
+def systematic_risk_annual(beta: float, bench_returns: pd.Series) -> float:
+    bench_vol_annual = annualized_vol(bench_returns)
+    return float(abs(beta) * bench_vol_annual)
+
+
+def unsystematic_risk_annual(port_returns: pd.Series, bench_returns: pd.Series, beta: float) -> float:
+    aligned = pd.concat([port_returns, bench_returns], axis=1).dropna()
+    if aligned.empty:
+        return 0.0
+
+    rp = aligned.iloc[:, 0]
+    rb = aligned.iloc[:, 1]
+
+    residual = rp - beta * rb
+    residual_vol = residual.std(ddof=0)
+    if math.isnan(residual_vol):
+        return 0.0
+
+    return float(residual_vol * math.sqrt(252))
 
 def slice_last_days(df: pd.DataFrame, days: Optional[int]) -> pd.DataFrame:
     if days is None:
@@ -264,8 +302,13 @@ def main() -> None:
     except Exception as e:
         if _all_outputs_exist():
             print(f"⚠️ Download failed ({e}) but JSON outputs exist. Keeping last good data.")
+            # Write a staleness flag so consumers can detect this
+            _safe_write_json(OUT_DIR / "status.json", {
+                "stale": True,
+                "reason": str(e),
+                "asOf": iso_today_utc(),
+            })
             return
-        raise
 
     # Returns
     rets = prices.pct_change().fillna(0.0)
@@ -329,6 +372,8 @@ def main() -> None:
     # returns (for vol/sharpe) derived from the true portfolio value series
     port_ret = portfolio_value.pct_change().fillna(0.0)
 
+    bench_ret = bench_price.pct_change().fillna(0.0)
+
     # metrics
     total_return_pct = (portfolio_value.iloc[-1] / portfolio_value.iloc[0] - 1.0) * 100.0
 
@@ -341,7 +386,9 @@ def main() -> None:
         ytd_return_pct = 0.0
 
     vol_pct = annualized_vol(port_ret) * 100.0
-    sharpe = sharpe_ratio(port_ret, rf_annual=0.0)
+    beta = compute_beta(port_ret, bench_ret)
+    systematic_risk_pct = systematic_risk_annual(beta, bench_ret) * 100.0
+    unsystematic_risk_pct = unsystematic_risk_annual(port_ret, bench_ret, beta) * 100.0
     mdd_pct = max_drawdown(port_index) * 100.0
 
     aum_usd = float(portfolio_value.iloc[-1])
@@ -360,47 +407,6 @@ def main() -> None:
     entry_date = first_date
     entry_prices = p0  # from your existing code: p0 = port_prices.loc[first_date]
 
-    
-       
-    # -------- positions.json (truth source for shares) --------
-    positions = []
-    for t in sorted(shares.keys()):
-        sh = float(shares[t])
-
-        entry_price = float(p0.loc[t])
-        current_price = float(latest_prices.loc[t])
-
-        # “Truth” entry value based on shares * entry price (avoids weight/rounding drift)
-        entry_value = sh * entry_price
-        market_value = sh * current_price
-
-        pnl = market_value - entry_value
-        ret_pct = (market_value / entry_value - 1.0) * 100.0 if entry_value != 0 else 0.0
-
-        positions.append({
-            "ticker": t,
-            "shares": round(sh, 8),
-            "entryPrice": round(entry_price, 4),
-            "currentPrice": round(current_price, 4),
-            "entryValue": round(entry_value, 2),
-            "marketValue": round(market_value, 2),
-            "currentWeight": round(float(current_weights.get(t, 0.0)), 6),
-            "pnlUsd": round(pnl, 2),
-            "returnPct": round(ret_pct, 3),
-        })
-
-    positions_out = {
-        "asOf": iso_today_utc(),
-        "entryDateUsed": entry_date.isoformat() if hasattr(entry_date, "isoformat") else str(entry_date),
-        "valuationDate": valuation_date.isoformat() if hasattr(valuation_date, "isoformat") else str(valuation_date),
-        "initialCapitalUsd": round(float(initial_capital), 2),
-        "aumUsd": round(float(aum_usd), 2),
-        "positions": positions,
-        "missingTickersDropped": missing,
-        "weightsRenormalized": bool(missing),
-    }
-    _safe_write_json(OUT_DIR / "positions.json", positions_out)
-
     # -------- metrics.json --------
     metrics = {
         "portfolioName": portfolio_name,
@@ -410,7 +416,9 @@ def main() -> None:
         "totalReturnPct": round(float(total_return_pct), 3),
         "ytdReturnPct": round(float(ytd_return_pct), 3),
         "volatilityAnnualPct": round(float(vol_pct), 3),
-        "sharpe": round(float(sharpe), 3),
+        "beta": round(float(beta), 3),
+        "systematicRiskAnnualPct": round(float(systematic_risk_pct), 3),
+        "unsystematicRiskAnnualPct": round(float(unsystematic_risk_pct), 3),
         "maxDrawdownPct": round(float(mdd_pct), 3),
         "aumUsd": round(aum_usd, 2),
         "profitUsd": round(profit_usd, 2),
