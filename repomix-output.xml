@@ -1,0 +1,5180 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.github/
+  workflows/
+    build-data.yml
+backend/
+  main.py
+data/
+  portfolio.json
+public/
+  data/
+    holdings.json
+    holdings.mock.json
+    metrics.json
+    metrics.mock.json
+    performance.1m.json
+    performance.1y.json
+    performance.3m.json
+    performance.max.json
+    performance.mock.json
+    positions.json
+  profile-pics/
+    paco-profile1.jpg
+    robbie-profile.jpeg
+  _redirects
+  vite.svg
+scripts/
+  build_data.py
+  build_data2.py
+  run_daily.sh
+src/
+  api/
+    client.ts
+    queries.ts
+  app/
+    App.tsx
+    providers.tsx
+    routes.tsx
+  assets/
+    react.svg
+  components/
+    Card.tsx
+    Footer.tsx
+    MetricTile.tsx
+    Navbar.tsx
+    PerformanceChart.tsx
+    RangeSelector.tsx
+  lib/
+    format.ts
+  pages/
+    About.tsx
+    Contact.tsx
+    Holdings.tsx
+    Home.tsx
+    Strategy.tsx
+  App.css
+  App.tsx
+  index.css
+  main.tsx
+.gitignore
+eslint.config.js
+index.html
+package.json
+postcss.config.js
+README.md
+requirements.txt
+runtime.txt
+tailwind.config.js
+tsconfig.app.json
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".github/workflows/build-data.yml">
+name: Build portfolio data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 10 * * *" # daily 10:15 UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build JSON data
+        run: python scripts/build_data.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/*.json 
+          git commit -m "Update portfolio data" || echo "No changes to commit"
+          git push
+</file>
+
+<file path="backend/main.py">
+import json
+import os
+from fastapi import FastAPI
+import redis
+from pathlib import Path
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Connect to Redis
+r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+
+# Base path to your public data
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "public" / "data"
+
+CACHE_TTL = 86400  # 24 hours
+
+
+def load_json(filename: str):
+    file_path = DATA_DIR / filename
+    with open(file_path, "r") as f:
+        return json.load(f)
+
+
+@app.get("/metrics")
+def get_metrics():
+    cache_key = "metrics:latest"
+
+    cached = r.get(cache_key)
+    if cached:
+        return json.loads(cached)
+
+    data = load_json("metrics.json")
+    r.setex(cache_key, CACHE_TTL, json.dumps(data))
+    return data
+
+
+@app.get("/performance/{range_key}")
+def get_performance(range_key: str):
+    cache_key = f"performance:{range_key}"
+
+    cached = r.get(cache_key)
+    if cached:
+        return json.loads(cached)
+
+    filename = f"performance.{range_key}.json"
+    data = load_json(filename)
+    r.setex(cache_key, CACHE_TTL, json.dumps(data))
+    return data
+
+@app.get("/holdings")
+def get_holdings():
+    cache_key = "holdings:latest"
+
+    cached = r.get(cache_key)
+    if cached:
+        return json.loads(cached)
+
+    data = load_json("holdings.json")
+    r.setex(cache_key, CACHE_TTL, json.dumps(data))
+    return data
+
+
+@app.get("/positions")
+def get_positions():
+    cache_key = "positions:latest"
+
+    cached = r.get(cache_key)
+    if cached:
+        return json.loads(cached)
+
+    data = load_json("positions.json")
+    r.setex(cache_key, CACHE_TTL, json.dumps(data))
+    return data
+</file>
+
+<file path="public/_redirects">
+/*    /index.html   200
+</file>
+
+<file path="public/vite.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+</file>
+
+<file path="scripts/build_data2.py">
+from __future__ import annotations
+
+from email import parser
+import hashlib
+import argparse
+import json
+import math
+import random
+import time
+from dataclasses import dataclass
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+from typing import Dict, List, Tuple, Optional
+
+import pandas as pd
+import yfinance as yf
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PORTFOLIO_PATH = ROOT / "data" / "portfolio.json"
+OUT_DIR = ROOT / "public" / "data"
+CACHE_DIR = ROOT / "data" / "cache"
+
+RANGES = {"1M": 31, "3M": 92, "1Y": 366, "MAX": None}
+
+MAX_ATTEMPTS = 6
+BASE_BACKOFF_SECONDS = 2.0
+BATCH_SIZE = 7              # ✅ reduces Yahoo 429 risk
+BATCH_PAUSE_SECONDS = (1.2, 2.8)  # ✅ random pause between batches
+
+
+@dataclass
+class Holding:
+    ticker: str
+    name: str
+    weight: float
+
+
+def iso_today_utc() -> str:
+    return datetime.now(timezone.utc).date().isoformat()
+
+
+def load_portfolio() -> Tuple[str, str, str, List[Holding]]:
+    cfg = json.loads(PORTFOLIO_PATH.read_text(encoding="utf-8"))
+    portfolio_name = cfg["portfolioName"]
+    inception = cfg["inceptionDate"]
+    benchmark = cfg.get("benchmark", "SPY")
+
+    holdings = [
+        Holding(h["ticker"], h.get("name", h["ticker"]), float(h["weight"]))
+        for h in cfg["weights"]
+    ]
+
+    w_sum = sum(h.weight for h in holdings)
+    if abs(w_sum - 1.0) > 1e-6:
+        raise ValueError(f"Weights must sum to 1.0. Current sum={w_sum}")
+
+    if any(h.weight < 0 for h in holdings):
+        raise ValueError("Weights cannot be negative.")
+
+    return portfolio_name, inception, benchmark, holdings
+
+
+def _cache_key(tickers: List[str], start: str, salt: str = "") -> str:
+    s = ",".join(sorted(tickers)) + "|" + start + "|" + salt
+    return hashlib.md5(s.encode("utf-8")).hexdigest()
+
+
+def _load_cached_adjclose(key: str) -> Optional[pd.DataFrame]:
+    path = CACHE_DIR / f"adjclose_{key}.parquet"
+    if not path.exists():
+        return None
+    try:
+        df = pd.read_parquet(path)
+        df.index = pd.to_datetime(df.index).date
+        df.index = pd.Index(df.index, name="date")
+        return df.sort_index()
+    except Exception:
+        return None
+
+
+def _save_cached_adjclose(key: str, df: pd.DataFrame) -> None:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    path = CACHE_DIR / f"adjclose_{key}.parquet"
+    df.to_parquet(path)
+
+
+def _download_batch_adjclose(tickers: List[str], start: str) -> pd.DataFrame:
+    last_err: Optional[Exception] = None
+
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            df = yf.download(
+                tickers=tickers,
+                start=start,
+                interval="1d",
+                auto_adjust=False,
+                progress=False,
+                group_by="column",
+                threads=False,
+            )
+
+            if df is None or df.empty:
+                raise RuntimeError("Empty response (likely rate limited).")
+
+            if isinstance(df.columns, pd.MultiIndex):
+                if "Adj Close" not in df.columns.get_level_values(0):
+                    raise RuntimeError("Adj Close not found in multiindex response.")
+                adj = df["Adj Close"].copy()
+            else:
+                if "Adj Close" not in df.columns:
+                    raise RuntimeError("Adj Close not found in response.")
+                adj = df[["Adj Close"]].rename(columns={"Adj Close": tickers[0]})
+
+            adj.index = pd.to_datetime(adj.index).date
+            adj.index = pd.Index(adj.index, name="date")
+            adj = adj.sort_index().ffill().dropna(how="all")
+
+            if adj.empty:
+                raise RuntimeError("Adj Close empty after cleaning.")
+
+            return adj
+
+        except Exception as e:
+            last_err = e
+            backoff = (BASE_BACKOFF_SECONDS ** attempt) + random.uniform(0, 1.5)
+            backoff = min(backoff, 90.0)
+            print(f"⚠️ Batch download failed (attempt {attempt}/{MAX_ATTEMPTS}): {e}")
+            print(f"⏳ Backing off {backoff:.1f}s...")
+            time.sleep(backoff)
+
+    raise RuntimeError(f"Batch failed after retries. Last error: {last_err}")
+
+
+def download_prices_adjclose_batched(tickers: List[str], start: str, force_refresh: bool = False) -> pd.DataFrame:
+    """
+    Download tickers in batches, join columns, cache final result.
+    """
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    key = _cache_key(tickers, start, salt=iso_today_utc() if force_refresh else "")
+
+    print("DEBUG tickers:", tickers)
+    print("DEBUG start:", start)
+    print("DEBUG cache key:", key)
+
+    cache_path = CACHE_DIR / f"adjclose_{key}.parquet"
+    print("DEBUG cache path:", cache_path)
+    print("DEBUG cache exists:", cache_path.exists())
+
+    print("DEBUG cache dir listing (top 10):",
+        sorted([p.name for p in CACHE_DIR.glob("adjclose_*.parquet")])[:10])
+
+
+    cached = _load_cached_adjclose(key)
+    if cached is not None and not cached.empty:
+        print("✅ Using cached prices.")
+        return cached
+
+    frames: List[pd.DataFrame] = []
+
+    # batch tickers
+    for i in range(0, len(tickers), BATCH_SIZE):
+        batch = tickers[i : i + BATCH_SIZE]
+        print(f"📥 Downloading batch {i//BATCH_SIZE + 1} / {math.ceil(len(tickers)/BATCH_SIZE)}: {batch}")
+        adj = _download_batch_adjclose(batch, start=start)
+        frames.append(adj)
+
+        # pause between batches
+        if i + BATCH_SIZE < len(tickers):
+            sleep_s = random.uniform(*BATCH_PAUSE_SECONDS)
+            time.sleep(sleep_s)
+
+    merged = pd.concat(frames, axis=1)
+
+    # de-dup columns (just in case)
+    merged = merged.loc[:, ~merged.columns.duplicated()].sort_index().ffill()
+
+    # drop columns that are all NA (unsupported tickers)
+    merged = merged.dropna(axis=1, how="all")
+    if merged.empty:
+        raise RuntimeError("All tickers failed / no usable price data.")
+
+    _save_cached_adjclose(key, merged)
+    print("✅ Download + cache complete.")
+    return merged
+
+
+def compute_index_from_returns(returns: pd.Series, base: float = 100.0) -> pd.Series:
+    return (1.0 + returns.fillna(0.0)).cumprod() * base
+
+
+def slice_last_days(df: pd.DataFrame, days: Optional[int]) -> pd.DataFrame:
+    if days is None:
+        return df
+    cutoff = date.today() - timedelta(days=days)
+    return df[df.index >= cutoff]
+
+
+def to_points(df: pd.DataFrame) -> List[Dict]:
+    out: List[Dict] = []
+    for d, row in df.iterrows():
+        out.append(
+            {
+                "date": d.isoformat() if hasattr(d, "isoformat") else str(d),
+                "portfolio": round(float(row["portfolio"]), 4),
+                "benchmark": round(float(row["benchmark"]), 4),
+            }
+        )
+    return out
+
+
+def annualized_vol(daily_returns: pd.Series) -> float:
+    return float(daily_returns.std(ddof=0) * math.sqrt(252))
+
+
+def sharpe_ratio(daily_returns: pd.Series, rf_annual: float = 0.0) -> float:
+    rf_daily = (1.0 + rf_annual) ** (1.0 / 252.0) - 1.0
+    excess = daily_returns - rf_daily
+    vol = excess.std(ddof=0)
+    if vol == 0 or math.isnan(vol):
+        return 0.0
+    return float((excess.mean() / vol) * math.sqrt(252))
+
+
+def max_drawdown(index: pd.Series) -> float:
+    roll_max = index.cummax()
+    dd = index / roll_max - 1.0
+    return float(dd.min())
+
+
+def _safe_write_json(path: Path, payload: Dict) -> None:
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def _all_outputs_exist() -> bool:
+    expected = [
+        "performance.1m.json",
+        "performance.3m.json",
+        "performance.1y.json",
+        "performance.max.json",
+        "metrics.json",
+        "holdings.json",
+    ]
+    return all((OUT_DIR / f).exists() for f in expected)
+
+
+def main() -> None:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    portfolio_name, inception, benchmark, holdings = load_portfolio()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force-refresh", action="store_true")
+    args = parser.parse_args()
+
+   # remove CASH if you ever add it later
+    equity_holdings = [h for h in holdings if h.ticker.upper() != "CASH"]
+    tickers = sorted(set([h.ticker for h in equity_holdings] + [benchmark]))
+
+    try:
+        prices = download_prices_adjclose_batched(tickers=tickers, start=inception, force_refresh=args.force_refresh)
+    except Exception as e:
+        if _all_outputs_exist():
+            print(f"⚠️ Download failed ({e}) but JSON outputs exist. Keeping last good data.")
+            return
+        raise
+
+    # Returns
+    rets = prices.pct_change().fillna(0.0)
+
+    # Determine which portfolio tickers are actually present
+    available = set(rets.columns)
+
+    missing = [h.ticker for h in equity_holdings if h.ticker not in available]
+    if missing:
+        print("⚠️ Missing/unsupported tickers (dropping + renormalizing):", missing)
+
+    # Build weights map for available tickers only
+    w_map = {h.ticker: h.weight for h in equity_holdings if h.ticker in available}
+    w_sum = sum(w_map.values())
+
+    if w_sum <= 0:
+        raise RuntimeError("No portfolio tickers available after filtering.")
+
+    # Renormalize weights so portfolio remains fully invested in available tickers
+    w_map = {t: w / w_sum for t, w in w_map.items()}
+
+    # Portfolio return
+    port_ret = pd.Series(0.0, index=rets.index)
+    for t, w in w_map.items():
+        port_ret = port_ret.add(rets[t] * w, fill_value=0.0)
+
+    if benchmark not in rets.columns:
+        raise RuntimeError(f"Benchmark {benchmark} not found in downloaded data.")
+    bench_ret = rets[benchmark]
+
+    # Index series
+    port_idx = compute_index_from_returns(port_ret, base=100.0)
+    bench_idx = compute_index_from_returns(bench_ret, base=100.0)
+
+    combined = pd.DataFrame({"portfolio": port_idx, "benchmark": bench_idx}).dropna()
+    if combined.empty:
+        raise RuntimeError("Combined series empty.")
+
+    # performance files
+    for key, days in RANGES.items():
+        sliced = slice_last_days(combined, days)
+        _safe_write_json(OUT_DIR / f"performance.{key.lower()}.json", {"range": key, "points": to_points(sliced)})
+
+    # metrics
+    total_return_pct = (combined["portfolio"].iloc[-1] / combined["portfolio"].iloc[0] - 1.0) * 100.0
+
+    today = date.today()
+    ytd_start = date(today.year, 1, 1)
+    ytd_df = combined[combined.index >= ytd_start]
+    if len(ytd_df) >= 2:
+        ytd_return_pct = (ytd_df["portfolio"].iloc[-1] / ytd_df["portfolio"].iloc[0] - 1.0) * 100.0
+    else:
+        ytd_return_pct = 0.0
+
+    vol_pct = annualized_vol(port_ret) * 100.0
+    sharpe = sharpe_ratio(port_ret, rf_annual=0.0)
+    mdd_pct = max_drawdown(combined["portfolio"]) * 100.0
+
+    metrics = {
+        "portfolioName": portfolio_name,
+        "benchmarkName": f"S&P 500 ({benchmark})" if benchmark.upper() == "SPY" else benchmark,
+        "since": "Since inception",
+        "asOf": iso_today_utc(),
+        "totalReturnPct": round(float(total_return_pct), 3),
+        "ytdReturnPct": round(float(ytd_return_pct), 3),
+        "volatilityAnnualPct": round(float(vol_pct), 3),
+        "sharpe": round(float(sharpe), 3),
+        "maxDrawdownPct": round(float(mdd_pct), 3),
+        "aumUsd": 0,
+    }
+    _safe_write_json(OUT_DIR / "metrics.json", metrics)
+
+    holdings_out = {
+        "asOf": iso_today_utc(),
+        "holdings": [
+            {"ticker": h.ticker, "name": h.name, "weight": round(float(h.weight), 6)}
+            for h in holdings
+        ],
+        "missingTickersDropped": missing,
+        "weightsRenormalized": bool(missing),
+    }
+    _safe_write_json(OUT_DIR / "holdings.json", holdings_out)
+
+    print("✅ Wrote outputs to:", OUT_DIR)
+
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="scripts/run_daily.sh">
+cat > scripts/run_daily.sh <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO_DIR"
+
+source .venv/bin/activate
+
+python scripts/build_data.py --force-refresh
+
+git add public/data/*.json
+git commit -m "Update portfolio data" || exit 0
+git push
+SH
+
+chmod +x scripts/run_daily.sh
+</file>
+
+<file path="src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="src/App.css">
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+</file>
+
+<file path="src/App.tsx">
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
+}
+
+export default App
+</file>
+
+<file path="src/index.css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:focus-visible {
+  outline: none;
+}
+</file>
+
+<file path="eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
+import { defineConfig, globalIgnores } from 'eslint/config'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+  },
+])
+</file>
+
+<file path="package.json">
+{
+  "name": "peak-summit-capital",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.20",
+    "clsx": "^2.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.0",
+    "recharts": "^3.7.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.24",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "npm:rolldown-vite@7.2.5"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.2.5"
+  }
+}
+</file>
+
+<file path="postcss.config.js">
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+</file>
+
+<file path="README.md">
+# React + TypeScript + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+</file>
+
+<file path="runtime.txt">
+3.11.9
+</file>
+
+<file path="tailwind.config.js">
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+</file>
+
+<file path="tsconfig.app.json">
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+</file>
+
+<file path="tsconfig.json">
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+</file>
+
+<file path="tsconfig.node.json">
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+</file>
+
+<file path="vite.config.ts">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})
+</file>
+
+<file path="data/portfolio.json">
+{
+  "portfolioName": "Peak Summit Capital",
+  "inceptionDate": "2025-07-28",
+  "benchmark": "SPY",
+  "currency": "USD",
+  "initialCapital": "8000",
+  "weights": [
+    { "ticker": "AAPL", "name": "Apple", "weight": 0.05 },
+    { "ticker": "AMZN", "name": "Amazon", "weight": 0.045 },
+    { "ticker": "MSFT", "name": "Microsoft", "weight": 0.06 },
+    { "ticker": "GOOGL", "name": "Google", "weight": 0.05 },
+    { "ticker": "NVDA", "name": "NVIDIA", "weight": 0.06 },
+    { "ticker": "META", "name": "Meta", "weight": 0.06 },
+    { "ticker": "PANW", "name": "Palo Alto Networks", "weight": 0.04 },
+    { "ticker": "AVGO", "name": "Broadcom", "weight": 0.04 },
+    { "ticker": "PLTR", "name": "Palantir", "weight": 0.05 },
+    { "ticker": "TSM", "name": "Taiwan Semiconductor", "weight": 0.05 },
+    { "ticker": "AMD", "name": "Advanced Micro Devices", "weight": 0.045 },
+    { "ticker": "CRWV", "name": "Coreweave", "weight": 0.045 },
+    { "ticker": "ZS", "name": "Zscaler", "weight": 0.03 },
+    { "ticker": "CRM", "name": "Salesforce", "weight": 0.035 },
+    { "ticker": "GFS", "name": "GlobalFoundries", "weight": 0.04 },
+    { "ticker": "RTX", "name": "Raytheon", "weight": 0.05 },
+    { "ticker": "LMT", "name": "Lockheed Martin", "weight": 0.03 },
+    { "ticker": "BA", "name": "Boeing", "weight": 0.02 },
+    { "ticker": "NOC", "name": "Northrop Grumman", "weight": 0.025 },
+    { "ticker": "GD", "name": "General Dynamics", "weight": 0.03 },
+    { "ticker": "HII", "name": "Huntington Ingalls Industries", "weight": 0.03 },
+    { "ticker": "LHX", "name": "L3Harris Technologies", "weight": 0.025 },
+    { "ticker": "LDOS", "name": "Leidos", "weight": 0.03 },
+    { "ticker": "CACI", "name": "CACI International", "weight": 0.03 },
+    { "ticker": "MRCY", "name": "Mercury Systems", "weight": 0.03 }
+  ]
+}
+</file>
+
+<file path="public/data/holdings.mock.json">
+{
+  "asOf": "2026-02-01",
+  "holdings": [
+    { "ticker": "AAPL", "name": "Apple", "weight": 0.18 },
+    { "ticker": "MSFT", "name": "Microsoft", "weight": 0.16 },
+    { "ticker": "NVDA", "name": "NVIDIA", "weight": 0.14 },
+    { "ticker": "AMZN", "name": "Amazon", "weight": 0.12 },
+    { "ticker": "GOOGL", "name": "Alphabet", "weight": 0.10 },
+    { "ticker": "CASH", "name": "Cash", "weight": 0.30 }
+  ]
+}
+</file>
+
+<file path="public/data/metrics.mock.json">
+{
+  "totalReturnPct": 24.8,
+  "ytdReturnPct": 8.3,
+  "sharpe": 1.42,
+  "aumUsd": 2400000,
+  "benchmarkName": "S&P 500 (SPY)",
+  "since": "Since inception"
+}
+</file>
+
+<file path="public/data/performance.mock.json">
+{
+  "range": "MAX",
+  "points": [
+    { "date": "2025-01-02", "portfolio": 100, "benchmark": 100 },
+    { "date": "2025-02-01", "portfolio": 102.3, "benchmark": 101.1 },
+    { "date": "2025-03-01", "portfolio": 101.7, "benchmark": 100.4 },
+    { "date": "2025-04-01", "portfolio": 104.9, "benchmark": 102.2 },
+    { "date": "2025-05-01", "portfolio": 107.4, "benchmark": 103.8 },
+    { "date": "2025-06-01", "portfolio": 110.2, "benchmark": 105.1 },
+    { "date": "2025-07-01", "portfolio": 112.8, "benchmark": 107.4 },
+    { "date": "2025-08-01", "portfolio": 115.6, "benchmark": 109.0 },
+    { "date": "2025-09-01", "portfolio": 113.9, "benchmark": 108.1 },
+    { "date": "2025-10-01", "portfolio": 117.8, "benchmark": 110.3 },
+    { "date": "2025-11-01", "portfolio": 121.4, "benchmark": 112.7 },
+    { "date": "2025-12-01", "portfolio": 124.8, "benchmark": 115.9 },
+    { "date": "2026-01-01", "portfolio": 127.5, "benchmark": 117.2 }
+  ]
+}
+</file>
+
+<file path="src/app/App.tsx">
+import { Outlet } from "react-router-dom";
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
+
+export function AppShell() {
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <Navbar />
+      <main id="main" className="mx-auto max-w-6xl px-4 py-8 md:py-10">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/providers.tsx">
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000, // 1 min for mock; later can be 1h
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+}
+</file>
+
+<file path="src/app/routes.tsx">
+import { createBrowserRouter } from "react-router-dom";
+import { Home } from "../pages/Home";
+import { About } from "../pages/About";
+import { Strategy } from "../pages/Strategy";
+import { Holdings } from "../pages/Holdings";
+import { Contact } from "../pages/Contact";
+import { AppShell } from "./App";
+
+export const router = createBrowserRouter([
+  {
+    element: <AppShell />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/about", element: <About /> },
+      { path: "/strategy", element: <Strategy /> },
+      { path: "/holdings", element: <Holdings /> },
+      { path: "/contact", element: <Contact /> },
+    ],
+  },
+]);
+</file>
+
+<file path="src/components/Card.tsx">
+import { clsx } from "clsx";
+
+export function Card(props: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      {...props}
+      className={clsx(
+        "rounded-2xl border border-slate-200 bg-white shadow-sm",
+        props.className
+      )}
+    />
+  );
+}
+</file>
+
+<file path="src/components/MetricTile.tsx">
+import { Card } from "./Card";
+
+export function MetricTile({
+  title,
+  value,
+  subtitle,
+}: {
+  title: string;
+  value: string;
+  subtitle?: string;
+}) {
+  return (
+    <Card className="p-5">
+      <div className="text-sm text-slate-600">{title}</div>
+      <div className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
+        {value}
+      </div>
+      {subtitle ? <div className="mt-2 text-sm text-slate-600">{subtitle}</div> : null}
+    </Card>
+  );
+}
+</file>
+
+<file path="src/components/Navbar.tsx">
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { clsx } from "clsx";
+
+const nav = [
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/strategy", label: "Strategy" },
+  { to: "/holdings", label: "Holdings" },
+  { to: "/contact", label: "Contact" },
+];
+
+export function Navbar() {
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 10);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <header
+      className={clsx(
+        "sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur",
+        "transition-all duration-500",
+        mounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+      )}
+    >
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 rounded-lg bg-white px-3 py-2 text-sm font-medium shadow"
+      >
+        Skip to content
+      </a>
+
+      <div className="mx-auto max-w-6xl px-4 py-4">
+        <div className="flex items-center justify-between">
+          {/* Brand */}
+          <div className="flex items-center gap-2">
+            <div className="grid h-9 w-9 place-items-center rounded-xl bg-blue-600 text-white font-bold">
+              P
+            </div>
+            <div className="text-base font-semibold tracking-tight text-slate-900">
+              Peak Summit Capital
+            </div>
+          </div>
+
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-2 md:flex" aria-label="Primary">
+            {nav.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  clsx(
+                    "rounded-lg px-3 py-2 text-sm font-medium transition",
+                    "focus-visible:ring-2 focus-visible:ring-blue-500",
+                    isActive ? "text-blue-600" : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+          >
+            {open ? "Close" : "Menu"}
+          </button>
+        </div>
+
+        {/* Mobile nav panel */}
+        <div
+          id="mobile-nav"
+          className={clsx(
+            "md:hidden overflow-hidden transition-all duration-300",
+            open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="mt-3 grid gap-1 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
+            {nav.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) =>
+                  clsx(
+                    "rounded-xl px-3 py-2 text-sm font-medium transition",
+                    "focus-visible:ring-2 focus-visible:ring-blue-500",
+                    isActive ? "bg-blue-50 text-blue-700" : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                  )
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+</file>
+
+<file path="src/components/PerformanceChart.tsx">
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+} from "recharts";
+import { fmtDate } from "../lib/format";
+import type { PerformancePoint } from "../api/queries";
+
+function TooltipContent({
+  active,
+  payload,
+  label,
+}: any) {
+  if (!active || !payload?.length) return null;
+  const p = payload.find((x: any) => x.dataKey === "portfolio")?.value;
+  const b = payload.find((x: any) => x.dataKey === "benchmark")?.value;
+
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+      <div className="text-sm font-medium text-slate-900">{fmtDate(label)}</div>
+      <div className="mt-2 text-sm text-slate-700">
+        Portfolio: <span className="font-semibold text-slate-900">{p?.toFixed(1)}</span>
+      </div>
+      <div className="text-sm text-slate-700">
+        Benchmark: <span className="font-semibold text-slate-900">{b?.toFixed(1)}</span>
+      </div>
+    </div>
+  );
+}
+
+export function PerformanceChart({
+  data,
+}: {
+  data: PerformancePoint[];
+}) {
+  return (
+    <div className="h-[340px] w-full">
+      <ResponsiveContainer>
+        <LineChart data={data} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+          <XAxis
+            dataKey="date"
+            tickFormatter={fmtDate}
+            tick={{ fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <YAxis
+            tick={{ fontSize: 12 }}
+            axisLine={false}
+            tickLine={false}
+            width={40}
+            domain={["auto", "auto"]}
+          />
+          <Tooltip content={<TooltipContent />} />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="portfolio"
+            strokeWidth={2}
+            dot={false}
+            name="Portfolio"
+          />
+          <Line
+            type="monotone"
+            dataKey="benchmark"
+            strokeWidth={2}
+            dot={false}
+            name="S&P 500"
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/RangeSelector.tsx">
+import { clsx } from "clsx";
+import type { RangeKey } from "../api/queries";
+
+const ranges: RangeKey[] = ["1M", "3M", "1Y", "MAX"];
+
+export function RangeSelector({
+  value,
+  onChange,
+}: {
+  value: RangeKey;
+  onChange: (v: RangeKey) => void;
+}) {
+  return (
+    <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1">
+      {ranges.map((r) => (
+        <button
+          key={r}
+          type="button"
+          onClick={() => onChange(r)}
+          className={clsx(
+            "rounded-lg px-3 py-1.5 text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-blue-500",
+            value === r ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-50"
+          )}
+          aria-pressed={value === r}
+        >
+          {r}
+        </button>
+      ))}
+    </div>
+  );
+}
+</file>
+
+<file path="src/lib/format.ts">
+export function fmtPct(x: number) {
+  const sign = x > 0 ? "+" : "";
+  return `${sign}${x.toFixed(1)}%`;
+}
+export function fmtUsd(x: number) {
+  if (x >= 1_000_000) return `$${(x / 1_000_000).toFixed(1)}M`;
+  if (x >= 1_000) return `$${(x / 1_000).toFixed(1)}K`;
+  return `$${x.toFixed(0)}`;
+}
+export function fmtDate(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short" });
+}
+</file>
+
+<file path="src/pages/Contact.tsx">
+import { Card } from "../components/Card";
+
+export function Contact() {
+  return (
+    <div className="space-y-6">
+      <header className="space-y-3">
+        <h1 className="text-4xl font-semibold tracking-tight">Get in Touch</h1>
+        <p className="text-lg text-slate-600">
+          Interested in learning more about our investment approach? We’d love to hear from you.
+        </p>
+      </header>
+
+      <Card className="p-6">
+        {/* Netlify Forms-ready markup (works once deployed on Netlify) */}
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          className="space-y-5"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p className="hidden">
+            <label>
+              Don’t fill this out: <input name="bot-field" />
+            </label>
+          </p>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label className="text-sm font-semibold text-slate-700" htmlFor="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+                placeholder="Your full name"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-slate-700" htmlFor="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+                placeholder="you@email.com"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-slate-700" htmlFor="subject">Subject</label>
+            <input
+              id="subject"
+              name="subject"
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+              placeholder="What's this regarding?"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-slate-700" htmlFor="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows={6}
+              className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500"
+              placeholder="Tell us more about your inquiry..."
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
+            Send Message
+          </button>
+
+          <p className="text-sm text-slate-500">We typically respond within 24–48 hours.</p>
+        </form>
+      </Card>
+    </div>
+  );
+}
+</file>
+
+<file path="src/main.tsx">
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./app/routes";
+import { Providers } from "./app/providers";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <Providers>
+      <RouterProvider router={router} />
+    </Providers>
+  </React.StrictMode>
+);
+</file>
+
+<file path=".gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+data/cache/
+.venv/
+</file>
+
+<file path="index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>peak-summit-capital</title>
+  </head>
+  <body>
+    <!-- Hidden Netlify form blueprint for SPA detection -->
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      style="display: none;"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <label>
+        Don’t fill this out: <input name="bot-field" />
+      </label>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+    </form>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="src/api/client.ts">
+const API_BASE =
+  import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+
+export async function fetchJson<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status}`);
+  }
+  return res.json();
+}
+</file>
+
+<file path="src/components/Footer.tsx">
+export function Footer() {
+  return (
+    <footer className="border-t border-slate-200 bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-slate-600">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>© {new Date().getFullYear()} Peak Summit Capital LLC</div>
+          <div className="text-slate-500">
+            Educational / showcase site. Not investment advice.
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+</file>
+
+<file path="src/pages/Holdings.tsx">
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getHoldings, getPositions } from "../api/queries";
+import { Card } from "../components/Card";
+
+function usd(n: number) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+}
+function pct(n: number, digits = 2) {
+  return `${n.toFixed(digits)}%`;
+}
+function clsGain(n: number) {
+  return n >= 0 ? "text-emerald-600" : "text-red-600";
+}
+
+export function Holdings() {
+  const posQ = useQuery({ queryKey: ["positions"], queryFn: getPositions });
+  const holQ = useQuery({ queryKey: ["holdings"], queryFn: getHoldings });
+
+  const joined = useMemo(() => {
+    if (!posQ.data) return [];
+
+    const byTicker = new Map<string, { name?: string; targetWeight?: number }>();
+    if (holQ.data) {
+      for (const h of holQ.data.holdings) {
+        byTicker.set(h.ticker, { name: h.name, targetWeight: h.targetWeight });
+      }
+    }
+
+    return [...posQ.data.positions]
+      .map((p) => {
+        const extra = byTicker.get(p.ticker);
+        const targetWeight = extra?.targetWeight ?? undefined;
+        const drift =
+          targetWeight == null ? undefined : (p.currentWeight - targetWeight) * 100.0;
+
+        return {
+          ...p,
+          name: extra?.name ?? p.ticker,
+          targetWeight,
+          driftPct: drift,
+        };
+      })
+      .sort((a, b) => b.marketValue - a.marketValue);
+  }, [posQ.data, holQ.data]);
+
+  const isLoading = posQ.isLoading || holQ.isLoading;
+  const isError = posQ.isError || holQ.isError;
+
+  const totalWeightShown = joined.reduce((s, x) => s + (x.currentWeight ?? 0), 0) * 100;
+
+  return (
+    <div className="space-y-6">
+      <header className="space-y-3">
+        <h1 className="text-4xl font-semibold tracking-tight">Portfolio Holdings</h1>
+        <p className="text-lg text-slate-600">
+          Each position’s shares, value, performance, and weight drift vs target.
+        </p>
+      </header>
+
+      <Card className="p-6">
+        {isLoading ? (
+          <div className="h-40 animate-pulse rounded-xl bg-slate-100" />
+        ) : isError ? (
+          <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+            Failed to load holdings/positions.
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-slate-600">
+              <div>
+                As of <span className="font-medium text-slate-800">{posQ.data!.asOf}</span>{" "}
+                (valuation date{" "}
+                <span className="font-medium text-slate-800">{posQ.data!.valuationDate}</span>)
+              </div>
+              <div>
+                {joined.length} holdings representing{" "}
+                <span className="font-medium text-slate-800">{pct(totalWeightShown, 1)}</span> of
+                portfolio
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              {joined.map((p) => {
+                const gainColor = clsGain(p.pnlUsd);
+                const driftText =
+                  p.targetWeight == null
+                    ? "—"
+                    : `${pct((p.targetWeight ?? 0) * 100, 2)} → ${pct(
+                        p.currentWeight * 100,
+                        2
+                      )} (${p.driftPct! >= 0 ? "+" : ""}${p.driftPct!.toFixed(2)}pp)`;
+
+                return (
+                  <div
+                    key={p.ticker}
+                    className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-3">
+                          <div className="text-xl font-semibold text-slate-900">{p.ticker}</div>
+                          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+                            Equity
+                          </span>
+                        </div>
+                        <div className="mt-1 text-slate-600">{p.name}</div>
+                      </div>
+
+                      <div className="text-right">
+                        <div className="text-2xl font-semibold text-slate-900">
+                          {pct(p.currentWeight * 100, 2)}
+                        </div>
+                        <div className="text-sm text-slate-500">of portfolio</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-5">
+                      <div>
+                        <div className="text-xs text-slate-500">Shares</div>
+                        <div className="mt-1 font-semibold text-slate-900">
+                          {p.shares.toFixed(6)}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500">Avg Cost</div>
+                        <div className="mt-1 font-semibold text-slate-900">{usd(p.entryPrice)}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500">Current Price</div>
+                        <div className="mt-1 font-semibold text-slate-900">{usd(p.currentPrice)}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-slate-500">Total Gain</div>
+                        <div className={`mt-1 font-semibold ${gainColor}`}>
+                          {p.pnlUsd >= 0 ? "+" : ""}
+                          {usd(p.pnlUsd)}{" "}
+                          <span className="text-xs">
+                            ({p.returnPct >= 0 ? "+" : ""}
+                            {pct(p.returnPct, 2)})
+                          </span>
+                        </div>
+                      </div>
+                      <div className="md:text-right">
+                        <div className="text-xs text-slate-500">Target → Current</div>
+                        <div className="mt-1 font-semibold text-slate-900">{driftText}</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 border-t border-slate-100 pt-4">
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="text-slate-600">Position Value</div>
+                        <div className="font-semibold text-slate-900">{usd(p.marketValue)}</div>
+                      </div>
+
+                      {/* allocation bar */}
+                      <div className="mt-3 h-2 w-full rounded-full bg-slate-100">
+                        <div
+                          className="h-2 rounded-full bg-blue-600"
+                          style={{
+                            width: `${Math.max(0, Math.min(100, p.currentWeight * 100))}%`,
+                          }}
+                          aria-label={`${p.ticker} allocation ${pct(p.currentWeight * 100, 2)}`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </Card>
+    </div>
+  );
+}
+</file>
+
+<file path="src/pages/Strategy.tsx">
+import { Card } from "../components/Card";
+
+export function Strategy() {
+  return (
+    <div className="space-y-6">
+      <header className="space-y-3">
+        <h1 className="text-4xl font-semibold tracking-tight">Investment Strategy</h1>
+        <p className="max-w-3xl text-lg text-slate-600">
+          Peak Summit Capital runs a concentrated long-only equity strategy focused on two macro themes: AI/semiconductor infrastructure and defense & government technology. The fund bets that sustained government defense spending and the buildout of AI compute infrastructure are multi-year secular tailwinds that will drive outsized returns relative to inflation.
+        </p>
+      </header>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        {[
+          { title: "Thesis-Driven", body: "We combine fundamental conviction with quantitative validation." },
+          { title: "Risk-Managed", body: "Position sizing and diversification are first-class constraints." },
+          { title: "Repeatable", body: "Rules and review cadence designed for consistency across market regimes." },
+        ].map((x) => (
+          <Card key={x.title} className="p-6">
+            <div className="text-lg font-semibold">{x.title}</div>
+            <p className="mt-2 text-slate-600">{x.body}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="p-6">
+        <h2 className="text-xl font-semibold">Process</h2>
+        <ol className="mt-3 list-decimal space-y-2 pl-5 text-slate-600">
+          <li>Screen and prioritize ideas (quality, growth, valuation, catalysts).</li>
+          <li>Underwrite thesis (what must be true, what breaks it).</li>
+          <li>Size positions and set risk constraints.</li>
+          <li>Monitor + rebalance on a defined cadence.</li>
+        </ol>
+      </Card>
+    </div>
+  );
+}
+</file>
+
+<file path="requirements.txt">
+yfinance==0.2.58
+pandas==2.2.3
+numpy==1.26.4
+pyarrow==15.0.2
+</file>
+
+<file path="src/pages/About.tsx">
+import { Card } from "../components/Card";
+
+export function About() {
+  return (
+    <div className="space-y-6">
+      <header className="space-y-3">
+        <h1 className="text-4xl font-semibold tracking-tight">Meet the Team</h1>
+        <p className="max-w-3xl text-lg text-slate-600">
+          Peak Summit Capital was founded by two partners with complementary expertise in quantitative finance and technology investing.
+        </p>
+      </header>
+
+      <Card className="p-6">
+        <div className="grid gap-6 md:grid-cols-[220px_1fr] md:items-start">
+          <img
+            className="h-52 w-52 rounded-2xl object-cover"
+            src="/profile-pics/robbie-profile.jpeg"
+            alt="Robbie Berven"
+            loading="lazy"
+          />
+          <div className="space-y-2">
+            <div className="text-2xl font-semibold">Robbie Berven</div>
+            <div className="text-sm font-semibold text-blue-600">Co-Founder & Portfolio Manager</div>
+            <p className="text-slate-600">
+              Finance professional and investor with experience in private wealth management, equity research, and alternative investments. With a foundation in corporate finance and hands-on work across pre-IPO markets and portfolio construction.
+            </p>
+            <div className="flex gap-3 pt-2">
+              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
+                LinkedIn
+              </a>
+              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
+                Email
+              </a>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <div className="grid gap-6 md:grid-cols-[1fr_220px] md:items-start">
+          <div className="space-y-2">
+            <div className="text-2xl font-semibold">Paco Lorenzo</div>
+            <div className="text-sm font-semibold text-blue-600">Co-Founder & CTO</div>
+            <p className="text-slate-600">
+              Software developer and investor with over five years of experience investing in technology-sector stocks. With a background in computer engineering, I apply data-driven systems thinking to both software development and capital allocation.
+            </p>
+            <div className="flex gap-3 pt-2">
+              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
+                LinkedIn
+              </a>
+              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
+                Email
+              </a>
+            </div>
+          </div>
+          <img
+            className="h-52 w-52 rounded-2xl object-cover"
+            src="/profile-pics/paco-profile1.jpg"
+            alt="Paco Lorenzo"
+            loading="lazy"
+          />
+        </div>
+      </Card>
+      
+    </div>
+  );
+}
+</file>
+
+<file path="scripts/build_data.py">
+from __future__ import annotations
+
+import hashlib
+import argparse
+import json
+import math
+import random
+import time
+from dataclasses import dataclass
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
+from typing import Dict, List, Tuple, Optional
+
+import pandas as pd
+import yfinance as yf
+
+
+ROOT = Path(__file__).resolve().parents[1]
+PORTFOLIO_PATH = ROOT / "data" / "portfolio.json"
+OUT_DIR = ROOT / "public" / "data"
+CACHE_DIR = ROOT / "data" / "cache"
+
+RANGES = {"1M": 31, "3M": 92, "1Y": 366, "MAX": None}
+
+MAX_ATTEMPTS = 6
+BASE_BACKOFF_SECONDS = 2.0
+BATCH_SIZE = 7           # ✅ reduces Yahoo 429 risk
+BATCH_PAUSE_SECONDS = (1.2, 2.8)  # ✅ random pause between batches
+
+
+@dataclass
+class Holding:
+    ticker: str
+    name: str
+    weight: float
+
+
+def iso_today_utc() -> str:
+    return datetime.now(timezone.utc).date().isoformat()
+
+
+def load_portfolio() -> Tuple[str, str, str, float, List[Holding]]:
+    cfg = json.loads(PORTFOLIO_PATH.read_text(encoding="utf-8"))
+    portfolio_name = cfg["portfolioName"]
+    inception = cfg["inceptionDate"]
+    benchmark = cfg.get("benchmark", "SPY")
+    initial_capital = float(cfg.get("initialCapital"))
+
+
+    holdings = [
+        Holding(h["ticker"], h.get("name", h["ticker"]), float(h["weight"]))
+        for h in cfg["weights"]
+    ]
+
+    w_sum = sum(h.weight for h in holdings)
+    if abs(w_sum - 1.0) > 1e-6:
+        raise ValueError(f"Weights must sum to 1.0. Current sum={w_sum}")
+
+    if any(h.weight < 0 for h in holdings):
+        raise ValueError("Weights cannot be negative.")
+
+    return portfolio_name, inception, benchmark, initial_capital, holdings
+
+
+def _cache_key(tickers: List[str], start: str, salt: str = "") -> str:
+    s = ",".join(sorted(tickers)) + "|" + start + "|" + salt
+    return hashlib.md5(s.encode("utf-8")).hexdigest()
+
+
+def _load_cached_adjclose(key: str) -> Optional[pd.DataFrame]:
+    path = CACHE_DIR / f"adjclose_{key}.parquet"
+    if not path.exists():
+        return None
+    try:
+        df = pd.read_parquet(path)
+        df.index = pd.to_datetime(df.index).date
+        df.index = pd.Index(df.index, name="date")
+        return df.sort_index()
+    except Exception:
+        return None
+
+
+def _save_cached_adjclose(key: str, df: pd.DataFrame) -> None:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    path = CACHE_DIR / f"adjclose_{key}.parquet"
+    df.to_parquet(path)
+
+
+def _download_batch_adjclose(tickers: List[str], start: str) -> pd.DataFrame:
+    last_err: Optional[Exception] = None
+
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            df = yf.download(
+                tickers=tickers,
+                start=start,
+                interval="1d",
+                auto_adjust=False,
+                progress=False,
+                group_by="column",
+                threads=False,
+            )
+
+            if df is None or df.empty:
+                raise RuntimeError("Empty response (likely rate limited).")
+
+            if isinstance(df.columns, pd.MultiIndex):
+                if "Adj Close" not in df.columns.get_level_values(0):
+                    raise RuntimeError("Adj Close not found in multiindex response.")
+                adj = df["Adj Close"].copy()
+            else:
+                if "Adj Close" not in df.columns:
+                    raise RuntimeError("Adj Close not found in response.")
+                adj = df[["Adj Close"]].rename(columns={"Adj Close": tickers[0]})
+
+            adj.index = pd.to_datetime(adj.index).date
+            adj.index = pd.Index(adj.index, name="date")
+            adj = adj.sort_index().ffill().dropna(how="all")
+
+            if adj.empty:
+                raise RuntimeError("Adj Close empty after cleaning.")
+
+            return adj
+
+        except Exception as e:
+            last_err = e
+            backoff = (BASE_BACKOFF_SECONDS ** attempt) + random.uniform(0, 1.5)
+            backoff = min(backoff, 90.0)
+            print(f"⚠️ Batch download failed (attempt {attempt}/{MAX_ATTEMPTS}): {e}")
+            print(f"⏳ Backing off {backoff:.1f}s...")
+            time.sleep(backoff)
+
+    raise RuntimeError(f"Batch failed after retries. Last error: {last_err}")
+
+
+def download_prices_adjclose_batched(tickers: List[str], start: str, force_refresh: bool = False) -> pd.DataFrame:
+    """
+    Download tickers in batches, join columns, cache final result.
+    """
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    key = _cache_key(tickers, start)
+
+    print("DEBUG tickers:", tickers)
+    print("DEBUG start:", start)
+    print("DEBUG cache key:", key)
+
+    cache_path = CACHE_DIR / f"adjclose_{key}.parquet"
+    print("DEBUG cache path:", cache_path)
+    print("DEBUG cache exists:", cache_path.exists())
+
+    print("DEBUG cache dir listing (top 10):",
+        sorted([p.name for p in CACHE_DIR.glob("adjclose_*.parquet")])[:10])
+
+
+    cached = None if force_refresh else _load_cached_adjclose(key)
+    if cached is not None and not cached.empty:
+        print("✅ Using cached prices.")
+        return cached
+
+    frames: List[pd.DataFrame] = []
+
+    # batch tickers
+    for i in range(0, len(tickers), BATCH_SIZE):
+        batch = tickers[i : i + BATCH_SIZE]
+        print(f"📥 Downloading batch {i//BATCH_SIZE + 1} / {math.ceil(len(tickers)/BATCH_SIZE)}: {batch}")
+        adj = _download_batch_adjclose(batch, start=start)
+        frames.append(adj)
+
+        # pause between batches
+        if i + BATCH_SIZE < len(tickers):
+            sleep_s = random.uniform(*BATCH_PAUSE_SECONDS)
+            time.sleep(sleep_s)
+
+    merged = pd.concat(frames, axis=1)
+
+    # de-dup columns (just in case)
+    merged = merged.loc[:, ~merged.columns.duplicated()].sort_index().ffill()
+
+    # drop columns that are all NA (unsupported tickers)
+    merged = merged.dropna(axis=1, how="all")
+    if merged.empty:
+        raise RuntimeError("All tickers failed / no usable price data.")
+
+    _save_cached_adjclose(key, merged)
+    print("✅ Download + cache complete.")
+    return merged
+
+
+def compute_index_from_returns(returns: pd.Series, base: float = 100.0) -> pd.Series:
+    return (1.0 + returns.fillna(0.0)).cumprod() * base
+
+def compute_beta(port_returns: pd.Series, bench_returns: pd.Series) -> float:
+    aligned = pd.concat([port_returns, bench_returns], axis=1).dropna()
+    if aligned.empty:
+        return 0.0
+
+    rp = aligned.iloc[:, 0]
+    rb = aligned.iloc[:, 1]
+
+    bench_var = rb.var(ddof=0)
+    if bench_var == 0 or math.isnan(bench_var):
+        return 0.0
+
+    cov = rp.cov(rb)
+    if math.isnan(cov):
+        return 0.0
+
+    return float(cov / bench_var)
+
+
+def systematic_risk_annual(beta: float, bench_returns: pd.Series) -> float:
+    bench_vol_annual = annualized_vol(bench_returns)
+    return float(abs(beta) * bench_vol_annual)
+
+
+def unsystematic_risk_annual(port_returns: pd.Series, bench_returns: pd.Series, beta: float) -> float:
+    aligned = pd.concat([port_returns, bench_returns], axis=1).dropna()
+    if aligned.empty:
+        return 0.0
+
+    rp = aligned.iloc[:, 0]
+    rb = aligned.iloc[:, 1]
+
+    residual = rp - beta * rb
+    residual_vol = residual.std(ddof=0)
+    if math.isnan(residual_vol):
+        return 0.0
+
+    return float(residual_vol * math.sqrt(252))
+
+def slice_last_days(df: pd.DataFrame, days: Optional[int]) -> pd.DataFrame:
+    if days is None:
+        return df
+    cutoff = date.today() - timedelta(days=days)
+    return df[df.index >= cutoff]
+
+
+def to_points(df: pd.DataFrame) -> List[Dict]:
+    out: List[Dict] = []
+    for d, row in df.iterrows():
+        out.append(
+            {
+                "date": d.isoformat() if hasattr(d, "isoformat") else str(d),
+                "portfolio": round(float(row["portfolio"]), 4),
+                "benchmark": round(float(row["benchmark"]), 4),
+            }
+        )
+    return out
+
+
+def annualized_vol(daily_returns: pd.Series) -> float:
+    return float(daily_returns.std(ddof=0) * math.sqrt(252))
+
+
+def sharpe_ratio(daily_returns: pd.Series, rf_annual: float = 0.0) -> float:
+    rf_daily = (1.0 + rf_annual) ** (1.0 / 252.0) - 1.0
+    excess = daily_returns - rf_daily
+    vol = excess.std(ddof=0)
+    if vol == 0 or math.isnan(vol):
+        return 0.0
+    return float((excess.mean() / vol) * math.sqrt(252))
+
+
+def max_drawdown(index: pd.Series) -> float:
+    roll_max = index.cummax()
+    dd = index / roll_max - 1.0
+    return float(dd.min())
+
+
+def _safe_write_json(path: Path, payload: Dict) -> None:
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def _all_outputs_exist() -> bool:
+    expected = [
+        "performance.1m.json",
+        "performance.3m.json",
+        "performance.1y.json",
+        "performance.max.json",
+        "metrics.json",
+        "holdings.json",
+        "positions.json",
+    ]
+    return all((OUT_DIR / f).exists() for f in expected)
+
+
+def main() -> None:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    portfolio_name, inception, benchmark, initial_capital, holdings = load_portfolio()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force-refresh", action="store_true")
+    args = parser.parse_args()
+
+   # remove CASH if you ever add it later
+    equity_holdings = [h for h in holdings if h.ticker.upper() != "CASH"]
+    tickers = sorted(set([h.ticker for h in equity_holdings] + [benchmark]))
+
+    try:
+        prices = download_prices_adjclose_batched(tickers=tickers, start=inception, force_refresh=args.force_refresh)
+    except Exception as e:
+        if _all_outputs_exist():
+            print(f"⚠️ Download failed ({e}) but JSON outputs exist. Keeping last good data.")
+            # Write a staleness flag so consumers can detect this
+            _safe_write_json(OUT_DIR / "status.json", {
+                "stale": True,
+                "reason": str(e),
+                "asOf": iso_today_utc(),
+            })
+            return
+
+    # Returns
+    rets = prices.pct_change().fillna(0.0)
+
+    # Determine which portfolio tickers are actually present
+    available = set(rets.columns)
+
+    missing = [h.ticker for h in equity_holdings if h.ticker not in available]
+    if missing:
+        print("⚠️ Missing/unsupported tickers (dropping + renormalizing):", missing)
+
+    # Build weights map for available tickers only
+    w_map = {h.ticker: h.weight for h in equity_holdings if h.ticker in available}
+    w_sum = sum(w_map.values())
+    if w_sum <= 0:
+        raise RuntimeError("No portfolio tickers available after filtering.")
+
+    # Renormalize weights so portfolio remains fully invested in available tickers
+    w_map = {t: w / w_sum for t, w in w_map.items()}
+
+    # Prices for portfolio tickers only (available)
+    port_prices = prices[list(w_map.keys())].copy().dropna(how="all")
+
+    # Use first date where ALL portfolio tickers have prices
+    first_date = port_prices.dropna(how="any").index[0]
+    p0 = port_prices.loc[first_date]
+
+    # Shares bought at inception (partial shares allowed)
+    shares = {t: (initial_capital * w_map[t]) / float(p0[t]) for t in w_map.keys()}
+
+    # Daily portfolio value series
+    portfolio_value = pd.Series(0.0, index=prices.index)
+    for t, sh in shares.items():
+        portfolio_value = portfolio_value.add(prices[t] * sh, fill_value=0.0)
+
+    # Only keep dates where we have a valid portfolio value
+    portfolio_value = portfolio_value.dropna()
+
+    # Benchmark value series aligned to portfolio dates
+    bench_price = prices[benchmark].dropna()
+    bench_price = bench_price[bench_price.index.isin(portfolio_value.index)]
+    if bench_price.empty:
+        raise RuntimeError("Benchmark series empty after aligning to portfolio dates.")
+
+    # Build base-100 indices for charts/performance
+    port_index = (portfolio_value / portfolio_value.iloc[0]) * 100.0
+    bench_index = (bench_price / bench_price.iloc[0]) * 100.0
+
+    combined = pd.DataFrame({"portfolio": port_index, "benchmark": bench_index}).dropna()
+    if combined.empty:
+        raise RuntimeError("Combined series empty.")
+
+    # performance files
+    for key, days in RANGES.items():
+        sliced = slice_last_days(combined, days)
+        _safe_write_json(
+            OUT_DIR / f"performance.{key.lower()}.json",
+            {"range": key, "points": to_points(sliced)},
+        )
+
+    # returns (for vol/sharpe) derived from the true portfolio value series
+    port_ret = portfolio_value.pct_change().fillna(0.0)
+
+    bench_ret = bench_price.pct_change().fillna(0.0)
+
+    # metrics
+    total_return_pct = (portfolio_value.iloc[-1] / portfolio_value.iloc[0] - 1.0) * 100.0
+
+    today = date.today()
+    ytd_start = date(today.year, 1, 1)
+    ytd_vals = portfolio_value[portfolio_value.index >= ytd_start]
+    if len(ytd_vals) >= 2:
+        ytd_return_pct = (ytd_vals.iloc[-1] / ytd_vals.iloc[0] - 1.0) * 100.0
+    else:
+        ytd_return_pct = 0.0
+
+    vol_pct = annualized_vol(port_ret) * 100.0
+    beta = compute_beta(port_ret, bench_ret)
+    systematic_risk_pct = systematic_risk_annual(beta, bench_ret) * 100.0
+    unsystematic_risk_pct = unsystematic_risk_annual(port_ret, bench_ret, beta) * 100.0
+    mdd_pct = max_drawdown(port_index) * 100.0
+
+    aum_usd = float(portfolio_value.iloc[-1])
+    profit_usd = aum_usd - initial_capital
+
+    # current weights (drift) from latest prices * shares
+    latest_date = portfolio_value.index[-1]
+    latest_prices = prices.loc[latest_date, list(shares.keys())]
+    pos_values = {t: float(latest_prices[t]) * float(shares[t]) for t in shares.keys()}
+    aum_calc = sum(pos_values.values()) or 1.0
+    current_weights = {t: v / aum_calc for t, v in pos_values.items()}
+
+    valuation_date = latest_date  # last date we have a portfolio value
+    
+    # Inception “entry” prices (the date you actually used to buy)
+    entry_date = first_date
+    entry_prices = p0  # from your existing code: p0 = port_prices.loc[first_date]
+
+    # -------- metrics.json --------
+    metrics = {
+        "portfolioName": portfolio_name,
+        "benchmarkName": f"S&P 500 ({benchmark})" if benchmark.upper() == "SPY" else benchmark,
+        "since": "Since inception",
+        "asOf": iso_today_utc(),
+        "totalReturnPct": round(float(total_return_pct), 3),
+        "ytdReturnPct": round(float(ytd_return_pct), 3),
+        "volatilityAnnualPct": round(float(vol_pct), 3),
+        "beta": round(float(beta), 3),
+        "systematicRiskAnnualPct": round(float(systematic_risk_pct), 3),
+        "unsystematicRiskAnnualPct": round(float(unsystematic_risk_pct), 3),
+        "maxDrawdownPct": round(float(mdd_pct), 3),
+        "aumUsd": round(aum_usd, 2),
+        "profitUsd": round(profit_usd, 2),
+        "initialCapitalUsd": round(initial_capital, 2),
+    }
+    _safe_write_json(OUT_DIR / "metrics.json", metrics)
+
+    # -------- holdings.json --------
+    holdings_out = {
+        "asOf": iso_today_utc(),
+        "holdings": [
+            {
+                "ticker": h.ticker,
+                "name": h.name,
+                "weight": round(float(current_weights.get(h.ticker, 0.0)), 6),   # drifted
+                "targetWeight": round(float(h.weight), 6),                      # original target
+                "shares": round(float(shares.get(h.ticker, 0.0)), 8),
+                "price": round(float(latest_prices[h.ticker]), 4),
+                "marketValue": round(float(pos_values.get(h.ticker, 0.0)), 2),
+            }
+            for h in holdings
+        ],
+        "missingTickersDropped": missing,
+        "weightsRenormalized": bool(missing),
+    }
+    _safe_write_json(OUT_DIR / "holdings.json", holdings_out)
+
+   
+
+    positions_out = {
+        "asOf": iso_today_utc(),
+        "entryDateUsed": entry_date.isoformat() if hasattr(entry_date, "isoformat") else str(entry_date),
+        "valuationDate": latest_date.isoformat() if hasattr(latest_date, "isoformat") else str(latest_date),
+        "initialCapitalUsd": round(float(initial_capital), 2),
+        "aumUsd": round(float(aum_usd), 2),
+        "positions": [
+            {
+                "ticker": t,
+                "shares": round(float(shares[t]), 8),
+                "entryPrice": round(float(entry_prices[t]), 4),
+                "currentPrice": round(float(latest_prices[t]), 4),
+                "entryValue": round(float(shares[t]) * float(entry_prices[t]), 2),
+                "marketValue": round(float(pos_values[t]), 2),
+                "currentWeight": round(float(current_weights[t]), 6),
+                "pnlUsd": round(float(pos_values[t] - (shares[t] * float(entry_prices[t]))), 2),
+                "returnPct": round(
+                    (float(latest_prices[t]) / float(entry_prices[t]) - 1.0) * 100.0,
+                    3,
+                ),
+            }
+            for t in shares.keys()
+        ],
+        "missingTickersDropped": missing,
+        "weightsRenormalized": bool(missing),
+    }
+    _safe_write_json(OUT_DIR / "positions.json", positions_out)
+
+
+    print("✅ Wrote outputs to:", OUT_DIR)
+
+
+if __name__ == "__main__":
+    main()
+</file>
+
+<file path="src/api/queries.ts">
+import { fetchJson } from "./client";
+
+const API_BASE = (import.meta.env.VITE_API_URL ?? "");
+
+export type RangeKey = "1M" | "3M" | "1Y" | "MAX";
+
+export type PerformancePoint = {
+  date: string;
+  portfolio: number;
+  benchmark: number;
+};
+
+export type PerformanceResponse = {
+  range: string;
+  points: PerformancePoint[];
+};
+
+export type MetricsResponse = {
+  totalReturnPct: number;
+  ytdReturnPct: number;
+  beta: number;
+  profitUsd: number;
+  systematicRiskAnnualPct: number;
+  unsystematicRiskAnnualPct: number;
+  aumUsd: number;
+  initialCapitalUsd: number;
+  benchmarkName: string;
+  since: string;
+};
+
+export type PositionRow = {
+  ticker: string;
+  shares: number;
+  entryPrice: number;
+  currentPrice: number;
+  entryValue: number;
+  marketValue: number;
+  currentWeight: number;
+  pnlUsd: number;
+  returnPct: number;
+};
+
+export type PositionsResponse = {
+  asOf: string;
+  entryDateUsed: string;
+  valuationDate: string;
+  initialCapitalUsd: number;
+  aumUsd: number;
+  positions: PositionRow[];
+  missingTickersDropped: string[];
+  weightsRenormalized: boolean;
+};
+
+export type HoldingsResponse = {
+  asOf: string;
+  holdings: {
+    ticker: string;
+    name: string;
+    weight: number;
+    targetWeight?: number;
+    shares?: number;
+  }[];
+};
+
+export function getPerformance(range: RangeKey) {
+  const rangeMap: Record<RangeKey, string> = {
+    "1M": "1m",
+    "3M": "3m",
+    "1Y": "1y",
+    "MAX": "max",
+  };
+
+  return fetchJson<PerformanceResponse>(
+    `${API_BASE}/performance/${rangeMap[range]}`
+  );
+}
+
+export async function getMetrics() {
+  const data = await fetchJson<MetricsResponse>(`${API_BASE}/metrics`);
+  return {
+    ...data,
+    profitUsd: data.aumUsd - data.initialCapitalUsd,
+  };
+}
+
+export function getHoldings() {
+  return fetchJson<HoldingsResponse>(`${API_BASE}/holdings`);
+}
+
+export function getPositions() {
+  return fetchJson<PositionsResponse>(`${API_BASE}/positions`);
+}
+</file>
+
+<file path="src/pages/Home.tsx">
+import { useQuery } from "@tanstack/react-query";
+import { getMetrics, getPerformance, type RangeKey } from "../api/queries";
+import { MetricTile } from "../components/MetricTile";
+import { Card } from "../components/Card";
+import { PerformanceChart } from "../components/PerformanceChart";
+import { RangeSelector } from "../components/RangeSelector";
+import { useMemo, useState } from "react";
+import { fmtPct, fmtUsd } from "../lib/format";
+import { Link } from "react-router-dom";
+
+export function Home() {
+  const [range, setRange] = useState<RangeKey>("MAX");
+
+  const metricsQ = useQuery({ queryKey: ["metrics"], queryFn: getMetrics });
+  const perfQ = useQuery({ queryKey: ["performance", range], queryFn: () => getPerformance(range) });
+
+  const summary = useMemo(() => {
+    const points = perfQ.data?.points ?? [];
+    if (points.length < 2) return null;
+    const first = points[0];
+    const last = points[points.length - 1];
+    const portRet = (last.portfolio / first.portfolio - 1) * 100;
+    const benchRet = (last.benchmark / first.benchmark - 1) * 100;
+    return { portRet, benchRet };
+  }, [perfQ.data]);
+
+  return (
+    <div className="space-y-10">
+      <section className="grid gap-8 md:grid-cols-2 md:items-center">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
+            Data-Driven Investment Strategy <span className="text-slate-500">with Proven Results</span>
+          </h1>
+          <p className="text-lg text-slate-600">
+            Peak Summit Capital combines quantitative analysis with fundamental research to deliver
+            consistent, risk-adjusted returns that outperform market benchmarks.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/about"
+              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              Learn About Our Team →
+            </Link>
+            <Link
+              to="/strategy"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              View Investment Strategy
+            </Link>
+          </div>
+        </div>
+
+        <Card className="p-6">
+          <div className="text-sm font-medium text-slate-600">At a glance</div>
+          <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <MetricTile title="Total Return" value={metricsQ.data ? fmtPct(metricsQ.data.totalReturnPct) : "—"} subtitle={metricsQ.data?.since} />
+            <MetricTile title="YTD Return" value={metricsQ.data ? fmtPct(metricsQ.data.ytdReturnPct) : "—"} subtitle="2026" />
+            <MetricTile title="Beta" value={metricsQ.data ? metricsQ.data.beta.toFixed(3) : "—"} subtitle="benchmark" />
+            <MetricTile title="Assets Under Management" value={metricsQ.data ? fmtUsd(metricsQ.data.aumUsd) : "—"} subtitle={metricsQ.data  ? `Profit ${fmtUsd(metricsQ.data.profitUsd)}` : "Current AUM" }/>
+          </div>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight">Portfolio Performance</h2>
+            <p className="text-slate-600">
+              Comparing our fund’s performance against the {metricsQ.data?.benchmarkName ?? "S&P 500"} benchmark.
+            </p>
+          </div>
+          <RangeSelector value={range} onChange={setRange} />
+        </div>
+
+        <Card className="p-6">
+          {perfQ.isLoading ? (
+            <div className="h-[340px] animate-pulse rounded-xl bg-slate-100" />
+          ) : perfQ.isError ? (
+            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+              Failed to load performance data.
+            </div>
+          ) : (
+            <>
+              <PerformanceChart data={perfQ.data!.points} />
+              <div className="mt-4 text-sm text-slate-600">
+                {summary ? (
+                  <p>
+                    Over the selected period, the portfolio returned{" "}
+                    <span className="font-semibold text-slate-900">{fmtPct(summary.portRet)}</span>{" "}
+                    vs benchmark{" "}
+                    <span className="font-semibold text-slate-900">{fmtPct(summary.benchRet)}</span>.
+                  </p>
+                ) : (
+                  <p>Performance summary will appear once data is available.</p>
+                )}
+
+                
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-4 border-t border-slate-200 pt-6 md:grid-cols-4">
+                <MetricTile
+                  title="Systematic Risk"
+                  value={
+                    metricsQ.data
+                      ? fmtPct(metricsQ.data.systematicRiskAnnualPct)
+                      : "—"
+                  }
+                  subtitle="Market-driven"
+                />
+
+                <MetricTile
+                  title="Unsystematic Risk"
+                  value={
+                    metricsQ.data
+                      ? fmtPct(metricsQ.data.unsystematicRiskAnnualPct)
+                      : "—"
+                  }
+                  subtitle="Idiosyncratic"
+                />
+              </div>
+            </>
+          )}
+        </Card>
+      </section>
+    </div>
+  );
+}
+</file>
+
+<file path="public/data/performance.3m.json">
+{
+  "range": "3M",
+  "points": [
+    {
+      "date": "2025-12-15",
+      "portfolio": 108.2852,
+      "benchmark": 107.1714
+    },
+    {
+      "date": "2025-12-16",
+      "portfolio": 107.9829,
+      "benchmark": 106.8785
+    },
+    {
+      "date": "2025-12-17",
+      "portfolio": 105.554,
+      "benchmark": 105.7025
+    },
+    {
+      "date": "2025-12-18",
+      "portfolio": 106.8533,
+      "benchmark": 106.5007
+    },
+    {
+      "date": "2025-12-19",
+      "portfolio": 109.3784,
+      "benchmark": 107.4659
+    },
+    {
+      "date": "2025-12-22",
+      "portfolio": 110.6466,
+      "benchmark": 108.1354
+    },
+    {
+      "date": "2025-12-23",
+      "portfolio": 111.034,
+      "benchmark": 108.6297
+    },
+    {
+      "date": "2025-12-24",
+      "portfolio": 111.1618,
+      "benchmark": 109.0118
+    },
+    {
+      "date": "2025-12-26",
+      "portfolio": 110.8051,
+      "benchmark": 109.0007
+    },
+    {
+      "date": "2025-12-29",
+      "portfolio": 110.3222,
+      "benchmark": 108.6123
+    },
+    {
+      "date": "2025-12-30",
+      "portfolio": 110.0196,
+      "benchmark": 108.4797
+    },
+    {
+      "date": "2025-12-31",
+      "portfolio": 109.1219,
+      "benchmark": 107.6759
+    },
+    {
+      "date": "2026-01-02",
+      "portfolio": 110.3597,
+      "benchmark": 107.8733
+    },
+    {
+      "date": "2026-01-05",
+      "portfolio": 111.9676,
+      "benchmark": 108.5918
+    },
+    {
+      "date": "2026-01-06",
+      "portfolio": 112.9659,
+      "benchmark": 109.2376
+    },
+    {
+      "date": "2026-01-07",
+      "portfolio": 112.5185,
+      "benchmark": 108.8855
+    },
+    {
+      "date": "2026-01-08",
+      "portfolio": 112.628,
+      "benchmark": 108.8744
+    },
+    {
+      "date": "2026-01-09",
+      "portfolio": 114.243,
+      "benchmark": 109.5944
+    },
+    {
+      "date": "2026-01-12",
+      "portfolio": 115.8213,
+      "benchmark": 109.7665
+    },
+    {
+      "date": "2026-01-13",
+      "portfolio": 116.2738,
+      "benchmark": 109.5471
+    },
+    {
+      "date": "2026-01-14",
+      "portfolio": 116.0039,
+      "benchmark": 109.0086
+    },
+    {
+      "date": "2026-01-15",
+      "portfolio": 117.0836,
+      "benchmark": 109.3055
+    },
+    {
+      "date": "2026-01-16",
+      "portfolio": 117.5639,
+      "benchmark": 109.2139
+    },
+    {
+      "date": "2026-01-20",
+      "portfolio": 114.6715,
+      "benchmark": 106.9907
+    },
+    {
+      "date": "2026-01-21",
+      "portfolio": 115.9752,
+      "benchmark": 108.2254
+    },
+    {
+      "date": "2026-01-22",
+      "portfolio": 116.8755,
+      "benchmark": 108.7907
+    },
+    {
+      "date": "2026-01-23",
+      "portfolio": 117.279,
+      "benchmark": 108.8302
+    },
+    {
+      "date": "2026-01-26",
+      "portfolio": 117.4997,
+      "benchmark": 109.3828
+    },
+    {
+      "date": "2026-01-27",
+      "portfolio": 119.5258,
+      "benchmark": 109.8187
+    },
+    {
+      "date": "2026-01-28",
+      "portfolio": 118.9043,
+      "benchmark": 109.8076
+    },
+    {
+      "date": "2026-01-29",
+      "portfolio": 117.766,
+      "benchmark": 109.5897
+    },
+    {
+      "date": "2026-01-30",
+      "portfolio": 115.8908,
+      "benchmark": 109.2628
+    },
+    {
+      "date": "2026-02-02",
+      "portfolio": 116.14,
+      "benchmark": 109.806
+    },
+    {
+      "date": "2026-02-03",
+      "portfolio": 115.6393,
+      "benchmark": 108.8776
+    },
+    {
+      "date": "2026-02-04",
+      "portfolio": 110.7241,
+      "benchmark": 108.3502
+    },
+    {
+      "date": "2026-02-05",
+      "portfolio": 108.5275,
+      "benchmark": 106.997
+    },
+    {
+      "date": "2026-02-06",
+      "portfolio": 111.9885,
+      "benchmark": 109.0497
+    },
+    {
+      "date": "2026-02-09",
+      "portfolio": 114.0191,
+      "benchmark": 109.5755
+    },
+    {
+      "date": "2026-02-10",
+      "portfolio": 112.9802,
+      "benchmark": 109.2865
+    },
+    {
+      "date": "2026-02-11",
+      "portfolio": 112.1201,
+      "benchmark": 109.2613
+    },
+    {
+      "date": "2026-02-12",
+      "portfolio": 110.9605,
+      "benchmark": 107.5733
+    },
+    {
+      "date": "2026-02-13",
+      "portfolio": 111.4142,
+      "benchmark": 107.6491
+    },
+    {
+      "date": "2026-02-17",
+      "portfolio": 110.8568,
+      "benchmark": 107.8228
+    },
+    {
+      "date": "2026-02-18",
+      "portfolio": 111.6507,
+      "benchmark": 108.366
+    },
+    {
+      "date": "2026-02-19",
+      "portfolio": 112.3595,
+      "benchmark": 108.0802
+    },
+    {
+      "date": "2026-02-20",
+      "portfolio": 112.2856,
+      "benchmark": 108.8618
+    },
+    {
+      "date": "2026-02-23",
+      "portfolio": 110.9961,
+      "benchmark": 107.7502
+    },
+    {
+      "date": "2026-02-24",
+      "portfolio": 112.9228,
+      "benchmark": 108.5333
+    },
+    {
+      "date": "2026-02-25",
+      "portfolio": 113.2187,
+      "benchmark": 109.4492
+    },
+    {
+      "date": "2026-02-26",
+      "portfolio": 112.7744,
+      "benchmark": 108.8412
+    },
+    {
+      "date": "2026-02-27",
+      "portfolio": 111.7449,
+      "benchmark": 108.3186
+    },
+    {
+      "date": "2026-03-02",
+      "portfolio": 113.4377,
+      "benchmark": 108.3802
+    },
+    {
+      "date": "2026-03-03",
+      "portfolio": 111.967,
+      "benchmark": 107.4249
+    },
+    {
+      "date": "2026-03-04",
+      "portfolio": 113.1299,
+      "benchmark": 108.1828
+    },
+    {
+      "date": "2026-03-05",
+      "portfolio": 112.2759,
+      "benchmark": 107.5796
+    },
+    {
+      "date": "2026-03-06",
+      "portfolio": 111.9685,
+      "benchmark": 106.1696
+    },
+    {
+      "date": "2026-03-09",
+      "portfolio": 113.283,
+      "benchmark": 107.0996
+    },
+    {
+      "date": "2026-03-10",
+      "portfolio": 111.9545,
+      "benchmark": 106.9275
+    },
+    {
+      "date": "2026-03-11",
+      "portfolio": 112.1551,
+      "benchmark": 106.7933
+    },
+    {
+      "date": "2026-03-12",
+      "portfolio": 110.3626,
+      "benchmark": 105.1716
+    },
+    {
+      "date": "2026-03-13",
+      "portfolio": 109.2261,
+      "benchmark": 104.5763
+    }
+  ]
+}
+</file>
+
+<file path="public/data/positions.json">
+{
+  "asOf": "2026-03-16",
+  "entryDateUsed": "2025-07-28",
+  "valuationDate": "2026-03-13",
+  "initialCapitalUsd": 8000.0,
+  "aumUsd": 8738.09,
+  "positions": [
+    {
+      "ticker": "AAPL",
+      "shares": 1.8744088,
+      "entryPrice": 213.4006,
+      "currentPrice": 250.12,
+      "entryValue": 400.0,
+      "marketValue": 468.83,
+      "currentWeight": 0.053653,
+      "pnlUsd": 68.83,
+      "returnPct": 17.207
+    },
+    {
+      "ticker": "AMZN",
+      "shares": 1.54645823,
+      "entryPrice": 232.79,
+      "currentPrice": 207.67,
+      "entryValue": 360.0,
+      "marketValue": 321.15,
+      "currentWeight": 0.036753,
+      "pnlUsd": -38.85,
+      "returnPct": -10.791
+    },
+    {
+      "ticker": "MSFT",
+      "shares": 0.94202607,
+      "entryPrice": 509.54,
+      "currentPrice": 395.55,
+      "entryValue": 480.0,
+      "marketValue": 372.62,
+      "currentWeight": 0.042643,
+      "pnlUsd": -107.38,
+      "returnPct": -22.371
+    },
+    {
+      "ticker": "GOOGL",
+      "shares": 2.08174079,
+      "entryPrice": 192.1469,
+      "currentPrice": 302.28,
+      "entryValue": 400.0,
+      "marketValue": 629.27,
+      "currentWeight": 0.072014,
+      "pnlUsd": 229.27,
+      "returnPct": 57.317
+    },
+    {
+      "ticker": "NVDA",
+      "shares": 2.71615152,
+      "entryPrice": 176.7206,
+      "currentPrice": 180.25,
+      "entryValue": 480.0,
+      "marketValue": 489.59,
+      "currentWeight": 0.056029,
+      "pnlUsd": 9.59,
+      "returnPct": 1.997
+    },
+    {
+      "ticker": "META",
+      "shares": 0.66986566,
+      "entryPrice": 716.5616,
+      "currentPrice": 613.71,
+      "entryValue": 480.0,
+      "marketValue": 411.1,
+      "currentWeight": 0.047047,
+      "pnlUsd": -68.9,
+      "returnPct": -14.353
+    },
+    {
+      "ticker": "PANW",
+      "shares": 1.56479218,
+      "entryPrice": 204.5,
+      "currentPrice": 167.015,
+      "entryValue": 320.0,
+      "marketValue": 261.34,
+      "currentWeight": 0.029909,
+      "pnlUsd": -58.66,
+      "returnPct": -18.33
+    },
+    {
+      "ticker": "AVGO",
+      "shares": 1.09127293,
+      "entryPrice": 293.2355,
+      "currentPrice": 322.16,
+      "entryValue": 320.0,
+      "marketValue": 351.56,
+      "currentWeight": 0.040234,
+      "pnlUsd": 31.56,
+      "returnPct": 9.864
+    },
+    {
+      "ticker": "PLTR",
+      "shares": 2.53356972,
+      "entryPrice": 157.88,
+      "currentPrice": 150.95,
+      "entryValue": 400.0,
+      "marketValue": 382.44,
+      "currentWeight": 0.043767,
+      "pnlUsd": -17.56,
+      "returnPct": -4.389
+    },
+    {
+      "ticker": "TSM",
+      "shares": 1.65744655,
+      "entryPrice": 241.3351,
+      "currentPrice": 338.31,
+      "entryValue": 400.0,
+      "marketValue": 560.73,
+      "currentWeight": 0.064171,
+      "pnlUsd": 160.73,
+      "returnPct": 40.183
+    },
+    {
+      "ticker": "AMD",
+      "shares": 2.07301619,
+      "entryPrice": 173.66,
+      "currentPrice": 193.39,
+      "entryValue": 360.0,
+      "marketValue": 400.9,
+      "currentWeight": 0.04588,
+      "pnlUsd": 40.9,
+      "returnPct": 11.361
+    },
+    {
+      "ticker": "CRWV",
+      "shares": 3.26441788,
+      "entryPrice": 110.28,
+      "currentPrice": 81.11,
+      "entryValue": 360.0,
+      "marketValue": 264.78,
+      "currentWeight": 0.030301,
+      "pnlUsd": -95.22,
+      "returnPct": -26.451
+    },
+    {
+      "ticker": "ZS",
+      "shares": 0.83033488,
+      "entryPrice": 289.04,
+      "currentPrice": 153.76,
+      "entryValue": 240.0,
+      "marketValue": 127.67,
+      "currentWeight": 0.014611,
+      "pnlUsd": -112.33,
+      "returnPct": -46.803
+    },
+    {
+      "ticker": "CRM",
+      "shares": 1.03955716,
+      "entryPrice": 269.3455,
+      "currentPrice": 192.83,
+      "entryValue": 280.0,
+      "marketValue": 200.46,
+      "currentWeight": 0.022941,
+      "pnlUsd": -79.54,
+      "returnPct": -28.408
+    },
+    {
+      "ticker": "GFS",
+      "shares": 7.86627329,
+      "entryPrice": 40.68,
+      "currentPrice": 41.883,
+      "entryValue": 320.0,
+      "marketValue": 329.46,
+      "currentWeight": 0.037704,
+      "pnlUsd": 9.46,
+      "returnPct": 2.957
+    },
+    {
+      "ticker": "RTX",
+      "shares": 2.59299844,
+      "entryPrice": 154.2616,
+      "currentPrice": 204.52,
+      "entryValue": 400.0,
+      "marketValue": 530.32,
+      "currentWeight": 0.060691,
+      "pnlUsd": 130.32,
+      "returnPct": 32.58
+    },
+    {
+      "ticker": "LMT",
+      "shares": 0.58116984,
+      "entryPrice": 412.9602,
+      "currentPrice": 646.0,
+      "entryValue": 240.0,
+      "marketValue": 375.44,
+      "currentWeight": 0.042965,
+      "pnlUsd": 135.44,
+      "returnPct": 56.432
+    },
+    {
+      "ticker": "BA",
+      "shares": 0.67679031,
+      "entryPrice": 236.41,
+      "currentPrice": 209.89,
+      "entryValue": 160.0,
+      "marketValue": 142.05,
+      "currentWeight": 0.016257,
+      "pnlUsd": -17.95,
+      "returnPct": -11.218
+    },
+    {
+      "ticker": "NOC",
+      "shares": 0.3556779,
+      "entryPrice": 562.3065,
+      "currentPrice": 733.71,
+      "entryValue": 200.0,
+      "marketValue": 260.96,
+      "currentWeight": 0.029865,
+      "pnlUsd": 60.96,
+      "returnPct": 30.482
+    },
+    {
+      "ticker": "GD",
+      "shares": 0.77304252,
+      "entryPrice": 310.4616,
+      "currentPrice": 351.52,
+      "entryValue": 240.0,
+      "marketValue": 271.74,
+      "currentWeight": 0.031098,
+      "pnlUsd": 31.74,
+      "returnPct": 13.225
+    },
+    {
+      "ticker": "HII",
+      "shares": 0.9257626,
+      "entryPrice": 259.2457,
+      "currentPrice": 415.71,
+      "entryValue": 240.0,
+      "marketValue": 384.85,
+      "currentWeight": 0.044043,
+      "pnlUsd": 144.85,
+      "returnPct": 60.354
+    },
+    {
+      "ticker": "LHX",
+      "shares": 0.75118619,
+      "entryPrice": 266.2456,
+      "currentPrice": 358.96,
+      "entryValue": 200.0,
+      "marketValue": 269.65,
+      "currentWeight": 0.030859,
+      "pnlUsd": 69.65,
+      "returnPct": 34.823
+    },
+    {
+      "ticker": "LDOS",
+      "shares": 1.50339656,
+      "entryPrice": 159.6385,
+      "currentPrice": 173.86,
+      "entryValue": 240.0,
+      "marketValue": 261.38,
+      "currentWeight": 0.029913,
+      "pnlUsd": 21.38,
+      "returnPct": 8.909
+    },
+    {
+      "ticker": "CACI",
+      "shares": 0.51795582,
+      "entryPrice": 463.36,
+      "currentPrice": 606.72,
+      "entryValue": 240.0,
+      "marketValue": 314.25,
+      "currentWeight": 0.035964,
+      "pnlUsd": 74.25,
+      "returnPct": 30.939
+    },
+    {
+      "ticker": "MRCY",
+      "shares": 4.54890083,
+      "entryPrice": 52.76,
+      "currentPrice": 78.16,
+      "entryValue": 240.0,
+      "marketValue": 355.54,
+      "currentWeight": 0.040689,
+      "pnlUsd": 115.54,
+      "returnPct": 48.143
+    }
+  ],
+  "missingTickersDropped": [],
+  "weightsRenormalized": false
+}
+</file>
+
+<file path="public/data/performance.1m.json">
+{
+  "range": "1M",
+  "points": [
+    {
+      "date": "2026-02-13",
+      "portfolio": 111.4142,
+      "benchmark": 107.6491
+    },
+    {
+      "date": "2026-02-17",
+      "portfolio": 110.8568,
+      "benchmark": 107.8228
+    },
+    {
+      "date": "2026-02-18",
+      "portfolio": 111.6507,
+      "benchmark": 108.366
+    },
+    {
+      "date": "2026-02-19",
+      "portfolio": 112.3595,
+      "benchmark": 108.0802
+    },
+    {
+      "date": "2026-02-20",
+      "portfolio": 112.2856,
+      "benchmark": 108.8618
+    },
+    {
+      "date": "2026-02-23",
+      "portfolio": 110.9961,
+      "benchmark": 107.7502
+    },
+    {
+      "date": "2026-02-24",
+      "portfolio": 112.9228,
+      "benchmark": 108.5333
+    },
+    {
+      "date": "2026-02-25",
+      "portfolio": 113.2187,
+      "benchmark": 109.4492
+    },
+    {
+      "date": "2026-02-26",
+      "portfolio": 112.7744,
+      "benchmark": 108.8412
+    },
+    {
+      "date": "2026-02-27",
+      "portfolio": 111.7449,
+      "benchmark": 108.3186
+    },
+    {
+      "date": "2026-03-02",
+      "portfolio": 113.4377,
+      "benchmark": 108.3802
+    },
+    {
+      "date": "2026-03-03",
+      "portfolio": 111.967,
+      "benchmark": 107.4249
+    },
+    {
+      "date": "2026-03-04",
+      "portfolio": 113.1299,
+      "benchmark": 108.1828
+    },
+    {
+      "date": "2026-03-05",
+      "portfolio": 112.2759,
+      "benchmark": 107.5796
+    },
+    {
+      "date": "2026-03-06",
+      "portfolio": 111.9685,
+      "benchmark": 106.1696
+    },
+    {
+      "date": "2026-03-09",
+      "portfolio": 113.283,
+      "benchmark": 107.0996
+    },
+    {
+      "date": "2026-03-10",
+      "portfolio": 111.9545,
+      "benchmark": 106.9275
+    },
+    {
+      "date": "2026-03-11",
+      "portfolio": 112.1551,
+      "benchmark": 106.7933
+    },
+    {
+      "date": "2026-03-12",
+      "portfolio": 110.3626,
+      "benchmark": 105.1716
+    },
+    {
+      "date": "2026-03-13",
+      "portfolio": 109.2261,
+      "benchmark": 104.5763
+    }
+  ]
+}
+</file>
+
+<file path="public/data/metrics.json">
+{
+  "portfolioName": "Peak Summit Capital",
+  "benchmarkName": "S&P 500 (SPY)",
+  "since": "Since inception",
+  "asOf": "2026-03-16",
+  "totalReturnPct": 9.226,
+  "ytdReturnPct": -1.027,
+  "volatilityAnnualPct": 18.997,
+  "beta": 1.378,
+  "systematicRiskAnnualPct": 15.875,
+  "unsystematicRiskAnnualPct": 10.585,
+  "maxDrawdownPct": -10.702,
+  "aumUsd": 8738.09,
+  "profitUsd": 738.09,
+  "initialCapitalUsd": 8000.0
+}
+</file>
+
+<file path="public/data/performance.1y.json">
+{
+  "range": "1Y",
+  "points": [
+    {
+      "date": "2025-07-28",
+      "portfolio": 100.0,
+      "benchmark": 100.0
+    },
+    {
+      "date": "2025-07-29",
+      "portfolio": 99.5087,
+      "benchmark": 99.7362
+    },
+    {
+      "date": "2025-07-30",
+      "portfolio": 99.2413,
+      "benchmark": 99.6106
+    },
+    {
+      "date": "2025-07-31",
+      "portfolio": 99.8368,
+      "benchmark": 99.237
+    },
+    {
+      "date": "2025-08-01",
+      "portfolio": 97.6286,
+      "benchmark": 97.6104
+    },
+    {
+      "date": "2025-08-04",
+      "portfolio": 99.1024,
+      "benchmark": 99.0941
+    },
+    {
+      "date": "2025-08-05",
+      "portfolio": 99.151,
+      "benchmark": 98.5917
+    },
+    {
+      "date": "2025-08-06",
+      "portfolio": 99.8634,
+      "benchmark": 99.3469
+    },
+    {
+      "date": "2025-08-07",
+      "portfolio": 100.5258,
+      "benchmark": 99.2637
+    },
+    {
+      "date": "2025-08-08",
+      "portfolio": 101.3367,
+      "benchmark": 100.0377
+    },
+    {
+      "date": "2025-08-11",
+      "portfolio": 101.2879,
+      "benchmark": 99.8399
+    },
+    {
+      "date": "2025-08-12",
+      "portfolio": 103.7188,
+      "benchmark": 100.9027
+    },
+    {
+      "date": "2025-08-13",
+      "portfolio": 102.9781,
+      "benchmark": 101.2482
+    },
+    {
+      "date": "2025-08-14",
+      "portfolio": 101.7074,
+      "benchmark": 101.2576
+    },
+    {
+      "date": "2025-08-15",
+      "portfolio": 101.5098,
+      "benchmark": 101.0205
+    },
+    {
+      "date": "2025-08-18",
+      "portfolio": 101.3005,
+      "benchmark": 100.9985
+    },
+    {
+      "date": "2025-08-19",
+      "portfolio": 99.311,
+      "benchmark": 100.4506
+    },
+    {
+      "date": "2025-08-20",
+      "portfolio": 98.9989,
+      "benchmark": 100.1837
+    },
+    {
+      "date": "2025-08-21",
+      "portfolio": 98.6948,
+      "benchmark": 99.7818
+    },
+    {
+      "date": "2025-08-22",
+      "portfolio": 100.2569,
+      "benchmark": 101.3141
+    },
+    {
+      "date": "2025-08-25",
+      "portfolio": 100.1215,
+      "benchmark": 100.8682
+    },
+    {
+      "date": "2025-08-26",
+      "portfolio": 100.622,
+      "benchmark": 101.2905
+    },
+    {
+      "date": "2025-08-27",
+      "portfolio": 101.1596,
+      "benchmark": 101.5213
+    },
+    {
+      "date": "2025-08-28",
+      "portfolio": 101.9248,
+      "benchmark": 101.8809
+    },
+    {
+      "date": "2025-08-29",
+      "portfolio": 100.8514,
+      "benchmark": 101.2733
+    },
+    {
+      "date": "2025-09-02",
+      "portfolio": 99.9974,
+      "benchmark": 100.5228
+    },
+    {
+      "date": "2025-09-03",
+      "portfolio": 100.3667,
+      "benchmark": 101.0676
+    },
+    {
+      "date": "2025-09-04",
+      "portfolio": 100.7308,
+      "benchmark": 101.9123
+    },
+    {
+      "date": "2025-09-05",
+      "portfolio": 101.0876,
+      "benchmark": 101.6171
+    },
+    {
+      "date": "2025-09-08",
+      "portfolio": 101.6462,
+      "benchmark": 101.8667
+    },
+    {
+      "date": "2025-09-09",
+      "portfolio": 102.2443,
+      "benchmark": 102.1022
+    },
+    {
+      "date": "2025-09-10",
+      "portfolio": 103.9389,
+      "benchmark": 102.3974
+    },
+    {
+      "date": "2025-09-11",
+      "portfolio": 104.1432,
+      "benchmark": 103.2483
+    },
+    {
+      "date": "2025-09-12",
+      "portfolio": 104.2559,
+      "benchmark": 103.2138
+    },
+    {
+      "date": "2025-09-15",
+      "portfolio": 105.5944,
+      "benchmark": 103.7633
+    },
+    {
+      "date": "2025-09-16",
+      "portfolio": 105.4965,
+      "benchmark": 103.6204
+    },
+    {
+      "date": "2025-09-17",
+      "portfolio": 105.0774,
+      "benchmark": 103.4917
+    },
+    {
+      "date": "2025-09-18",
+      "portfolio": 106.2819,
+      "benchmark": 103.9752
+    },
+    {
+      "date": "2025-09-19",
+      "portfolio": 106.893,
+      "benchmark": 104.4902
+    },
+    {
+      "date": "2025-09-22",
+      "portfolio": 107.6709,
+      "benchmark": 104.9846
+    },
+    {
+      "date": "2025-09-23",
+      "portfolio": 107.2067,
+      "benchmark": 104.4131
+    },
+    {
+      "date": "2025-09-24",
+      "portfolio": 106.9581,
+      "benchmark": 104.0809
+    },
+    {
+      "date": "2025-09-25",
+      "portfolio": 106.0636,
+      "benchmark": 103.6007
+    },
+    {
+      "date": "2025-09-26",
+      "portfolio": 106.7715,
+      "benchmark": 104.1942
+    },
+    {
+      "date": "2025-09-29",
+      "portfolio": 107.1943,
+      "benchmark": 104.4871
+    },
+    {
+      "date": "2025-09-30",
+      "portfolio": 108.65,
+      "benchmark": 104.8807
+    },
+    {
+      "date": "2025-10-01",
+      "portfolio": 109.2573,
+      "benchmark": 105.2381
+    },
+    {
+      "date": "2025-10-02",
+      "portfolio": 110.0437,
+      "benchmark": 105.3593
+    },
+    {
+      "date": "2025-10-03",
+      "portfolio": 109.4634,
+      "benchmark": 105.3577
+    },
+    {
+      "date": "2025-10-06",
+      "portfolio": 111.6365,
+      "benchmark": 105.7355
+    },
+    {
+      "date": "2025-10-07",
+      "portfolio": 110.8906,
+      "benchmark": 105.3435
+    },
+    {
+      "date": "2025-10-08",
+      "portfolio": 113.3679,
+      "benchmark": 105.9717
+    },
+    {
+      "date": "2025-10-09",
+      "portfolio": 112.5899,
+      "benchmark": 105.6647
+    },
+    {
+      "date": "2025-10-10",
+      "portfolio": 108.2644,
+      "benchmark": 102.8088
+    },
+    {
+      "date": "2025-10-13",
+      "portfolio": 110.6194,
+      "benchmark": 104.3863
+    },
+    {
+      "date": "2025-10-14",
+      "portfolio": 109.7633,
+      "benchmark": 104.2588
+    },
+    {
+      "date": "2025-10-15",
+      "portfolio": 110.5744,
+      "benchmark": 104.7217
+    },
+    {
+      "date": "2025-10-16",
+      "portfolio": 110.1345,
+      "benchmark": 104.0085
+    },
+    {
+      "date": "2025-10-17",
+      "portfolio": 109.9004,
+      "benchmark": 104.5989
+    },
+    {
+      "date": "2025-10-20",
+      "portfolio": 111.4492,
+      "benchmark": 105.6867
+    },
+    {
+      "date": "2025-10-21",
+      "portfolio": 111.8253,
+      "benchmark": 105.6852
+    },
+    {
+      "date": "2025-10-22",
+      "portfolio": 110.4019,
+      "benchmark": 105.1357
+    },
+    {
+      "date": "2025-10-23",
+      "portfolio": 112.0915,
+      "benchmark": 105.7592
+    },
+    {
+      "date": "2025-10-24",
+      "portfolio": 114.1762,
+      "benchmark": 106.6235
+    },
+    {
+      "date": "2025-10-27",
+      "portfolio": 115.6618,
+      "benchmark": 107.8814
+    },
+    {
+      "date": "2025-10-28",
+      "portfolio": 115.929,
+      "benchmark": 108.1679
+    },
+    {
+      "date": "2025-10-29",
+      "portfolio": 116.7174,
+      "benchmark": 108.2199
+    },
+    {
+      "date": "2025-10-30",
+      "portfolio": 115.3897,
+      "benchmark": 107.0297
+    },
+    {
+      "date": "2025-10-31",
+      "portfolio": 115.8993,
+      "benchmark": 107.3808
+    },
+    {
+      "date": "2025-11-03",
+      "portfolio": 116.1385,
+      "benchmark": 107.5823
+    },
+    {
+      "date": "2025-11-04",
+      "portfolio": 113.6023,
+      "benchmark": 106.307
+    },
+    {
+      "date": "2025-11-05",
+      "portfolio": 113.5611,
+      "benchmark": 106.6754
+    },
+    {
+      "date": "2025-11-06",
+      "portfolio": 110.9498,
+      "benchmark": 105.5309
+    },
+    {
+      "date": "2025-11-07",
+      "portfolio": 110.6637,
+      "benchmark": 105.6348
+    },
+    {
+      "date": "2025-11-10",
+      "portfolio": 113.2518,
+      "benchmark": 107.2831
+    },
+    {
+      "date": "2025-11-11",
+      "portfolio": 112.3011,
+      "benchmark": 107.5287
+    },
+    {
+      "date": "2025-11-12",
+      "portfolio": 111.561,
+      "benchmark": 107.5886
+    },
+    {
+      "date": "2025-11-13",
+      "portfolio": 108.6542,
+      "benchmark": 105.8032
+    },
+    {
+      "date": "2025-11-14",
+      "portfolio": 108.9352,
+      "benchmark": 105.7859
+    },
+    {
+      "date": "2025-11-17",
+      "portfolio": 107.9559,
+      "benchmark": 104.8004
+    },
+    {
+      "date": "2025-11-18",
+      "portfolio": 106.7467,
+      "benchmark": 103.9203
+    },
+    {
+      "date": "2025-11-19",
+      "portfolio": 106.9121,
+      "benchmark": 104.3218
+    },
+    {
+      "date": "2025-11-20",
+      "portfolio": 104.2262,
+      "benchmark": 102.7317
+    },
+    {
+      "date": "2025-11-21",
+      "portfolio": 104.5069,
+      "benchmark": 103.755
+    },
+    {
+      "date": "2025-11-24",
+      "portfolio": 107.081,
+      "benchmark": 105.2821
+    },
+    {
+      "date": "2025-11-25",
+      "portfolio": 107.7995,
+      "benchmark": 106.2724
+    },
+    {
+      "date": "2025-11-26",
+      "portfolio": 108.1862,
+      "benchmark": 107.0061
+    },
+    {
+      "date": "2025-11-28",
+      "portfolio": 109.0004,
+      "benchmark": 107.5901
+    },
+    {
+      "date": "2025-12-01",
+      "portfolio": 107.785,
+      "benchmark": 107.0989
+    },
+    {
+      "date": "2025-12-02",
+      "portfolio": 108.4316,
+      "benchmark": 107.2973
+    },
+    {
+      "date": "2025-12-03",
+      "portfolio": 109.03,
+      "benchmark": 107.6689
+    },
+    {
+      "date": "2025-12-04",
+      "portfolio": 109.9527,
+      "benchmark": 107.7476
+    },
+    {
+      "date": "2025-12-05",
+      "portfolio": 110.5181,
+      "benchmark": 107.9522
+    },
+    {
+      "date": "2025-12-08",
+      "portfolio": 111.0737,
+      "benchmark": 107.6279
+    },
+    {
+      "date": "2025-12-09",
+      "portfolio": 111.2274,
+      "benchmark": 107.535
+    },
+    {
+      "date": "2025-12-10",
+      "portfolio": 112.1851,
+      "benchmark": 108.2482
+    },
+    {
+      "date": "2025-12-11",
+      "portfolio": 111.8663,
+      "benchmark": 108.5001
+    },
+    {
+      "date": "2025-12-12",
+      "portfolio": 109.4282,
+      "benchmark": 107.3335
+    },
+    {
+      "date": "2025-12-15",
+      "portfolio": 108.2852,
+      "benchmark": 107.1714
+    },
+    {
+      "date": "2025-12-16",
+      "portfolio": 107.9829,
+      "benchmark": 106.8785
+    },
+    {
+      "date": "2025-12-17",
+      "portfolio": 105.554,
+      "benchmark": 105.7025
+    },
+    {
+      "date": "2025-12-18",
+      "portfolio": 106.8533,
+      "benchmark": 106.5007
+    },
+    {
+      "date": "2025-12-19",
+      "portfolio": 109.3784,
+      "benchmark": 107.4659
+    },
+    {
+      "date": "2025-12-22",
+      "portfolio": 110.6466,
+      "benchmark": 108.1354
+    },
+    {
+      "date": "2025-12-23",
+      "portfolio": 111.034,
+      "benchmark": 108.6297
+    },
+    {
+      "date": "2025-12-24",
+      "portfolio": 111.1618,
+      "benchmark": 109.0118
+    },
+    {
+      "date": "2025-12-26",
+      "portfolio": 110.8051,
+      "benchmark": 109.0007
+    },
+    {
+      "date": "2025-12-29",
+      "portfolio": 110.3222,
+      "benchmark": 108.6123
+    },
+    {
+      "date": "2025-12-30",
+      "portfolio": 110.0196,
+      "benchmark": 108.4797
+    },
+    {
+      "date": "2025-12-31",
+      "portfolio": 109.1219,
+      "benchmark": 107.6759
+    },
+    {
+      "date": "2026-01-02",
+      "portfolio": 110.3597,
+      "benchmark": 107.8733
+    },
+    {
+      "date": "2026-01-05",
+      "portfolio": 111.9676,
+      "benchmark": 108.5918
+    },
+    {
+      "date": "2026-01-06",
+      "portfolio": 112.9659,
+      "benchmark": 109.2376
+    },
+    {
+      "date": "2026-01-07",
+      "portfolio": 112.5185,
+      "benchmark": 108.8855
+    },
+    {
+      "date": "2026-01-08",
+      "portfolio": 112.628,
+      "benchmark": 108.8744
+    },
+    {
+      "date": "2026-01-09",
+      "portfolio": 114.243,
+      "benchmark": 109.5944
+    },
+    {
+      "date": "2026-01-12",
+      "portfolio": 115.8213,
+      "benchmark": 109.7665
+    },
+    {
+      "date": "2026-01-13",
+      "portfolio": 116.2738,
+      "benchmark": 109.5471
+    },
+    {
+      "date": "2026-01-14",
+      "portfolio": 116.0039,
+      "benchmark": 109.0086
+    },
+    {
+      "date": "2026-01-15",
+      "portfolio": 117.0836,
+      "benchmark": 109.3055
+    },
+    {
+      "date": "2026-01-16",
+      "portfolio": 117.5639,
+      "benchmark": 109.2139
+    },
+    {
+      "date": "2026-01-20",
+      "portfolio": 114.6715,
+      "benchmark": 106.9907
+    },
+    {
+      "date": "2026-01-21",
+      "portfolio": 115.9752,
+      "benchmark": 108.2254
+    },
+    {
+      "date": "2026-01-22",
+      "portfolio": 116.8755,
+      "benchmark": 108.7907
+    },
+    {
+      "date": "2026-01-23",
+      "portfolio": 117.279,
+      "benchmark": 108.8302
+    },
+    {
+      "date": "2026-01-26",
+      "portfolio": 117.4997,
+      "benchmark": 109.3828
+    },
+    {
+      "date": "2026-01-27",
+      "portfolio": 119.5258,
+      "benchmark": 109.8187
+    },
+    {
+      "date": "2026-01-28",
+      "portfolio": 118.9043,
+      "benchmark": 109.8076
+    },
+    {
+      "date": "2026-01-29",
+      "portfolio": 117.766,
+      "benchmark": 109.5897
+    },
+    {
+      "date": "2026-01-30",
+      "portfolio": 115.8908,
+      "benchmark": 109.2628
+    },
+    {
+      "date": "2026-02-02",
+      "portfolio": 116.14,
+      "benchmark": 109.806
+    },
+    {
+      "date": "2026-02-03",
+      "portfolio": 115.6393,
+      "benchmark": 108.8776
+    },
+    {
+      "date": "2026-02-04",
+      "portfolio": 110.7241,
+      "benchmark": 108.3502
+    },
+    {
+      "date": "2026-02-05",
+      "portfolio": 108.5275,
+      "benchmark": 106.997
+    },
+    {
+      "date": "2026-02-06",
+      "portfolio": 111.9885,
+      "benchmark": 109.0497
+    },
+    {
+      "date": "2026-02-09",
+      "portfolio": 114.0191,
+      "benchmark": 109.5755
+    },
+    {
+      "date": "2026-02-10",
+      "portfolio": 112.9802,
+      "benchmark": 109.2865
+    },
+    {
+      "date": "2026-02-11",
+      "portfolio": 112.1201,
+      "benchmark": 109.2613
+    },
+    {
+      "date": "2026-02-12",
+      "portfolio": 110.9605,
+      "benchmark": 107.5733
+    },
+    {
+      "date": "2026-02-13",
+      "portfolio": 111.4142,
+      "benchmark": 107.6491
+    },
+    {
+      "date": "2026-02-17",
+      "portfolio": 110.8568,
+      "benchmark": 107.8228
+    },
+    {
+      "date": "2026-02-18",
+      "portfolio": 111.6507,
+      "benchmark": 108.366
+    },
+    {
+      "date": "2026-02-19",
+      "portfolio": 112.3595,
+      "benchmark": 108.0802
+    },
+    {
+      "date": "2026-02-20",
+      "portfolio": 112.2856,
+      "benchmark": 108.8618
+    },
+    {
+      "date": "2026-02-23",
+      "portfolio": 110.9961,
+      "benchmark": 107.7502
+    },
+    {
+      "date": "2026-02-24",
+      "portfolio": 112.9228,
+      "benchmark": 108.5333
+    },
+    {
+      "date": "2026-02-25",
+      "portfolio": 113.2187,
+      "benchmark": 109.4492
+    },
+    {
+      "date": "2026-02-26",
+      "portfolio": 112.7744,
+      "benchmark": 108.8412
+    },
+    {
+      "date": "2026-02-27",
+      "portfolio": 111.7449,
+      "benchmark": 108.3186
+    },
+    {
+      "date": "2026-03-02",
+      "portfolio": 113.4377,
+      "benchmark": 108.3802
+    },
+    {
+      "date": "2026-03-03",
+      "portfolio": 111.967,
+      "benchmark": 107.4249
+    },
+    {
+      "date": "2026-03-04",
+      "portfolio": 113.1299,
+      "benchmark": 108.1828
+    },
+    {
+      "date": "2026-03-05",
+      "portfolio": 112.2759,
+      "benchmark": 107.5796
+    },
+    {
+      "date": "2026-03-06",
+      "portfolio": 111.9685,
+      "benchmark": 106.1696
+    },
+    {
+      "date": "2026-03-09",
+      "portfolio": 113.283,
+      "benchmark": 107.0996
+    },
+    {
+      "date": "2026-03-10",
+      "portfolio": 111.9545,
+      "benchmark": 106.9275
+    },
+    {
+      "date": "2026-03-11",
+      "portfolio": 112.1551,
+      "benchmark": 106.7933
+    },
+    {
+      "date": "2026-03-12",
+      "portfolio": 110.3626,
+      "benchmark": 105.1716
+    },
+    {
+      "date": "2026-03-13",
+      "portfolio": 109.2261,
+      "benchmark": 104.5763
+    }
+  ]
+}
+</file>
+
+<file path="public/data/performance.max.json">
+{
+  "range": "MAX",
+  "points": [
+    {
+      "date": "2025-07-28",
+      "portfolio": 100.0,
+      "benchmark": 100.0
+    },
+    {
+      "date": "2025-07-29",
+      "portfolio": 99.5087,
+      "benchmark": 99.7362
+    },
+    {
+      "date": "2025-07-30",
+      "portfolio": 99.2413,
+      "benchmark": 99.6106
+    },
+    {
+      "date": "2025-07-31",
+      "portfolio": 99.8368,
+      "benchmark": 99.237
+    },
+    {
+      "date": "2025-08-01",
+      "portfolio": 97.6286,
+      "benchmark": 97.6104
+    },
+    {
+      "date": "2025-08-04",
+      "portfolio": 99.1024,
+      "benchmark": 99.0941
+    },
+    {
+      "date": "2025-08-05",
+      "portfolio": 99.151,
+      "benchmark": 98.5917
+    },
+    {
+      "date": "2025-08-06",
+      "portfolio": 99.8634,
+      "benchmark": 99.3469
+    },
+    {
+      "date": "2025-08-07",
+      "portfolio": 100.5258,
+      "benchmark": 99.2637
+    },
+    {
+      "date": "2025-08-08",
+      "portfolio": 101.3367,
+      "benchmark": 100.0377
+    },
+    {
+      "date": "2025-08-11",
+      "portfolio": 101.2879,
+      "benchmark": 99.8399
+    },
+    {
+      "date": "2025-08-12",
+      "portfolio": 103.7188,
+      "benchmark": 100.9027
+    },
+    {
+      "date": "2025-08-13",
+      "portfolio": 102.9781,
+      "benchmark": 101.2482
+    },
+    {
+      "date": "2025-08-14",
+      "portfolio": 101.7074,
+      "benchmark": 101.2576
+    },
+    {
+      "date": "2025-08-15",
+      "portfolio": 101.5098,
+      "benchmark": 101.0205
+    },
+    {
+      "date": "2025-08-18",
+      "portfolio": 101.3005,
+      "benchmark": 100.9985
+    },
+    {
+      "date": "2025-08-19",
+      "portfolio": 99.311,
+      "benchmark": 100.4506
+    },
+    {
+      "date": "2025-08-20",
+      "portfolio": 98.9989,
+      "benchmark": 100.1837
+    },
+    {
+      "date": "2025-08-21",
+      "portfolio": 98.6948,
+      "benchmark": 99.7818
+    },
+    {
+      "date": "2025-08-22",
+      "portfolio": 100.2569,
+      "benchmark": 101.3141
+    },
+    {
+      "date": "2025-08-25",
+      "portfolio": 100.1215,
+      "benchmark": 100.8682
+    },
+    {
+      "date": "2025-08-26",
+      "portfolio": 100.622,
+      "benchmark": 101.2905
+    },
+    {
+      "date": "2025-08-27",
+      "portfolio": 101.1596,
+      "benchmark": 101.5213
+    },
+    {
+      "date": "2025-08-28",
+      "portfolio": 101.9248,
+      "benchmark": 101.8809
+    },
+    {
+      "date": "2025-08-29",
+      "portfolio": 100.8514,
+      "benchmark": 101.2733
+    },
+    {
+      "date": "2025-09-02",
+      "portfolio": 99.9974,
+      "benchmark": 100.5228
+    },
+    {
+      "date": "2025-09-03",
+      "portfolio": 100.3667,
+      "benchmark": 101.0676
+    },
+    {
+      "date": "2025-09-04",
+      "portfolio": 100.7308,
+      "benchmark": 101.9123
+    },
+    {
+      "date": "2025-09-05",
+      "portfolio": 101.0876,
+      "benchmark": 101.6171
+    },
+    {
+      "date": "2025-09-08",
+      "portfolio": 101.6462,
+      "benchmark": 101.8667
+    },
+    {
+      "date": "2025-09-09",
+      "portfolio": 102.2443,
+      "benchmark": 102.1022
+    },
+    {
+      "date": "2025-09-10",
+      "portfolio": 103.9389,
+      "benchmark": 102.3974
+    },
+    {
+      "date": "2025-09-11",
+      "portfolio": 104.1432,
+      "benchmark": 103.2483
+    },
+    {
+      "date": "2025-09-12",
+      "portfolio": 104.2559,
+      "benchmark": 103.2138
+    },
+    {
+      "date": "2025-09-15",
+      "portfolio": 105.5944,
+      "benchmark": 103.7633
+    },
+    {
+      "date": "2025-09-16",
+      "portfolio": 105.4965,
+      "benchmark": 103.6204
+    },
+    {
+      "date": "2025-09-17",
+      "portfolio": 105.0774,
+      "benchmark": 103.4917
+    },
+    {
+      "date": "2025-09-18",
+      "portfolio": 106.2819,
+      "benchmark": 103.9752
+    },
+    {
+      "date": "2025-09-19",
+      "portfolio": 106.893,
+      "benchmark": 104.4902
+    },
+    {
+      "date": "2025-09-22",
+      "portfolio": 107.6709,
+      "benchmark": 104.9846
+    },
+    {
+      "date": "2025-09-23",
+      "portfolio": 107.2067,
+      "benchmark": 104.4131
+    },
+    {
+      "date": "2025-09-24",
+      "portfolio": 106.9581,
+      "benchmark": 104.0809
+    },
+    {
+      "date": "2025-09-25",
+      "portfolio": 106.0636,
+      "benchmark": 103.6007
+    },
+    {
+      "date": "2025-09-26",
+      "portfolio": 106.7715,
+      "benchmark": 104.1942
+    },
+    {
+      "date": "2025-09-29",
+      "portfolio": 107.1943,
+      "benchmark": 104.4871
+    },
+    {
+      "date": "2025-09-30",
+      "portfolio": 108.65,
+      "benchmark": 104.8807
+    },
+    {
+      "date": "2025-10-01",
+      "portfolio": 109.2573,
+      "benchmark": 105.2381
+    },
+    {
+      "date": "2025-10-02",
+      "portfolio": 110.0437,
+      "benchmark": 105.3593
+    },
+    {
+      "date": "2025-10-03",
+      "portfolio": 109.4634,
+      "benchmark": 105.3577
+    },
+    {
+      "date": "2025-10-06",
+      "portfolio": 111.6365,
+      "benchmark": 105.7355
+    },
+    {
+      "date": "2025-10-07",
+      "portfolio": 110.8906,
+      "benchmark": 105.3435
+    },
+    {
+      "date": "2025-10-08",
+      "portfolio": 113.3679,
+      "benchmark": 105.9717
+    },
+    {
+      "date": "2025-10-09",
+      "portfolio": 112.5899,
+      "benchmark": 105.6647
+    },
+    {
+      "date": "2025-10-10",
+      "portfolio": 108.2644,
+      "benchmark": 102.8088
+    },
+    {
+      "date": "2025-10-13",
+      "portfolio": 110.6194,
+      "benchmark": 104.3863
+    },
+    {
+      "date": "2025-10-14",
+      "portfolio": 109.7633,
+      "benchmark": 104.2588
+    },
+    {
+      "date": "2025-10-15",
+      "portfolio": 110.5744,
+      "benchmark": 104.7217
+    },
+    {
+      "date": "2025-10-16",
+      "portfolio": 110.1345,
+      "benchmark": 104.0085
+    },
+    {
+      "date": "2025-10-17",
+      "portfolio": 109.9004,
+      "benchmark": 104.5989
+    },
+    {
+      "date": "2025-10-20",
+      "portfolio": 111.4492,
+      "benchmark": 105.6867
+    },
+    {
+      "date": "2025-10-21",
+      "portfolio": 111.8253,
+      "benchmark": 105.6852
+    },
+    {
+      "date": "2025-10-22",
+      "portfolio": 110.4019,
+      "benchmark": 105.1357
+    },
+    {
+      "date": "2025-10-23",
+      "portfolio": 112.0915,
+      "benchmark": 105.7592
+    },
+    {
+      "date": "2025-10-24",
+      "portfolio": 114.1762,
+      "benchmark": 106.6235
+    },
+    {
+      "date": "2025-10-27",
+      "portfolio": 115.6618,
+      "benchmark": 107.8814
+    },
+    {
+      "date": "2025-10-28",
+      "portfolio": 115.929,
+      "benchmark": 108.1679
+    },
+    {
+      "date": "2025-10-29",
+      "portfolio": 116.7174,
+      "benchmark": 108.2199
+    },
+    {
+      "date": "2025-10-30",
+      "portfolio": 115.3897,
+      "benchmark": 107.0297
+    },
+    {
+      "date": "2025-10-31",
+      "portfolio": 115.8993,
+      "benchmark": 107.3808
+    },
+    {
+      "date": "2025-11-03",
+      "portfolio": 116.1385,
+      "benchmark": 107.5823
+    },
+    {
+      "date": "2025-11-04",
+      "portfolio": 113.6023,
+      "benchmark": 106.307
+    },
+    {
+      "date": "2025-11-05",
+      "portfolio": 113.5611,
+      "benchmark": 106.6754
+    },
+    {
+      "date": "2025-11-06",
+      "portfolio": 110.9498,
+      "benchmark": 105.5309
+    },
+    {
+      "date": "2025-11-07",
+      "portfolio": 110.6637,
+      "benchmark": 105.6348
+    },
+    {
+      "date": "2025-11-10",
+      "portfolio": 113.2518,
+      "benchmark": 107.2831
+    },
+    {
+      "date": "2025-11-11",
+      "portfolio": 112.3011,
+      "benchmark": 107.5287
+    },
+    {
+      "date": "2025-11-12",
+      "portfolio": 111.561,
+      "benchmark": 107.5886
+    },
+    {
+      "date": "2025-11-13",
+      "portfolio": 108.6542,
+      "benchmark": 105.8032
+    },
+    {
+      "date": "2025-11-14",
+      "portfolio": 108.9352,
+      "benchmark": 105.7859
+    },
+    {
+      "date": "2025-11-17",
+      "portfolio": 107.9559,
+      "benchmark": 104.8004
+    },
+    {
+      "date": "2025-11-18",
+      "portfolio": 106.7467,
+      "benchmark": 103.9203
+    },
+    {
+      "date": "2025-11-19",
+      "portfolio": 106.9121,
+      "benchmark": 104.3218
+    },
+    {
+      "date": "2025-11-20",
+      "portfolio": 104.2262,
+      "benchmark": 102.7317
+    },
+    {
+      "date": "2025-11-21",
+      "portfolio": 104.5069,
+      "benchmark": 103.755
+    },
+    {
+      "date": "2025-11-24",
+      "portfolio": 107.081,
+      "benchmark": 105.2821
+    },
+    {
+      "date": "2025-11-25",
+      "portfolio": 107.7995,
+      "benchmark": 106.2724
+    },
+    {
+      "date": "2025-11-26",
+      "portfolio": 108.1862,
+      "benchmark": 107.0061
+    },
+    {
+      "date": "2025-11-28",
+      "portfolio": 109.0004,
+      "benchmark": 107.5901
+    },
+    {
+      "date": "2025-12-01",
+      "portfolio": 107.785,
+      "benchmark": 107.0989
+    },
+    {
+      "date": "2025-12-02",
+      "portfolio": 108.4316,
+      "benchmark": 107.2973
+    },
+    {
+      "date": "2025-12-03",
+      "portfolio": 109.03,
+      "benchmark": 107.6689
+    },
+    {
+      "date": "2025-12-04",
+      "portfolio": 109.9527,
+      "benchmark": 107.7476
+    },
+    {
+      "date": "2025-12-05",
+      "portfolio": 110.5181,
+      "benchmark": 107.9522
+    },
+    {
+      "date": "2025-12-08",
+      "portfolio": 111.0737,
+      "benchmark": 107.6279
+    },
+    {
+      "date": "2025-12-09",
+      "portfolio": 111.2274,
+      "benchmark": 107.535
+    },
+    {
+      "date": "2025-12-10",
+      "portfolio": 112.1851,
+      "benchmark": 108.2482
+    },
+    {
+      "date": "2025-12-11",
+      "portfolio": 111.8663,
+      "benchmark": 108.5001
+    },
+    {
+      "date": "2025-12-12",
+      "portfolio": 109.4282,
+      "benchmark": 107.3335
+    },
+    {
+      "date": "2025-12-15",
+      "portfolio": 108.2852,
+      "benchmark": 107.1714
+    },
+    {
+      "date": "2025-12-16",
+      "portfolio": 107.9829,
+      "benchmark": 106.8785
+    },
+    {
+      "date": "2025-12-17",
+      "portfolio": 105.554,
+      "benchmark": 105.7025
+    },
+    {
+      "date": "2025-12-18",
+      "portfolio": 106.8533,
+      "benchmark": 106.5007
+    },
+    {
+      "date": "2025-12-19",
+      "portfolio": 109.3784,
+      "benchmark": 107.4659
+    },
+    {
+      "date": "2025-12-22",
+      "portfolio": 110.6466,
+      "benchmark": 108.1354
+    },
+    {
+      "date": "2025-12-23",
+      "portfolio": 111.034,
+      "benchmark": 108.6297
+    },
+    {
+      "date": "2025-12-24",
+      "portfolio": 111.1618,
+      "benchmark": 109.0118
+    },
+    {
+      "date": "2025-12-26",
+      "portfolio": 110.8051,
+      "benchmark": 109.0007
+    },
+    {
+      "date": "2025-12-29",
+      "portfolio": 110.3222,
+      "benchmark": 108.6123
+    },
+    {
+      "date": "2025-12-30",
+      "portfolio": 110.0196,
+      "benchmark": 108.4797
+    },
+    {
+      "date": "2025-12-31",
+      "portfolio": 109.1219,
+      "benchmark": 107.6759
+    },
+    {
+      "date": "2026-01-02",
+      "portfolio": 110.3597,
+      "benchmark": 107.8733
+    },
+    {
+      "date": "2026-01-05",
+      "portfolio": 111.9676,
+      "benchmark": 108.5918
+    },
+    {
+      "date": "2026-01-06",
+      "portfolio": 112.9659,
+      "benchmark": 109.2376
+    },
+    {
+      "date": "2026-01-07",
+      "portfolio": 112.5185,
+      "benchmark": 108.8855
+    },
+    {
+      "date": "2026-01-08",
+      "portfolio": 112.628,
+      "benchmark": 108.8744
+    },
+    {
+      "date": "2026-01-09",
+      "portfolio": 114.243,
+      "benchmark": 109.5944
+    },
+    {
+      "date": "2026-01-12",
+      "portfolio": 115.8213,
+      "benchmark": 109.7665
+    },
+    {
+      "date": "2026-01-13",
+      "portfolio": 116.2738,
+      "benchmark": 109.5471
+    },
+    {
+      "date": "2026-01-14",
+      "portfolio": 116.0039,
+      "benchmark": 109.0086
+    },
+    {
+      "date": "2026-01-15",
+      "portfolio": 117.0836,
+      "benchmark": 109.3055
+    },
+    {
+      "date": "2026-01-16",
+      "portfolio": 117.5639,
+      "benchmark": 109.2139
+    },
+    {
+      "date": "2026-01-20",
+      "portfolio": 114.6715,
+      "benchmark": 106.9907
+    },
+    {
+      "date": "2026-01-21",
+      "portfolio": 115.9752,
+      "benchmark": 108.2254
+    },
+    {
+      "date": "2026-01-22",
+      "portfolio": 116.8755,
+      "benchmark": 108.7907
+    },
+    {
+      "date": "2026-01-23",
+      "portfolio": 117.279,
+      "benchmark": 108.8302
+    },
+    {
+      "date": "2026-01-26",
+      "portfolio": 117.4997,
+      "benchmark": 109.3828
+    },
+    {
+      "date": "2026-01-27",
+      "portfolio": 119.5258,
+      "benchmark": 109.8187
+    },
+    {
+      "date": "2026-01-28",
+      "portfolio": 118.9043,
+      "benchmark": 109.8076
+    },
+    {
+      "date": "2026-01-29",
+      "portfolio": 117.766,
+      "benchmark": 109.5897
+    },
+    {
+      "date": "2026-01-30",
+      "portfolio": 115.8908,
+      "benchmark": 109.2628
+    },
+    {
+      "date": "2026-02-02",
+      "portfolio": 116.14,
+      "benchmark": 109.806
+    },
+    {
+      "date": "2026-02-03",
+      "portfolio": 115.6393,
+      "benchmark": 108.8776
+    },
+    {
+      "date": "2026-02-04",
+      "portfolio": 110.7241,
+      "benchmark": 108.3502
+    },
+    {
+      "date": "2026-02-05",
+      "portfolio": 108.5275,
+      "benchmark": 106.997
+    },
+    {
+      "date": "2026-02-06",
+      "portfolio": 111.9885,
+      "benchmark": 109.0497
+    },
+    {
+      "date": "2026-02-09",
+      "portfolio": 114.0191,
+      "benchmark": 109.5755
+    },
+    {
+      "date": "2026-02-10",
+      "portfolio": 112.9802,
+      "benchmark": 109.2865
+    },
+    {
+      "date": "2026-02-11",
+      "portfolio": 112.1201,
+      "benchmark": 109.2613
+    },
+    {
+      "date": "2026-02-12",
+      "portfolio": 110.9605,
+      "benchmark": 107.5733
+    },
+    {
+      "date": "2026-02-13",
+      "portfolio": 111.4142,
+      "benchmark": 107.6491
+    },
+    {
+      "date": "2026-02-17",
+      "portfolio": 110.8568,
+      "benchmark": 107.8228
+    },
+    {
+      "date": "2026-02-18",
+      "portfolio": 111.6507,
+      "benchmark": 108.366
+    },
+    {
+      "date": "2026-02-19",
+      "portfolio": 112.3595,
+      "benchmark": 108.0802
+    },
+    {
+      "date": "2026-02-20",
+      "portfolio": 112.2856,
+      "benchmark": 108.8618
+    },
+    {
+      "date": "2026-02-23",
+      "portfolio": 110.9961,
+      "benchmark": 107.7502
+    },
+    {
+      "date": "2026-02-24",
+      "portfolio": 112.9228,
+      "benchmark": 108.5333
+    },
+    {
+      "date": "2026-02-25",
+      "portfolio": 113.2187,
+      "benchmark": 109.4492
+    },
+    {
+      "date": "2026-02-26",
+      "portfolio": 112.7744,
+      "benchmark": 108.8412
+    },
+    {
+      "date": "2026-02-27",
+      "portfolio": 111.7449,
+      "benchmark": 108.3186
+    },
+    {
+      "date": "2026-03-02",
+      "portfolio": 113.4377,
+      "benchmark": 108.3802
+    },
+    {
+      "date": "2026-03-03",
+      "portfolio": 111.967,
+      "benchmark": 107.4249
+    },
+    {
+      "date": "2026-03-04",
+      "portfolio": 113.1299,
+      "benchmark": 108.1828
+    },
+    {
+      "date": "2026-03-05",
+      "portfolio": 112.2759,
+      "benchmark": 107.5796
+    },
+    {
+      "date": "2026-03-06",
+      "portfolio": 111.9685,
+      "benchmark": 106.1696
+    },
+    {
+      "date": "2026-03-09",
+      "portfolio": 113.283,
+      "benchmark": 107.0996
+    },
+    {
+      "date": "2026-03-10",
+      "portfolio": 111.9545,
+      "benchmark": 106.9275
+    },
+    {
+      "date": "2026-03-11",
+      "portfolio": 112.1551,
+      "benchmark": 106.7933
+    },
+    {
+      "date": "2026-03-12",
+      "portfolio": 110.3626,
+      "benchmark": 105.1716
+    },
+    {
+      "date": "2026-03-13",
+      "portfolio": 109.2261,
+      "benchmark": 104.5763
+    }
+  ]
+}
+</file>
+
+<file path="public/data/holdings.json">
+{
+  "asOf": "2026-03-16",
+  "holdings": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "weight": 0.053653,
+      "targetWeight": 0.05,
+      "shares": 1.8744088,
+      "price": 250.12,
+      "marketValue": 468.83
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon",
+      "weight": 0.036753,
+      "targetWeight": 0.045,
+      "shares": 1.54645823,
+      "price": 207.67,
+      "marketValue": 321.15
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "weight": 0.042643,
+      "targetWeight": 0.06,
+      "shares": 0.94202607,
+      "price": 395.55,
+      "marketValue": 372.62
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Google",
+      "weight": 0.072014,
+      "targetWeight": 0.05,
+      "shares": 2.08174079,
+      "price": 302.28,
+      "marketValue": 629.27
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "weight": 0.056029,
+      "targetWeight": 0.06,
+      "shares": 2.71615152,
+      "price": 180.25,
+      "marketValue": 489.59
+    },
+    {
+      "ticker": "META",
+      "name": "Meta",
+      "weight": 0.047047,
+      "targetWeight": 0.06,
+      "shares": 0.66986566,
+      "price": 613.71,
+      "marketValue": 411.1
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "weight": 0.029909,
+      "targetWeight": 0.04,
+      "shares": 1.56479218,
+      "price": 167.015,
+      "marketValue": 261.34
+    },
+    {
+      "ticker": "AVGO",
+      "name": "Broadcom",
+      "weight": 0.040234,
+      "targetWeight": 0.04,
+      "shares": 1.09127293,
+      "price": 322.16,
+      "marketValue": 351.56
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir",
+      "weight": 0.043767,
+      "targetWeight": 0.05,
+      "shares": 2.53356972,
+      "price": 150.95,
+      "marketValue": 382.44
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "weight": 0.064171,
+      "targetWeight": 0.05,
+      "shares": 1.65744655,
+      "price": 338.31,
+      "marketValue": 560.73
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "weight": 0.04588,
+      "targetWeight": 0.045,
+      "shares": 2.07301619,
+      "price": 193.39,
+      "marketValue": 400.9
+    },
+    {
+      "ticker": "CRWV",
+      "name": "Coreweave",
+      "weight": 0.030301,
+      "targetWeight": 0.045,
+      "shares": 3.26441788,
+      "price": 81.11,
+      "marketValue": 264.78
+    },
+    {
+      "ticker": "ZS",
+      "name": "Zscaler",
+      "weight": 0.014611,
+      "targetWeight": 0.03,
+      "shares": 0.83033488,
+      "price": 153.76,
+      "marketValue": 127.67
+    },
+    {
+      "ticker": "CRM",
+      "name": "Salesforce",
+      "weight": 0.022941,
+      "targetWeight": 0.035,
+      "shares": 1.03955716,
+      "price": 192.83,
+      "marketValue": 200.46
+    },
+    {
+      "ticker": "GFS",
+      "name": "GlobalFoundries",
+      "weight": 0.037704,
+      "targetWeight": 0.04,
+      "shares": 7.86627329,
+      "price": 41.883,
+      "marketValue": 329.46
+    },
+    {
+      "ticker": "RTX",
+      "name": "Raytheon",
+      "weight": 0.060691,
+      "targetWeight": 0.05,
+      "shares": 2.59299844,
+      "price": 204.52,
+      "marketValue": 530.32
+    },
+    {
+      "ticker": "LMT",
+      "name": "Lockheed Martin",
+      "weight": 0.042965,
+      "targetWeight": 0.03,
+      "shares": 0.58116984,
+      "price": 646.0,
+      "marketValue": 375.44
+    },
+    {
+      "ticker": "BA",
+      "name": "Boeing",
+      "weight": 0.016257,
+      "targetWeight": 0.02,
+      "shares": 0.67679031,
+      "price": 209.89,
+      "marketValue": 142.05
+    },
+    {
+      "ticker": "NOC",
+      "name": "Northrop Grumman",
+      "weight": 0.029865,
+      "targetWeight": 0.025,
+      "shares": 0.3556779,
+      "price": 733.71,
+      "marketValue": 260.96
+    },
+    {
+      "ticker": "GD",
+      "name": "General Dynamics",
+      "weight": 0.031098,
+      "targetWeight": 0.03,
+      "shares": 0.77304252,
+      "price": 351.52,
+      "marketValue": 271.74
+    },
+    {
+      "ticker": "HII",
+      "name": "Huntington Ingalls Industries",
+      "weight": 0.044043,
+      "targetWeight": 0.03,
+      "shares": 0.92576271,
+      "price": 415.71,
+      "marketValue": 384.85
+    },
+    {
+      "ticker": "LHX",
+      "name": "L3Harris Technologies",
+      "weight": 0.030859,
+      "targetWeight": 0.025,
+      "shares": 0.75118619,
+      "price": 358.96,
+      "marketValue": 269.65
+    },
+    {
+      "ticker": "LDOS",
+      "name": "Leidos",
+      "weight": 0.029913,
+      "targetWeight": 0.03,
+      "shares": 1.50339656,
+      "price": 173.86,
+      "marketValue": 261.38
+    },
+    {
+      "ticker": "CACI",
+      "name": "CACI International",
+      "weight": 0.035964,
+      "targetWeight": 0.03,
+      "shares": 0.51795582,
+      "price": 606.72,
+      "marketValue": 314.25
+    },
+    {
+      "ticker": "MRCY",
+      "name": "Mercury Systems",
+      "weight": 0.040689,
+      "targetWeight": 0.03,
+      "shares": 4.54890083,
+      "price": 78.16,
+      "marketValue": 355.54
+    }
+  ],
+  "missingTickersDropped": [],
+  "weightsRenormalized": false
+}
+</file>
+
+</files>
