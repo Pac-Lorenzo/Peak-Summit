@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.042965,
       "targetWeight": 0.03,
-      "shares": 0.58116984,
+      "shares": 0.58116989,
       "price": 646.0,
       "marketValue": 375.44
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.030859,
       "targetWeight": 0.025,
-      "shares": 0.75118619,
+      "shares": 0.75118628,
       "price": 358.96,
       "marketValue": 269.65
     },

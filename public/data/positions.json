@@ -183,8 +183,8 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58116984,
-      "entryPrice": 412.9602,
+      "shares": 0.58116989,
+      "entryPrice": 412.9601,
       "currentPrice": 646.0,
       "entryValue": 240.0,
       "marketValue": 375.44,
@@ -227,7 +227,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "entryPrice": 259.2457,
       "currentPrice": 415.71,
       "entryValue": 240.0,
@@ -238,8 +238,8 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.75118619,
-      "entryPrice": 266.2456,
+      "shares": 0.75118628,
+      "entryPrice": 266.2455,
       "currentPrice": 358.96,
       "entryValue": 200.0,
       "marketValue": 269.65,
