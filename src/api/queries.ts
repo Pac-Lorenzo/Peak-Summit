@@ -1,5 +1,7 @@
 import { fetchJson } from "./client";
 
+const API_BASE = (import.meta.env.VITE_API_URL ?? "");
+
 export type RangeKey = "1M" | "3M" | "1Y" | "MAX";
 
 export type PerformancePoint = {
@@ -51,21 +53,30 @@ export type PositionsResponse = {
 
 export type HoldingsResponse = {
   asOf: string;
-  holdings: { ticker: string; name: string; weight: number; targetWeight?: number; shares?: number }[];
+  holdings: {
+    ticker: string;
+    name: string;
+    weight: number;
+    targetWeight?: number;
+    shares?: number;
+  }[];
 };
 
 export function getPerformance(range: RangeKey) {
-  const file =
-    range === "1M" ? "performance.1m.json" :
-    range === "3M" ? "performance.3m.json" :
-    range === "1Y" ? "performance.1y.json" :
-    "performance.max.json";
+  const rangeMap: Record<RangeKey, string> = {
+    "1M": "1m",
+    "3M": "3m",
+    "1Y": "1y",
+    "MAX": "max",
+  };
 
-  return fetchJson<PerformanceResponse>(`/data/${file}`);
+  return fetchJson<PerformanceResponse>(
+    `${API_BASE}/performance/${rangeMap[range]}`
+  );
 }
 
 export async function getMetrics() {
-  const data = await fetchJson<MetricsResponse>("/data/metrics.json");
+  const data = await fetchJson<MetricsResponse>(`${API_BASE}/metrics`);
   return {
     ...data,
     profitUsd: data.aumUsd - data.initialCapitalUsd,
@@ -73,10 +84,9 @@ export async function getMetrics() {
 }
 
 export function getHoldings() {
-  return fetchJson<HoldingsResponse>("/data/holdings.json");
+  return fetchJson<HoldingsResponse>(`${API_BASE}/holdings`);
 }
 
-
 export function getPositions() {
-  return fetchJson<PositionsResponse>("/data/positions.json");
+  return fetchJson<PositionsResponse>(`${API_BASE}/positions`);
 }
