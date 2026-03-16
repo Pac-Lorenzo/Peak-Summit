@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.060691,
       "targetWeight": 0.05,
-      "shares": 2.59299818,
+      "shares": 2.59299844,
       "price": 204.52,
       "marketValue": 530.32
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.029865,
       "targetWeight": 0.025,
-      "shares": 0.35567786,
+      "shares": 0.3556779,
       "price": 733.71,
       "marketValue": 260.96
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.044043,
       "targetWeight": 0.03,
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "price": 415.71,
       "marketValue": 384.85
     },

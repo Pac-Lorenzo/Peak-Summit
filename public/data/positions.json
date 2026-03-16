@@ -172,7 +172,7 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.59299818,
+      "shares": 2.59299844,
       "entryPrice": 154.2616,
       "currentPrice": 204.52,
       "entryValue": 400.0,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.35567786,
-      "entryPrice": 562.3066,
+      "shares": 0.3556779,
+      "entryPrice": 562.3065,
       "currentPrice": 733.71,
       "entryValue": 200.0,
       "marketValue": 260.96,
