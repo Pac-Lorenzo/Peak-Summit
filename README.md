@@ -6,7 +6,7 @@ Designed to visualize performance, risk metrics, and holdings for a
 student-managed investment fund focused on technology and defense
 equities.
 
-🔗 Live Demo: \[Add Netlify URL Here\]
+🔗 Live Demo: (https://peaksummitcapital.netlify.app/)
 
 ------------------------------------------------------------------------
 
