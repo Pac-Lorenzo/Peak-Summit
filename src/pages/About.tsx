@@ -25,11 +25,13 @@ export function About() {
               Finance professional and investor with experience in private wealth management, equity research, and alternative investments. With a foundation in corporate finance and hands-on work across pre-IPO markets and portfolio construction.
             </p>
             <div className="flex gap-3 pt-2">
-              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
+              <a
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500"
+                href="https://www.linkedin.com/in/robertberven/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 LinkedIn
-              </a>
-              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
-                Email
               </a>
             </div>
           </div>
@@ -45,11 +47,13 @@ export function About() {
               Software developer and investor with over five years of experience investing in technology-sector stocks. With a background in computer engineering, I apply data-driven systems thinking to both software development and capital allocation.
             </p>
             <div className="flex gap-3 pt-2">
-              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
+              <a
+                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500"
+                href="https://www.linkedin.com/in/pacolorenzo17/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 LinkedIn
-              </a>
-              <a className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-500" href="#">
-                Email
               </a>
             </div>
           </div>
