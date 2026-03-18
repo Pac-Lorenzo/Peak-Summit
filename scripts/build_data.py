@@ -132,59 +132,64 @@ def _download_batch_adjclose(tickers: List[str], start: str) -> pd.DataFrame:
 
     raise RuntimeError(f"Batch failed after retries. Last error: {last_err}")
 
-
-def download_prices_adjclose_batched(tickers: List[str], start: str, force_refresh: bool = False) -> pd.DataFrame:
-    """
-    Download tickers in batches, join columns, cache final result.
-    """
+def download_prices_adjclose_batched(
+    tickers: List[str], start: str, force_refresh: bool = False) -> pd.DataFrame:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     key = _cache_key(tickers, start)
-
-    print("DEBUG tickers:", tickers)
-    print("DEBUG start:", start)
-    print("DEBUG cache key:", key)
-
-    cache_path = CACHE_DIR / f"adjclose_{key}.parquet"
-    print("DEBUG cache path:", cache_path)
-    print("DEBUG cache exists:", cache_path.exists())
-
-    print("DEBUG cache dir listing (top 10):",
-        sorted([p.name for p in CACHE_DIR.glob("adjclose_*.parquet")])[:10])
-
-
     cached = None if force_refresh else _load_cached_adjclose(key)
+
+    today = date.today()
+
+    # Determine what date range we still need to fetch
     if cached is not None and not cached.empty:
-        print("✅ Using cached prices.")
-        return cached
+        last_cached = cached.index[-1]  # a date object
 
+        if last_cached >= today:
+            print("✅ Cache is up to date.")
+            return cached
+
+        # Only fetch the days we're missing
+        fetch_start = (last_cached + timedelta(days=1)).isoformat()
+        print(f"📅 Cache exists through {last_cached}. Fetching incremental: {fetch_start} → today.")
+    else:
+        # No cache — full download from inception
+        fetch_start = start
+        print(f"📥 No cache found. Full download from {fetch_start}.")
+
+    # Download only the needed date range in batches
     frames: List[pd.DataFrame] = []
-
-    # batch tickers
     for i in range(0, len(tickers), BATCH_SIZE):
-        batch = tickers[i : i + BATCH_SIZE]
-        print(f"📥 Downloading batch {i//BATCH_SIZE + 1} / {math.ceil(len(tickers)/BATCH_SIZE)}: {batch}")
-        adj = _download_batch_adjclose(batch, start=start)
+        batch = tickers[i: i + BATCH_SIZE]
+        print(f"📥 Downloading batch {i // BATCH_SIZE + 1} / {math.ceil(len(tickers) / BATCH_SIZE)}: {batch}")
+        adj = _download_batch_adjclose(batch, start=fetch_start)
         frames.append(adj)
 
-        # pause between batches
         if i + BATCH_SIZE < len(tickers):
-            sleep_s = random.uniform(*BATCH_PAUSE_SECONDS)
-            time.sleep(sleep_s)
+            time.sleep(random.uniform(*BATCH_PAUSE_SECONDS))
 
-    merged = pd.concat(frames, axis=1)
+    if not frames:
+        raise RuntimeError("No data returned from download.")
 
-    # de-dup columns (just in case)
-    merged = merged.loc[:, ~merged.columns.duplicated()].sort_index().ffill()
+    new_data = pd.concat(frames, axis=1)
+    new_data = new_data.loc[:, ~new_data.columns.duplicated()].sort_index().ffill()
+    new_data = new_data.dropna(axis=1, how="all")
 
-    # drop columns that are all NA (unsupported tickers)
-    merged = merged.dropna(axis=1, how="all")
-    if merged.empty:
-        raise RuntimeError("All tickers failed / no usable price data.")
+    if new_data.empty:
+        if cached is not None:
+            print("⚠️ No new rows returned (non-trading day?). Returning existing cache.")
+            return cached
+        raise RuntimeError("Download returned no data and no cache exists.")
+
+    # Merge new rows onto cache (or use new_data alone if no cache)
+    if cached is not None and not cached.empty:
+        merged = pd.concat([cached, new_data])
+        merged = merged[~merged.index.duplicated(keep="last")].sort_index()
+    else:
+        merged = new_data
 
     _save_cached_adjclose(key, merged)
-    print("✅ Download + cache complete.")
+    print(f"✅ Cache updated through {merged.index[-1]}.")
     return merged
-
 
 def compute_index_from_returns(returns: pd.Series, base: float = 100.0) -> pd.Series:
     return (1.0 + returns.fillna(0.0)).cumprod() * base

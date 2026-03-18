@@ -795,6 +795,21 @@
       "date": "2026-03-13",
       "portfolio": 109.2261,
       "benchmark": 104.5763
+    },
+    {
+      "date": "2026-03-16",
+      "portfolio": 110.582,
+      "benchmark": 105.6406
+    },
+    {
+      "date": "2026-03-17",
+      "portfolio": 110.7063,
+      "benchmark": 105.9185
+    },
+    {
+      "date": "2026-03-18",
+      "portfolio": 110.6577,
+      "benchmark": 105.9185
     }
   ]
 }
