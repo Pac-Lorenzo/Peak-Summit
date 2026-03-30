@@ -1,20 +1,20 @@
 {
-  "asOf": "2026-03-29",
+  "asOf": "2026-03-30",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-03-27",
   "initialCapitalUsd": 8000.0,
-  "aumUsd": 8198.87,
+  "aumUsd": 7021.83,
   "positions": [
     {
       "ticker": "AAPL",
       "shares": 1.8744088,
       "entryPrice": 213.4006,
-      "currentPrice": 248.8,
+      "currentPrice": NaN,
       "entryValue": 400.0,
-      "marketValue": 466.35,
-      "currentWeight": 0.05688,
-      "pnlUsd": 66.35,
-      "returnPct": 16.588
+      "marketValue": NaN,
+      "currentWeight": NaN,
+      "pnlUsd": NaN,
+      "returnPct": NaN
     },
     {
       "ticker": "AMZN",
@@ -23,7 +23,7 @@
       "currentPrice": 199.34,
       "entryValue": 360.0,
       "marketValue": 308.27,
-      "currentWeight": 0.037599,
+      "currentWeight": NaN,
       "pnlUsd": -51.73,
       "returnPct": -14.369
     },
@@ -34,7 +34,7 @@
       "currentPrice": 356.77,
       "entryValue": 480.0,
       "marketValue": 336.09,
-      "currentWeight": 0.040992,
+      "currentWeight": NaN,
       "pnlUsd": -143.91,
       "returnPct": -29.982
     },
@@ -45,7 +45,7 @@
       "currentPrice": 274.34,
       "entryValue": 400.0,
       "marketValue": 571.1,
-      "currentWeight": 0.069657,
+      "currentWeight": NaN,
       "pnlUsd": 171.1,
       "returnPct": 42.776
     },
@@ -56,7 +56,7 @@
       "currentPrice": 167.52,
       "entryValue": 480.0,
       "marketValue": 455.01,
-      "currentWeight": 0.055497,
+      "currentWeight": NaN,
       "pnlUsd": -24.99,
       "returnPct": -5.206
     },
@@ -67,7 +67,7 @@
       "currentPrice": 525.72,
       "entryValue": 480.0,
       "marketValue": 352.16,
-      "currentWeight": 0.042952,
+      "currentWeight": NaN,
       "pnlUsd": -127.84,
       "returnPct": -26.633
     },
@@ -78,7 +78,7 @@
       "currentPrice": 147.02,
       "entryValue": 320.0,
       "marketValue": 230.06,
-      "currentWeight": 0.028059,
+      "currentWeight": NaN,
       "pnlUsd": -89.94,
       "returnPct": -28.108
     },
@@ -89,7 +89,7 @@
       "currentPrice": 300.68,
       "entryValue": 320.0,
       "marketValue": 328.12,
-      "currentWeight": 0.040021,
+      "currentWeight": NaN,
       "pnlUsd": 8.12,
       "returnPct": 2.539
     },
@@ -100,7 +100,7 @@
       "currentPrice": 143.06,
       "entryValue": 400.0,
       "marketValue": 362.45,
-      "currentWeight": 0.044208,
+      "currentWeight": NaN,
       "pnlUsd": -37.55,
       "returnPct": -9.387
     },
@@ -111,7 +111,7 @@
       "currentPrice": 326.74,
       "entryValue": 400.0,
       "marketValue": 541.55,
-      "currentWeight": 0.066052,
+      "currentWeight": NaN,
       "pnlUsd": 141.55,
       "returnPct": 35.389
     },
@@ -119,12 +119,12 @@
       "ticker": "AMD",
       "shares": 2.07301619,
       "entryPrice": 173.66,
-      "currentPrice": 201.99,
+      "currentPrice": NaN,
       "entryValue": 360.0,
-      "marketValue": 418.73,
-      "currentWeight": 0.051072,
-      "pnlUsd": 58.73,
-      "returnPct": 16.313
+      "marketValue": NaN,
+      "currentWeight": NaN,
+      "pnlUsd": NaN,
+      "returnPct": NaN
     },
     {
       "ticker": "CRWV",
@@ -133,7 +133,7 @@
       "currentPrice": 74.81,
       "entryValue": 360.0,
       "marketValue": 244.21,
-      "currentWeight": 0.029786,
+      "currentWeight": NaN,
       "pnlUsd": -115.79,
       "returnPct": -32.164
     },
@@ -144,7 +144,7 @@
       "currentPrice": 133.16,
       "entryValue": 240.0,
       "marketValue": 110.57,
-      "currentWeight": 0.013486,
+      "currentWeight": NaN,
       "pnlUsd": -129.43,
       "returnPct": -53.93
     },
@@ -155,7 +155,7 @@
       "currentPrice": 179.31,
       "entryValue": 280.0,
       "marketValue": 186.4,
-      "currentWeight": 0.022735,
+      "currentWeight": NaN,
       "pnlUsd": -93.6,
       "returnPct": -33.428
     },
@@ -166,7 +166,7 @@
       "currentPrice": 42.94,
       "entryValue": 320.0,
       "marketValue": 337.78,
-      "currentWeight": 0.041198,
+      "currentWeight": NaN,
       "pnlUsd": 17.78,
       "returnPct": 5.556
     },
@@ -177,7 +177,7 @@
       "currentPrice": 189.71,
       "entryValue": 400.0,
       "marketValue": 491.92,
-      "currentWeight": 0.059998,
+      "currentWeight": NaN,
       "pnlUsd": 91.92,
       "returnPct": 22.979
     },
@@ -188,7 +188,7 @@
       "currentPrice": 615.84,
       "entryValue": 240.0,
       "marketValue": 357.91,
-      "currentWeight": 0.043653,
+      "currentWeight": NaN,
       "pnlUsd": 117.91,
       "returnPct": 49.128
     },
@@ -199,7 +199,7 @@
       "currentPrice": 190.52,
       "entryValue": 160.0,
       "marketValue": 128.94,
-      "currentWeight": 0.015727,
+      "currentWeight": NaN,
       "pnlUsd": -31.06,
       "returnPct": -19.411
     },
@@ -210,7 +210,7 @@
       "currentPrice": 679.0,
       "entryValue": 200.0,
       "marketValue": 241.51,
-      "currentWeight": 0.029456,
+      "currentWeight": NaN,
       "pnlUsd": 41.51,
       "returnPct": 20.753
     },
@@ -221,7 +221,7 @@
       "currentPrice": 346.76,
       "entryValue": 240.0,
       "marketValue": 268.06,
-      "currentWeight": 0.032695,
+      "currentWeight": NaN,
       "pnlUsd": 28.06,
       "returnPct": 11.692
     },
@@ -232,7 +232,7 @@
       "currentPrice": 381.79,
       "entryValue": 240.0,
       "marketValue": 353.45,
-      "currentWeight": 0.043109,
+      "currentWeight": NaN,
       "pnlUsd": 113.45,
       "returnPct": 47.27
     },
@@ -243,7 +243,7 @@
       "currentPrice": 343.0,
       "entryValue": 200.0,
       "marketValue": 257.66,
-      "currentWeight": 0.031426,
+      "currentWeight": NaN,
       "pnlUsd": 57.66,
       "returnPct": 28.828
     },
@@ -254,7 +254,7 @@
       "currentPrice": 155.53,
       "entryValue": 240.0,
       "marketValue": 233.82,
-      "currentWeight": 0.028519,
+      "currentWeight": NaN,
       "pnlUsd": -6.18,
       "returnPct": -2.574
     },
@@ -262,12 +262,12 @@
       "ticker": "CACI",
       "shares": 0.51795582,
       "entryPrice": 463.36,
-      "currentPrice": 563.67,
+      "currentPrice": NaN,
       "entryValue": 240.0,
-      "marketValue": 291.96,
-      "currentWeight": 0.035609,
-      "pnlUsd": 51.96,
-      "returnPct": 21.648
+      "marketValue": NaN,
+      "currentWeight": NaN,
+      "pnlUsd": NaN,
+      "returnPct": NaN
     },
     {
       "ticker": "MRCY",
@@ -276,7 +276,7 @@
       "currentPrice": 71.4,
       "entryValue": 240.0,
       "marketValue": 324.79,
-      "currentWeight": 0.039614,
+      "currentWeight": NaN,
       "pnlUsd": 84.79,
       "returnPct": 35.33
     }
