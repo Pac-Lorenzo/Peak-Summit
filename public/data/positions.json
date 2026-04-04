@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-04-03",
+  "asOf": "2026-04-04",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-04-02",
   "initialCapitalUsd": 8000.0,
@@ -84,7 +84,7 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09356208,
+      "shares": 1.0935622,
       "entryPrice": 292.6217,
       "currentPrice": 314.55,
       "entryValue": 320.0,
@@ -227,7 +227,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.92576271,
+      "shares": 0.9257626,
       "entryPrice": 259.2457,
       "currentPrice": 396.62,
       "entryValue": 240.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50712386,
+      "shares": 1.507124,
       "entryPrice": 159.2437,
       "currentPrice": 158.82,
       "entryValue": 240.0,

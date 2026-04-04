@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-04-03",
+  "asOf": "2026-04-04",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.040036,
       "targetWeight": 0.04,
-      "shares": 1.09356208,
+      "shares": 1.0935622,
       "price": 314.55,
       "marketValue": 343.98
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.042735,
       "targetWeight": 0.03,
-      "shares": 0.92576271,
+      "shares": 0.9257626,
       "price": 396.62,
       "marketValue": 367.18
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.027859,
       "targetWeight": 0.03,
-      "shares": 1.50712386,
+      "shares": 1.507124,
       "price": 158.82,
       "marketValue": 239.36
     },
