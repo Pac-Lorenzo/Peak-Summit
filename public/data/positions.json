@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-04-04",
+  "asOf": "2026-04-05",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-04-02",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "entryPrice": 213.4006,
       "currentPrice": 255.92,
       "entryValue": 400.0,
@@ -40,7 +40,7 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08174079,
+      "shares": 2.08174095,
       "entryPrice": 192.1469,
       "currentPrice": 295.77,
       "entryValue": 400.0,
@@ -216,7 +216,7 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.77304244,
+      "shares": 0.77304252,
       "entryPrice": 310.4616,
       "currentPrice": 349.09,
       "entryValue": 240.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.507124,
+      "shares": 1.50712386,
       "entryPrice": 159.2437,
       "currentPrice": 158.82,
       "entryValue": 240.0,
