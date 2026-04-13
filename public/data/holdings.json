@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-04-12",
+  "asOf": "2026-04-13",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.054772,
       "targetWeight": 0.05,
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "price": 260.48,
       "marketValue": 488.25
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.039193,
       "targetWeight": 0.06,
-      "shares": 0.94202607,
+      "shares": 0.94202613,
       "price": 370.87,
       "marketValue": 349.37
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.045581,
       "targetWeight": 0.04,
-      "shares": 1.0935622,
+      "shares": 1.09356208,
       "price": 371.55,
       "marketValue": 406.31
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.019286,
       "targetWeight": 0.035,
-      "shares": 1.04215703,
+      "shares": 1.04215715,
       "price": 164.96,
       "marketValue": 171.91
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.040012,
       "targetWeight": 0.03,
-      "shares": 0.58116984,
+      "shares": 0.58116989,
       "price": 613.72,
       "marketValue": 356.68
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.040961,
       "targetWeight": 0.03,
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "price": 394.41,
       "marketValue": 365.13
     },

@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-04-12",
+  "asOf": "2026-04-13",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-04-10",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87440894,
+      "shares": 1.8744088,
       "entryPrice": 213.4006,
       "currentPrice": 260.48,
       "entryValue": 400.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94202607,
+      "shares": 0.94202613,
       "entryPrice": 509.54,
       "currentPrice": 370.87,
       "entryValue": 480.0,
@@ -84,7 +84,7 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.0935622,
+      "shares": 1.09356208,
       "entryPrice": 292.6217,
       "currentPrice": 371.55,
       "entryValue": 320.0,
@@ -150,7 +150,7 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04215703,
+      "shares": 1.04215715,
       "entryPrice": 268.6735,
       "currentPrice": 164.96,
       "entryValue": 280.0,
@@ -183,8 +183,8 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58116984,
-      "entryPrice": 412.9602,
+      "shares": 0.58116989,
+      "entryPrice": 412.9601,
       "currentPrice": 613.72,
       "entryValue": 240.0,
       "marketValue": 356.68,
@@ -227,7 +227,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.9257626,
+      "shares": 0.92576271,
       "entryPrice": 259.2457,
       "currentPrice": 394.41,
       "entryValue": 240.0,
