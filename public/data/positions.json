@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-04-19",
+  "asOf": "2026-04-20",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-04-17",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.8744088,
+      "shares": 1.87440894,
       "entryPrice": 213.4006,
       "currentPrice": 270.23,
       "entryValue": 400.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94202613,
+      "shares": 0.94202607,
       "entryPrice": 509.54,
       "currentPrice": 422.79,
       "entryValue": 480.0,
@@ -106,7 +106,7 @@
     },
     {
       "ticker": "TSM",
-      "shares": 1.66211695,
+      "shares": 1.66211685,
       "entryPrice": 240.657,
       "currentPrice": 370.5,
       "entryValue": 400.0,
@@ -150,7 +150,7 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04215715,
+      "shares": 1.04215703,
       "entryPrice": 268.6735,
       "currentPrice": 182.14,
       "entryValue": 280.0,
@@ -216,7 +216,7 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.77663322,
+      "shares": 0.77663314,
       "entryPrice": 309.0262,
       "currentPrice": 336.29,
       "entryValue": 240.0,
@@ -227,7 +227,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.92576271,
+      "shares": 0.9257626,
       "entryPrice": 259.2457,
       "currentPrice": 394.81,
       "entryValue": 240.0,
@@ -238,8 +238,8 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.75118619,
-      "entryPrice": 266.2456,
+      "shares": 0.75118628,
+      "entryPrice": 266.2455,
       "currentPrice": 350.35,
       "entryValue": 200.0,
       "marketValue": 263.18,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50712386,
+      "shares": 1.507124,
       "entryPrice": 159.2437,
       "currentPrice": 155.17,
       "entryValue": 240.0,

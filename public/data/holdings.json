@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-04-19",
+  "asOf": "2026-04-20",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.053781,
       "targetWeight": 0.05,
-      "shares": 1.8744088,
+      "shares": 1.87440894,
       "price": 270.23,
       "marketValue": 506.52
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.042288,
       "targetWeight": 0.06,
-      "shares": 0.94202613,
+      "shares": 0.94202607,
       "price": 422.79,
       "marketValue": 398.28
     },
@@ -87,7 +87,7 @@
       "name": "Taiwan Semiconductor",
       "weight": 0.065386,
       "targetWeight": 0.05,
-      "shares": 1.66211695,
+      "shares": 1.66211685,
       "price": 370.5,
       "marketValue": 615.81
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.020154,
       "targetWeight": 0.035,
-      "shares": 1.04215715,
+      "shares": 1.04215703,
       "price": 182.14,
       "marketValue": 189.82
     },
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.027731,
       "targetWeight": 0.03,
-      "shares": 0.77663322,
+      "shares": 0.77663314,
       "price": 336.29,
       "marketValue": 261.17
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.038808,
       "targetWeight": 0.03,
-      "shares": 0.92576271,
+      "shares": 0.9257626,
       "price": 394.81,
       "marketValue": 365.5
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.027944,
       "targetWeight": 0.025,
-      "shares": 0.75118619,
+      "shares": 0.75118628,
       "price": 350.35,
       "marketValue": 263.18
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.024831,
       "targetWeight": 0.03,
-      "shares": 1.50712386,
+      "shares": 1.507124,
       "price": 155.17,
       "marketValue": 233.86
     },
