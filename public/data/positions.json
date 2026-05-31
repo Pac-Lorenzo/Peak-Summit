@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-05-30",
+  "asOf": "2026-05-31",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-05-29",
   "initialCapitalUsd": 8000.0,
@@ -40,7 +40,7 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08174079,
+      "shares": 2.08174095,
       "entryPrice": 192.1469,
       "currentPrice": 380.34,
       "entryValue": 400.0,
@@ -62,8 +62,8 @@
     },
     {
       "ticker": "META",
-      "shares": 0.67043924,
-      "entryPrice": 715.9485,
+      "shares": 0.67043918,
+      "entryPrice": 715.9486,
       "currentPrice": 632.51,
       "entryValue": 480.0,
       "marketValue": 424.06,
@@ -84,7 +84,7 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09356208,
+      "shares": 1.0935622,
       "entryPrice": 292.6217,
       "currentPrice": 446.77,
       "entryValue": 320.0,
@@ -150,7 +150,7 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04215715,
+      "shares": 1.04215703,
       "entryPrice": 268.6735,
       "currentPrice": 191.1,
       "entryValue": 280.0,
@@ -238,8 +238,8 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.75118619,
-      "entryPrice": 266.2456,
+      "shares": 0.75118628,
+      "entryPrice": 266.2455,
       "currentPrice": 315.18,
       "entryValue": 200.0,
       "marketValue": 236.76,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.507124,
+      "shares": 1.50712386,
       "entryPrice": 159.2437,
       "currentPrice": 127.8,
       "entryValue": 240.0,

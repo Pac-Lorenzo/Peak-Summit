@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-05-30",
+  "asOf": "2026-05-31",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -33,7 +33,7 @@
       "name": "Google",
       "weight": 0.075379,
       "targetWeight": 0.05,
-      "shares": 2.08174079,
+      "shares": 2.08174095,
       "price": 380.34,
       "marketValue": 791.77
     },
@@ -51,7 +51,7 @@
       "name": "Meta",
       "weight": 0.040372,
       "targetWeight": 0.06,
-      "shares": 0.67043924,
+      "shares": 0.67043918,
       "price": 632.51,
       "marketValue": 424.06
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.046513,
       "targetWeight": 0.04,
-      "shares": 1.09356208,
+      "shares": 1.0935622,
       "price": 446.77,
       "marketValue": 488.57
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.01896,
       "targetWeight": 0.035,
-      "shares": 1.04215715,
+      "shares": 1.04215703,
       "price": 191.1,
       "marketValue": 199.16
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.02254,
       "targetWeight": 0.025,
-      "shares": 0.75118619,
+      "shares": 0.75118628,
       "price": 315.18,
       "marketValue": 236.76
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.018337,
       "targetWeight": 0.03,
-      "shares": 1.507124,
+      "shares": 1.50712386,
       "price": 127.8,
       "marketValue": 192.61
     },
