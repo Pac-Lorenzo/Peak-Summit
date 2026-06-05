@@ -2,11 +2,6 @@
   "range": "3M",
   "points": [
     {
-      "date": "2026-03-04",
-      "portfolio": 113.1299,
-      "benchmark": 108.1828
-    },
-    {
       "date": "2026-03-05",
       "portfolio": 112.2759,
       "benchmark": 107.5796
@@ -88,7 +83,7 @@
     },
     {
       "date": "2026-03-27",
-      "portfolio": 102.5246,
+      "portfolio": 102.5245,
       "benchmark": 100.397
     },
     {
@@ -178,7 +173,7 @@
     },
     {
       "date": "2026-04-23",
-      "portfolio": 116.7161,
+      "portfolio": 116.716,
       "benchmark": 112.1706
     },
     {
@@ -323,8 +318,8 @@
     },
     {
       "date": "2026-06-04",
-      "portfolio": 128.8349,
-      "benchmark": 119.0841
+      "portfolio": 130.9933,
+      "benchmark": 119.8719
     }
   ]
 }
