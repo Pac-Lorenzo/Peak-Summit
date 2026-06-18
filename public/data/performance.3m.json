@@ -2,14 +2,9 @@
   "range": "3M",
   "points": [
     {
-      "date": "2026-03-17",
-      "portfolio": 110.7388,
-      "benchmark": 105.9185
-    },
-    {
       "date": "2026-03-18",
       "portfolio": 109.8536,
-      "benchmark": 104.4406
+      "benchmark": 104.4405
     },
     {
       "date": "2026-03-19",
@@ -69,7 +64,7 @@
     {
       "date": "2026-04-06",
       "portfolio": 108.06,
-      "benchmark": 104.33
+      "benchmark": 104.3299
     },
     {
       "date": "2026-04-07",
@@ -114,7 +109,7 @@
     {
       "date": "2026-04-17",
       "portfolio": 117.7272,
-      "benchmark": 112.4382
+      "benchmark": 112.4381
     },
     {
       "date": "2026-04-20",
@@ -154,7 +149,7 @@
     {
       "date": "2026-04-29",
       "portfolio": 117.6977,
-      "benchmark": 112.6662
+      "benchmark": 112.6661
     },
     {
       "date": "2026-04-30",
@@ -179,7 +174,7 @@
     {
       "date": "2026-05-06",
       "portfolio": 124.089,
-      "benchmark": 116.1891
+      "benchmark": 116.189
     },
     {
       "date": "2026-05-07",
@@ -239,7 +234,7 @@
     {
       "date": "2026-05-22",
       "portfolio": 127.4467,
-      "benchmark": 118.059
+      "benchmark": 118.0589
     },
     {
       "date": "2026-05-26",
@@ -289,7 +284,7 @@
     {
       "date": "2026-06-08",
       "portfolio": 125.5487,
-      "benchmark": 117.0425
+      "benchmark": 117.0424
     },
     {
       "date": "2026-06-09",
@@ -299,7 +294,7 @@
     {
       "date": "2026-06-10",
       "portfolio": 121.4286,
-      "benchmark": 114.8591
+      "benchmark": 114.859
     },
     {
       "date": "2026-06-11",
@@ -318,13 +313,18 @@
     },
     {
       "date": "2026-06-16",
-      "portfolio": 127.782,
+      "portfolio": 127.2691,
       "benchmark": 118.8015
     },
     {
       "date": "2026-06-17",
-      "portfolio": 127.6281,
-      "benchmark": 118.7485
+      "portfolio": 126.7217,
+      "benchmark": 117.3179
+    },
+    {
+      "date": "2026-06-18",
+      "portfolio": 127.8489,
+      "benchmark": 117.8832
     }
   ]
 }
