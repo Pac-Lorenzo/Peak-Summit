@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-06-19",
+  "asOf": "2026-06-20",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-06-18",
   "initialCapitalUsd": 8000.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94406646,
+      "shares": 0.94406635,
       "entryPrice": 508.4388,
       "currentPrice": 379.4,
       "entryValue": 480.0,
@@ -84,7 +84,7 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09356208,
+      "shares": 1.0935622,
       "entryPrice": 292.6217,
       "currentPrice": 411.35,
       "entryValue": 320.0,
@@ -106,7 +106,7 @@
     },
     {
       "ticker": "TSM",
-      "shares": 1.66600942,
+      "shares": 1.66600931,
       "entryPrice": 240.0947,
       "currentPrice": 462.12,
       "entryValue": 400.0,
@@ -150,8 +150,8 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04484691,
-      "entryPrice": 267.9818,
+      "shares": 1.04484679,
+      "entryPrice": 267.9819,
       "currentPrice": 151.78,
       "entryValue": 280.0,
       "marketValue": 158.59,
@@ -172,7 +172,7 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.60379926,
+      "shares": 2.60379952,
       "entryPrice": 153.6217,
       "currentPrice": 185.6,
       "entryValue": 400.0,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.5849745,
+      "shares": 0.58497455,
       "entryPrice": 410.2743,
       "currentPrice": 510.95,
       "entryValue": 240.0,
@@ -216,7 +216,7 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.77663322,
+      "shares": 0.77663314,
       "entryPrice": 309.0262,
       "currentPrice": 350.01,
       "entryValue": 240.0,
@@ -238,8 +238,8 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.75422954,
-      "entryPrice": 265.1713,
+      "shares": 0.75422962,
+      "entryPrice": 265.1712,
       "currentPrice": 294.82,
       "entryValue": 200.0,
       "marketValue": 222.36,

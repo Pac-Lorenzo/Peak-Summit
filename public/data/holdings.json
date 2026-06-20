@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-06-19",
+  "asOf": "2026-06-20",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.034929,
       "targetWeight": 0.06,
-      "shares": 0.94406646,
+      "shares": 0.94406635,
       "price": 379.4,
       "marketValue": 358.18
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.043867,
       "targetWeight": 0.04,
-      "shares": 1.09356208,
+      "shares": 1.0935622,
       "price": 411.35,
       "marketValue": 449.84
     },
@@ -87,7 +87,7 @@
       "name": "Taiwan Semiconductor",
       "weight": 0.075078,
       "targetWeight": 0.05,
-      "shares": 1.66600942,
+      "shares": 1.66600931,
       "price": 462.12,
       "marketValue": 769.9
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.015465,
       "targetWeight": 0.035,
-      "shares": 1.04484691,
+      "shares": 1.04484679,
       "price": 151.78,
       "marketValue": 158.59
     },
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.047127,
       "targetWeight": 0.05,
-      "shares": 2.60379926,
+      "shares": 2.60379952,
       "price": 185.6,
       "marketValue": 483.27
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.029147,
       "targetWeight": 0.03,
-      "shares": 0.5849745,
+      "shares": 0.58497455,
       "price": 510.95,
       "marketValue": 298.89
     },
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.026508,
       "targetWeight": 0.03,
-      "shares": 0.77663322,
+      "shares": 0.77663314,
       "price": 350.01,
       "marketValue": 271.83
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.021684,
       "targetWeight": 0.025,
-      "shares": 0.75422954,
+      "shares": 0.75422962,
       "price": 294.82,
       "marketValue": 222.36
     },
