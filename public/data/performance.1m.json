@@ -2,11 +2,6 @@
   "range": "1M",
   "points": [
     {
-      "date": "2026-06-03",
-      "portfolio": 130.5617,
-      "benchmark": 119.4206
-    },
-    {
       "date": "2026-06-04",
       "portfolio": 130.7215,
       "benchmark": 119.8719
@@ -19,7 +14,7 @@
     {
       "date": "2026-06-08",
       "portfolio": 125.5134,
-      "benchmark": 117.0425
+      "benchmark": 117.0424
     },
     {
       "date": "2026-06-09",
@@ -29,7 +24,7 @@
     {
       "date": "2026-06-10",
       "portfolio": 121.393,
-      "benchmark": 114.8591
+      "benchmark": 114.859
     },
     {
       "date": "2026-06-11",
@@ -54,7 +49,7 @@
     {
       "date": "2026-06-17",
       "portfolio": 126.6856,
-      "benchmark": 117.318
+      "benchmark": 117.3179
     },
     {
       "date": "2026-06-18",
@@ -99,7 +94,7 @@
     {
       "date": "2026-07-01",
       "portfolio": 126.999,
-      "benchmark": 118.3822
+      "benchmark": 118.3821
     },
     {
       "date": "2026-07-02",

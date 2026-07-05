@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-04",
+  "asOf": "2026-07-05",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-07-02",
   "initialCapitalUsd": 8000.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94406646,
+      "shares": 0.9440664,
       "entryPrice": 508.4388,
       "currentPrice": 390.49,
       "entryValue": 480.0,
@@ -40,7 +40,7 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08298421,
+      "shares": 2.08298437,
       "entryPrice": 192.0322,
       "currentPrice": 359.91,
       "entryValue": 400.0,
@@ -249,14 +249,14 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.51244762,
+      "shares": 1.51244776,
       "entryPrice": 158.6832,
       "currentPrice": 108.84,
       "entryValue": 240.0,
       "marketValue": 164.61,
       "currentWeight": 0.016227,
       "pnlUsd": -75.39,
-      "returnPct": -31.411
+      "returnPct": -31.41
     },
     {
       "ticker": "CACI",

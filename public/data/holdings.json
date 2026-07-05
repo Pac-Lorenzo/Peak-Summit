@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-07-04",
+  "asOf": "2026-07-05",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.03634,
       "targetWeight": 0.06,
-      "shares": 0.94406646,
+      "shares": 0.9440664,
       "price": 390.49,
       "marketValue": 368.65
     },
@@ -33,7 +33,7 @@
       "name": "Google",
       "weight": 0.073902,
       "targetWeight": 0.05,
-      "shares": 2.08298421,
+      "shares": 2.08298437,
       "price": 359.91,
       "marketValue": 749.69
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.016227,
       "targetWeight": 0.03,
-      "shares": 1.51244762,
+      "shares": 1.51244776,
       "price": 108.84,
       "marketValue": 164.61
     },
