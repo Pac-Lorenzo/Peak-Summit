@@ -1,230 +1,230 @@
 {
-  "asOf": "2026-07-06",
+  "asOf": "2026-07-07",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
-      "weight": 0.05611,
+      "weight": 0.056869,
       "targetWeight": 0.05,
-      "shares": 1.87613584,
-      "price": 309.39,
-      "marketValue": 580.46
+      "shares": 1.8744088,
+      "price": 312.66,
+      "marketValue": 586.05
     },
     {
       "ticker": "AMZN",
       "name": "Amazon",
-      "weight": 0.036224,
+      "weight": 0.03664,
       "targetWeight": 0.045,
       "shares": 1.54645823,
-      "price": 242.3199,
-      "marketValue": 374.74
+      "price": 244.16,
+      "marketValue": 377.58
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "weight": 0.035062,
+      "weight": 0.035353,
       "targetWeight": 0.06,
-      "shares": 0.9440664,
-      "price": 384.21,
-      "marketValue": 362.72
+      "shares": 0.94202607,
+      "price": 386.74,
+      "marketValue": 364.32
     },
     {
       "ticker": "GOOGL",
       "name": "Google",
-      "weight": 0.07211,
+      "weight": 0.074028,
       "targetWeight": 0.05,
-      "shares": 2.08298421,
-      "price": 358.13,
-      "marketValue": 745.98
+      "shares": 2.08174079,
+      "price": 366.46,
+      "marketValue": 762.87
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA",
-      "weight": 0.051605,
+      "weight": 0.051541,
       "targetWeight": 0.06,
-      "shares": 2.71931706,
-      "price": 196.32,
-      "marketValue": 533.86
+      "shares": 2.71615152,
+      "price": 195.55,
+      "marketValue": 531.14
     },
     {
       "ticker": "META",
       "name": "Meta",
-      "weight": 0.037996,
+      "weight": 0.03902,
       "targetWeight": 0.06,
-      "shares": 0.67106058,
-      "price": 585.75,
-      "marketValue": 393.07
+      "shares": 0.66986566,
+      "price": 600.29,
+      "marketValue": 402.11
     },
     {
       "ticker": "PANW",
       "name": "Palo Alto Networks",
-      "weight": 0.054672,
+      "weight": 0.054289,
       "targetWeight": 0.04,
       "shares": 1.56479218,
-      "price": 361.4401,
-      "marketValue": 565.58
+      "price": 357.53,
+      "marketValue": 559.46
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom",
-      "weight": 0.040284,
+      "weight": 0.039594,
       "targetWeight": 0.04,
-      "shares": 1.09529298,
-      "price": 380.48,
-      "marketValue": 416.74
+      "shares": 1.09127293,
+      "price": 373.9,
+      "marketValue": 408.03
     },
     {
       "ticker": "PLTR",
       "name": "Palantir",
-      "weight": 0.032057,
+      "weight": 0.032585,
       "targetWeight": 0.05,
       "shares": 2.53356972,
-      "price": 130.895,
-      "marketValue": 331.63
+      "price": 132.54,
+      "marketValue": 335.8
     },
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor",
-      "weight": 0.073438,
+      "weight": 0.072663,
       "targetWeight": 0.05,
-      "shares": 1.66600942,
-      "price": 456.01,
-      "marketValue": 759.72
+      "shares": 1.65744655,
+      "price": 451.79,
+      "marketValue": 748.82
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "weight": 0.112963,
+      "weight": 0.111051,
       "targetWeight": 0.045,
       "shares": 2.07301619,
-      "price": 563.72,
-      "marketValue": 1168.6
+      "price": 552.05,
+      "marketValue": 1144.41
     },
     {
       "ticker": "CRWV",
       "name": "Coreweave",
-      "weight": 0.027049,
+      "weight": 0.027388,
       "targetWeight": 0.045,
       "shares": 3.26441788,
-      "price": 85.72,
-      "marketValue": 279.83
+      "price": 86.46,
+      "marketValue": 282.24
     },
     {
       "ticker": "ZS",
       "name": "Zscaler",
-      "weight": 0.01215,
+      "weight": 0.01212,
       "targetWeight": 0.03,
       "shares": 0.83033488,
-      "price": 151.375,
-      "marketValue": 125.69
+      "price": 150.42,
+      "marketValue": 124.9
     },
     {
       "ticker": "CRM",
       "name": "Salesforce",
-      "weight": 0.016709,
+      "weight": 0.01671,
       "targetWeight": 0.035,
-      "shares": 1.04484679,
-      "price": 165.44,
-      "marketValue": 172.86
+      "shares": 1.03955716,
+      "price": 165.65,
+      "marketValue": 172.2
     },
     {
       "ticker": "GFS",
       "name": "GlobalFoundries",
-      "weight": 0.054523,
+      "weight": 0.052601,
       "targetWeight": 0.04,
-      "shares": 7.87760953,
-      "price": 71.6,
-      "marketValue": 564.04
+      "shares": 7.86627329,
+      "price": 68.91,
+      "marketValue": 542.06
     },
     {
       "ticker": "RTX",
       "name": "Raytheon",
-      "weight": 0.050168,
+      "weight": 0.050668,
       "targetWeight": 0.05,
-      "shares": 2.60379952,
-      "price": 199.32,
-      "marketValue": 518.99
+      "shares": 2.59299844,
+      "price": 201.37,
+      "marketValue": 522.15
     },
     {
       "ticker": "LMT",
       "name": "Lockheed Martin",
-      "weight": 0.030342,
+      "weight": 0.030341,
       "targetWeight": 0.03,
-      "shares": 0.58116984,
-      "price": 540.098,
-      "marketValue": 313.89
+      "shares": 0.58116989,
+      "price": 538.0,
+      "marketValue": 312.67
     },
     {
       "ticker": "BA",
       "name": "Boeing",
-      "weight": 0.015056,
+      "weight": 0.015403,
       "targetWeight": 0.02,
       "shares": 0.67679031,
-      "price": 230.13,
-      "marketValue": 155.75
+      "price": 234.54,
+      "marketValue": 158.73
     },
     {
       "ticker": "NOC",
       "name": "Northrop Grumman",
-      "weight": 0.018654,
+      "weight": 0.018905,
       "targetWeight": 0.025,
-      "shares": 0.35567786,
-      "price": 542.57,
-      "marketValue": 192.98
+      "shares": 0.3556779,
+      "price": 547.75,
+      "marketValue": 194.82
     },
     {
       "ticker": "GD",
       "name": "General Dynamics",
-      "weight": 0.028151,
+      "weight": 0.028271,
       "targetWeight": 0.03,
-      "shares": 0.78005126,
-      "price": 373.34,
-      "marketValue": 291.22
+      "shares": 0.77304252,
+      "price": 376.88,
+      "marketValue": 291.34
     },
     {
       "ticker": "HII",
       "name": "Huntington Ingalls Industries",
-      "weight": 0.026229,
+      "weight": 0.02642,
       "targetWeight": 0.03,
-      "shares": 0.92976098,
-      "price": 291.84,
-      "marketValue": 271.34
+      "shares": 0.92576271,
+      "price": 294.1,
+      "marketValue": 272.27
     },
     {
       "ticker": "LHX",
       "name": "L3Harris Technologies",
-      "weight": 0.021946,
+      "weight": 0.021961,
       "targetWeight": 0.025,
-      "shares": 0.75422962,
-      "price": 301.015,
-      "marketValue": 227.03
+      "shares": 0.75118628,
+      "price": 301.27,
+      "marketValue": 226.31
     },
     {
       "ticker": "LDOS",
       "name": "Leidos",
-      "weight": 0.015873,
+      "weight": 0.015861,
       "targetWeight": 0.03,
-      "shares": 1.51244762,
-      "price": 108.57,
-      "marketValue": 164.21
+      "shares": 1.50339656,
+      "price": 108.72,
+      "marketValue": 163.45
     },
     {
       "ticker": "CACI",
       "name": "CACI International",
-      "weight": 0.02515,
+      "weight": 0.025394,
       "targetWeight": 0.03,
       "shares": 0.51795582,
-      "price": 502.32,
-      "marketValue": 260.18
+      "price": 505.24,
+      "marketValue": 261.69
     },
     {
       "ticker": "MRCY",
       "name": "Mercury Systems",
-      "weight": 0.055477,
+      "weight": 0.054325,
       "targetWeight": 0.03,
       "shares": 4.54890083,
-      "price": 126.165,
-      "marketValue": 573.91
+      "price": 123.07,
+      "marketValue": 559.83
     }
   ],
   "missingTickersDropped": [],
