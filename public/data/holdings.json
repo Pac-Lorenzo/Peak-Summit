@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-07-24",
+  "asOf": "2026-07-25",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.060852,
       "targetWeight": 0.05,
-      "shares": 1.87613571,
+      "shares": 1.87613584,
       "price": 321.66,
       "marketValue": 603.48
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.036325,
       "targetWeight": 0.06,
-      "shares": 0.94406635,
+      "shares": 0.94406646,
       "price": 381.58,
       "marketValue": 360.24
     },
@@ -42,7 +42,7 @@
       "name": "NVIDIA",
       "weight": 0.057243,
       "targetWeight": 0.06,
-      "shares": 2.71931706,
+      "shares": 2.71931729,
       "price": 208.76,
       "marketValue": 567.68
     },
@@ -51,7 +51,7 @@
       "name": "Meta",
       "weight": 0.041013,
       "targetWeight": 0.06,
-      "shares": 0.67106064,
+      "shares": 0.67106058,
       "price": 606.1,
       "marketValue": 406.73
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.016534,
       "targetWeight": 0.035,
-      "shares": 1.04484679,
+      "shares": 1.04484691,
       "price": 156.93,
       "marketValue": 163.97
     },
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.054916,
       "targetWeight": 0.05,
-      "shares": 2.60379952,
+      "shares": 2.603799,
       "price": 209.16,
       "marketValue": 544.61
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.033539,
       "targetWeight": 0.03,
-      "shares": 0.58497446,
+      "shares": 0.5849745,
       "price": 568.59,
       "marketValue": 332.61
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.019218,
       "targetWeight": 0.025,
-      "shares": 0.35724331,
+      "shares": 0.35724327,
       "price": 533.48,
       "marketValue": 190.58
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.026916,
       "targetWeight": 0.03,
-      "shares": 0.92976109,
+      "shares": 0.92976098,
       "price": 287.09,
       "marketValue": 266.93
     },

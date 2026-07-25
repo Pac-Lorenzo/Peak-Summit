@@ -1,13 +1,13 @@
 {
-  "asOf": "2026-07-24",
+  "asOf": "2026-07-25",
   "entryDateUsed": "2025-07-28",
-  "valuationDate": "2026-07-23",
+  "valuationDate": "2026-07-24",
   "initialCapitalUsd": 8000.0,
   "aumUsd": 9917.07,
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87613571,
+      "shares": 1.87613584,
       "entryPrice": 213.2042,
       "currentPrice": 321.66,
       "entryValue": 400.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94406635,
+      "shares": 0.94406646,
       "entryPrice": 508.4388,
       "currentPrice": 381.58,
       "entryValue": 480.0,
@@ -51,7 +51,7 @@
     },
     {
       "ticker": "NVDA",
-      "shares": 2.71931706,
+      "shares": 2.71931729,
       "entryPrice": 176.5149,
       "currentPrice": 208.76,
       "entryValue": 480.0,
@@ -62,7 +62,7 @@
     },
     {
       "ticker": "META",
-      "shares": 0.67106064,
+      "shares": 0.67106058,
       "entryPrice": 715.2856,
       "currentPrice": 606.1,
       "entryValue": 480.0,
@@ -150,8 +150,8 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04484679,
-      "entryPrice": 267.9819,
+      "shares": 1.04484691,
+      "entryPrice": 267.9818,
       "currentPrice": 156.93,
       "entryValue": 280.0,
       "marketValue": 163.97,
@@ -172,7 +172,7 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.60379952,
+      "shares": 2.603799,
       "entryPrice": 153.6217,
       "currentPrice": 209.16,
       "entryValue": 400.0,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58497446,
+      "shares": 0.5849745,
       "entryPrice": 410.2743,
       "currentPrice": 568.59,
       "entryValue": 240.0,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.35724331,
-      "entryPrice": 559.8425,
+      "shares": 0.35724327,
+      "entryPrice": 559.8426,
       "currentPrice": 533.48,
       "entryValue": 200.0,
       "marketValue": 190.58,
@@ -227,8 +227,8 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.92976109,
-      "entryPrice": 258.1308,
+      "shares": 0.92976098,
+      "entryPrice": 258.1309,
       "currentPrice": 287.09,
       "entryValue": 240.0,
       "marketValue": 266.93,
