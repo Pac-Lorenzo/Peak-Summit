@@ -3,18 +3,18 @@
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-07-27",
   "initialCapitalUsd": 8000.0,
-  "aumUsd": 9793.77,
+  "aumUsd": 9814.63,
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.8744088,
-      "entryPrice": 213.4006,
+      "shares": 1.87613584,
+      "entryPrice": 213.2042,
       "currentPrice": 336.91,
       "entryValue": 400.0,
-      "marketValue": 631.51,
-      "currentWeight": 0.06448,
-      "pnlUsd": 231.51,
-      "returnPct": 57.877
+      "marketValue": 632.09,
+      "currentWeight": 0.064403,
+      "pnlUsd": 232.09,
+      "returnPct": 58.022
     },
     {
       "ticker": "AMZN",
@@ -23,53 +23,53 @@
       "currentPrice": 231.39,
       "entryValue": 360.0,
       "marketValue": 357.83,
-      "currentWeight": 0.036537,
+      "currentWeight": 0.036459,
       "pnlUsd": -2.17,
       "returnPct": -0.601
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94202607,
-      "entryPrice": 509.54,
+      "shares": 0.9440664,
+      "entryPrice": 508.4388,
       "currentPrice": 389.1,
       "entryValue": 480.0,
-      "marketValue": 366.54,
-      "currentWeight": 0.037426,
-      "pnlUsd": -113.46,
-      "returnPct": -23.637
+      "marketValue": 367.34,
+      "currentWeight": 0.037427,
+      "pnlUsd": -112.66,
+      "returnPct": -23.472
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08174079,
-      "entryPrice": 192.1469,
+      "shares": 2.08298421,
+      "entryPrice": 192.0322,
       "currentPrice": 326.56,
       "entryValue": 400.0,
-      "marketValue": 679.81,
-      "currentWeight": 0.069413,
-      "pnlUsd": 279.81,
-      "returnPct": 69.953
+      "marketValue": 680.22,
+      "currentWeight": 0.069307,
+      "pnlUsd": 280.22,
+      "returnPct": 70.055
     },
     {
       "ticker": "NVDA",
-      "shares": 2.71615152,
-      "entryPrice": 176.7206,
+      "shares": 2.71931706,
+      "entryPrice": 176.5149,
       "currentPrice": 196.51,
       "entryValue": 480.0,
-      "marketValue": 533.75,
-      "currentWeight": 0.054499,
-      "pnlUsd": 53.75,
-      "returnPct": 11.198
+      "marketValue": 534.37,
+      "currentWeight": 0.054447,
+      "pnlUsd": 54.37,
+      "returnPct": 11.328
     },
     {
       "ticker": "META",
-      "shares": 0.66986566,
-      "entryPrice": 716.5616,
+      "shares": 0.67106058,
+      "entryPrice": 715.2856,
       "currentPrice": 593.87,
       "entryValue": 480.0,
-      "marketValue": 397.81,
-      "currentWeight": 0.040619,
-      "pnlUsd": -82.19,
-      "returnPct": -17.122
+      "marketValue": 398.52,
+      "currentWeight": 0.040605,
+      "pnlUsd": -81.48,
+      "returnPct": -16.974
     },
     {
       "ticker": "PANW",
@@ -78,20 +78,20 @@
       "currentPrice": 317.32,
       "entryValue": 320.0,
       "marketValue": 496.54,
-      "currentWeight": 0.0507,
+      "currentWeight": 0.050592,
       "pnlUsd": 176.54,
       "returnPct": 55.169
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09127293,
-      "entryPrice": 293.2355,
+      "shares": 1.09529287,
+      "entryPrice": 292.1593,
       "currentPrice": 383.22,
       "entryValue": 320.0,
-      "marketValue": 418.2,
-      "currentWeight": 0.0427,
-      "pnlUsd": 98.2,
-      "returnPct": 30.687
+      "marketValue": 419.74,
+      "currentWeight": 0.042767,
+      "pnlUsd": 99.74,
+      "returnPct": 31.168
     },
     {
       "ticker": "PLTR",
@@ -100,20 +100,20 @@
       "currentPrice": 131.53,
       "entryValue": 400.0,
       "marketValue": 333.24,
-      "currentWeight": 0.034026,
+      "currentWeight": 0.033953,
       "pnlUsd": -66.76,
       "returnPct": -16.69
     },
     {
       "ticker": "TSM",
-      "shares": 1.65744655,
-      "entryPrice": 241.3351,
+      "shares": 1.66600942,
+      "entryPrice": 240.0947,
       "currentPrice": 399.09,
       "entryValue": 400.0,
-      "marketValue": 661.47,
-      "currentWeight": 0.06754,
-      "pnlUsd": 261.47,
-      "returnPct": 65.368
+      "marketValue": 664.89,
+      "currentWeight": 0.067745,
+      "pnlUsd": 264.89,
+      "returnPct": 66.222
     },
     {
       "ticker": "AMD",
@@ -122,7 +122,7 @@
       "currentPrice": 494.95,
       "entryValue": 360.0,
       "marketValue": 1026.04,
-      "currentWeight": 0.104765,
+      "currentWeight": 0.104542,
       "pnlUsd": 666.04,
       "returnPct": 185.011
     },
@@ -133,7 +133,7 @@
       "currentPrice": 70.79,
       "entryValue": 360.0,
       "marketValue": 231.09,
-      "currentWeight": 0.023595,
+      "currentWeight": 0.023545,
       "pnlUsd": -128.91,
       "returnPct": -35.809
     },
@@ -144,53 +144,53 @@
       "currentPrice": 147.3,
       "entryValue": 240.0,
       "marketValue": 122.31,
-      "currentWeight": 0.012488,
+      "currentWeight": 0.012462,
       "pnlUsd": -117.69,
       "returnPct": -49.038
     },
     {
       "ticker": "CRM",
-      "shares": 1.03955716,
-      "entryPrice": 269.3455,
+      "shares": 1.04484679,
+      "entryPrice": 267.9819,
       "currentPrice": 173.6,
       "entryValue": 280.0,
-      "marketValue": 180.47,
-      "currentWeight": 0.018427,
-      "pnlUsd": -99.53,
-      "returnPct": -35.547
+      "marketValue": 181.39,
+      "currentWeight": 0.018481,
+      "pnlUsd": -98.61,
+      "returnPct": -35.219
     },
     {
       "ticker": "GFS",
-      "shares": 7.86627329,
-      "entryPrice": 40.68,
+      "shares": 7.87760953,
+      "entryPrice": 40.6215,
       "currentPrice": 53.18,
       "entryValue": 320.0,
-      "marketValue": 418.33,
-      "currentWeight": 0.042714,
-      "pnlUsd": 98.33,
-      "returnPct": 30.728
+      "marketValue": 418.93,
+      "currentWeight": 0.042684,
+      "pnlUsd": 98.93,
+      "returnPct": 30.916
     },
     {
       "ticker": "RTX",
-      "shares": 2.59299844,
-      "entryPrice": 154.2616,
+      "shares": 2.603799,
+      "entryPrice": 153.6217,
       "currentPrice": 218.42,
       "entryValue": 400.0,
-      "marketValue": 566.36,
-      "currentWeight": 0.057829,
-      "pnlUsd": 166.36,
-      "returnPct": 41.591
+      "marketValue": 568.72,
+      "currentWeight": 0.057946,
+      "pnlUsd": 168.72,
+      "returnPct": 42.18
     },
     {
       "ticker": "LMT",
-      "shares": 0.58116989,
-      "entryPrice": 412.9601,
+      "shares": 0.5849745,
+      "entryPrice": 410.2743,
       "currentPrice": 580.0,
       "entryValue": 240.0,
-      "marketValue": 337.08,
-      "currentWeight": 0.034418,
-      "pnlUsd": 97.08,
-      "returnPct": 40.449
+      "marketValue": 339.29,
+      "currentWeight": 0.034569,
+      "pnlUsd": 99.29,
+      "returnPct": 41.369
     },
     {
       "ticker": "BA",
@@ -199,64 +199,64 @@
       "currentPrice": 211.5,
       "entryValue": 160.0,
       "marketValue": 143.14,
-      "currentWeight": 0.014616,
+      "currentWeight": 0.014584,
       "pnlUsd": -16.86,
       "returnPct": -10.537
     },
     {
       "ticker": "NOC",
-      "shares": 0.3556779,
-      "entryPrice": 562.3065,
+      "shares": 0.35724327,
+      "entryPrice": 559.8426,
       "currentPrice": 547.58,
       "entryValue": 200.0,
-      "marketValue": 194.76,
-      "currentWeight": 0.019886,
-      "pnlUsd": -5.24,
-      "returnPct": -2.619
+      "marketValue": 195.62,
+      "currentWeight": 0.019931,
+      "pnlUsd": -4.38,
+      "returnPct": -2.19
     },
     {
       "ticker": "GD",
-      "shares": 0.77304252,
-      "entryPrice": 310.4616,
+      "shares": 0.78005126,
+      "entryPrice": 307.6721,
       "currentPrice": 389.14,
       "entryValue": 240.0,
-      "marketValue": 300.82,
-      "currentWeight": 0.030716,
-      "pnlUsd": 60.82,
-      "returnPct": 25.342
+      "marketValue": 303.55,
+      "currentWeight": 0.030928,
+      "pnlUsd": 63.55,
+      "returnPct": 26.479
     },
     {
       "ticker": "HII",
-      "shares": 0.92576271,
-      "entryPrice": 259.2457,
+      "shares": 0.92976098,
+      "entryPrice": 258.1309,
       "currentPrice": 288.25,
       "entryValue": 240.0,
-      "marketValue": 266.85,
-      "currentWeight": 0.027247,
-      "pnlUsd": 26.85,
-      "returnPct": 11.188
+      "marketValue": 268.0,
+      "currentWeight": 0.027307,
+      "pnlUsd": 28.0,
+      "returnPct": 11.668
     },
     {
       "ticker": "LHX",
-      "shares": 0.75118628,
-      "entryPrice": 266.2455,
+      "shares": 0.75422971,
+      "entryPrice": 265.1712,
       "currentPrice": 303.48,
       "entryValue": 200.0,
-      "marketValue": 227.97,
-      "currentWeight": 0.023277,
-      "pnlUsd": 27.97,
-      "returnPct": 13.985
+      "marketValue": 228.89,
+      "currentWeight": 0.023322,
+      "pnlUsd": 28.89,
+      "returnPct": 14.447
     },
     {
       "ticker": "LDOS",
-      "shares": 1.50339656,
-      "entryPrice": 159.6385,
+      "shares": 1.51244776,
+      "entryPrice": 158.6832,
       "currentPrice": 114.95,
       "entryValue": 240.0,
-      "marketValue": 172.82,
-      "currentWeight": 0.017645,
-      "pnlUsd": -67.18,
-      "returnPct": -27.994
+      "marketValue": 173.86,
+      "currentWeight": 0.017714,
+      "pnlUsd": -66.14,
+      "returnPct": -27.56
     },
     {
       "ticker": "CACI",
@@ -265,7 +265,7 @@
       "currentPrice": 495.89,
       "entryValue": 240.0,
       "marketValue": 256.85,
-      "currentWeight": 0.026226,
+      "currentWeight": 0.02617,
       "pnlUsd": 16.85,
       "returnPct": 7.02
     },
@@ -276,7 +276,7 @@
       "currentPrice": 103.8,
       "entryValue": 240.0,
       "marketValue": 472.18,
-      "currentWeight": 0.048212,
+      "currentWeight": 0.048109,
       "pnlUsd": 232.18,
       "returnPct": 96.74
     }
