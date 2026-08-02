@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-08-01",
+  "asOf": "2026-08-02",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-07-31",
   "initialCapitalUsd": 8000.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.9440664,
+      "shares": 0.94406635,
       "entryPrice": 508.4388,
       "currentPrice": 464.72,
       "entryValue": 480.0,
@@ -62,8 +62,8 @@
     },
     {
       "ticker": "META",
-      "shares": 0.67106052,
-      "entryPrice": 715.2857,
+      "shares": 0.67106058,
+      "entryPrice": 715.2856,
       "currentPrice": 556.71,
       "entryValue": 480.0,
       "marketValue": 373.59,
@@ -84,7 +84,7 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09529287,
+      "shares": 1.09529298,
       "entryPrice": 292.1593,
       "currentPrice": 389.28,
       "entryValue": 320.0,
@@ -150,8 +150,8 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04484691,
-      "entryPrice": 267.9818,
+      "shares": 1.04484679,
+      "entryPrice": 267.9819,
       "currentPrice": 184.02,
       "entryValue": 280.0,
       "marketValue": 192.27,
@@ -172,7 +172,7 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.60379926,
+      "shares": 2.603799,
       "entryPrice": 153.6217,
       "currentPrice": 215.22,
       "entryValue": 400.0,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.35724327,
-      "entryPrice": 559.8426,
+      "shares": 0.35724331,
+      "entryPrice": 559.8425,
       "currentPrice": 542.48,
       "entryValue": 200.0,
       "marketValue": 193.8,
@@ -238,8 +238,8 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.75422954,
-      "entryPrice": 265.1713,
+      "shares": 0.75422962,
+      "entryPrice": 265.1712,
       "currentPrice": 277.06,
       "entryValue": 200.0,
       "marketValue": 208.97,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.51244776,
+      "shares": 1.51244762,
       "entryPrice": 158.6832,
       "currentPrice": 115.6,
       "entryValue": 240.0,

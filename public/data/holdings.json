@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-08-01",
+  "asOf": "2026-08-02",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.044357,
       "targetWeight": 0.06,
-      "shares": 0.9440664,
+      "shares": 0.94406635,
       "price": 464.72,
       "marketValue": 438.73
     },
@@ -51,7 +51,7 @@
       "name": "Meta",
       "weight": 0.037771,
       "targetWeight": 0.06,
-      "shares": 0.67106052,
+      "shares": 0.67106058,
       "price": 556.71,
       "marketValue": 373.59
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.043109,
       "targetWeight": 0.04,
-      "shares": 1.09529287,
+      "shares": 1.09529298,
       "price": 389.28,
       "marketValue": 426.38
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.01944,
       "targetWeight": 0.035,
-      "shares": 1.04484691,
+      "shares": 1.04484679,
       "price": 184.02,
       "marketValue": 192.27
     },
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.056658,
       "targetWeight": 0.05,
-      "shares": 2.60379926,
+      "shares": 2.603799,
       "price": 215.22,
       "marketValue": 560.39
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.019594,
       "targetWeight": 0.025,
-      "shares": 0.35724327,
+      "shares": 0.35724331,
       "price": 542.48,
       "marketValue": 193.8
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.021128,
       "targetWeight": 0.025,
-      "shares": 0.75422954,
+      "shares": 0.75422962,
       "price": 277.06,
       "marketValue": 208.97
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.017677,
       "targetWeight": 0.03,
-      "shares": 1.51244776,
+      "shares": 1.51244762,
       "price": 115.6,
       "marketValue": 174.84
     },
