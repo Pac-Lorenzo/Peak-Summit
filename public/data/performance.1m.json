@@ -108,8 +108,13 @@
     },
     {
       "date": "2026-09-16",
-      "portfolio": 128.4612,
-      "benchmark": 120.6418
+      "portfolio": 127.7361,
+      "benchmark": 119.6981
+    },
+    {
+      "date": "2026-09-17",
+      "portfolio": 129.2759,
+      "benchmark": 120.7708
     }
   ]
 }
