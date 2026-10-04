@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-03",
+  "asOf": "2026-10-04",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-10-02",
   "initialCapitalUsd": 8000.0,
@@ -7,8 +7,8 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87775402,
-      "entryPrice": 213.0204,
+      "shares": 1.87775388,
+      "entryPrice": 213.0205,
       "currentPrice": 333.69,
       "entryValue": 400.0,
       "marketValue": 626.59,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94584358,
+      "shares": 0.94584363,
       "entryPrice": 507.4835,
       "currentPrice": 517.53,
       "entryValue": 480.0,
@@ -40,18 +40,18 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08432307,
+      "shares": 2.08432324,
       "entryPrice": 191.9088,
       "currentPrice": 343.5,
       "entryValue": 400.0,
-      "marketValue": 715.96,
+      "marketValue": 715.97,
       "currentWeight": 0.066908,
-      "pnlUsd": 315.96,
+      "pnlUsd": 315.97,
       "returnPct": 78.991
     },
     {
       "ticker": "NVDA",
-      "shares": 2.72235969,
+      "shares": 2.72235992,
       "entryPrice": 176.3176,
       "currentPrice": 233.95,
       "entryValue": 480.0,
@@ -62,7 +62,7 @@
     },
     {
       "ticker": "META",
-      "shares": 0.67159015,
+      "shares": 0.67159021,
       "entryPrice": 714.7216,
       "currentPrice": 728.08,
       "entryValue": 480.0,
@@ -84,8 +84,8 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09728733,
-      "entryPrice": 291.6283,
+      "shares": 1.09728744,
+      "entryPrice": 291.6282,
       "currentPrice": 355.14,
       "entryValue": 320.0,
       "marketValue": 389.69,
@@ -150,8 +150,8 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04668491,
-      "entryPrice": 267.5113,
+      "shares": 1.04668503,
+      "entryPrice": 267.5112,
       "currentPrice": 234.69,
       "entryValue": 280.0,
       "marketValue": 245.65,
@@ -172,8 +172,8 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.61244874,
-      "entryPrice": 153.1131,
+      "shares": 2.612449,
+      "entryPrice": 153.113,
       "currentPrice": 184.68,
       "entryValue": 400.0,
       "marketValue": 482.47,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58859265,
+      "shares": 0.58859269,
       "entryPrice": 407.7523,
       "currentPrice": 505.41,
       "entryValue": 240.0,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.35886804,
-      "entryPrice": 557.3079,
+      "shares": 0.358868,
+      "entryPrice": 557.308,
       "currentPrice": 478.0,
       "entryValue": 200.0,
       "marketValue": 171.54,
@@ -227,7 +227,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.93409694,
+      "shares": 0.93409705,
       "entryPrice": 256.9326,
       "currentPrice": 268.54,
       "entryValue": 240.0,
@@ -238,7 +238,7 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.7578433,
+      "shares": 0.75784339,
       "entryPrice": 263.9068,
       "currentPrice": 236.6,
       "entryValue": 200.0,

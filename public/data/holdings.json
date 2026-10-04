@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-10-03",
+  "asOf": "2026-10-04",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.058556,
       "targetWeight": 0.05,
-      "shares": 1.87775402,
+      "shares": 1.87775388,
       "price": 333.69,
       "marketValue": 626.59
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.045745,
       "targetWeight": 0.06,
-      "shares": 0.94584358,
+      "shares": 0.94584363,
       "price": 517.53,
       "marketValue": 489.5
     },
@@ -33,16 +33,16 @@
       "name": "Google",
       "weight": 0.066908,
       "targetWeight": 0.05,
-      "shares": 2.08432307,
+      "shares": 2.08432324,
       "price": 343.5,
-      "marketValue": 715.96
+      "marketValue": 715.97
     },
     {
       "ticker": "NVDA",
       "name": "NVIDIA",
       "weight": 0.059519,
       "targetWeight": 0.06,
-      "shares": 2.72235969,
+      "shares": 2.72235992,
       "price": 233.95,
       "marketValue": 636.9
     },
@@ -51,7 +51,7 @@
       "name": "Meta",
       "weight": 0.045695,
       "targetWeight": 0.06,
-      "shares": 0.67159015,
+      "shares": 0.67159021,
       "price": 728.08,
       "marketValue": 488.97
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.036417,
       "targetWeight": 0.04,
-      "shares": 1.09728733,
+      "shares": 1.09728744,
       "price": 355.14,
       "marketValue": 389.69
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.022956,
       "targetWeight": 0.035,
-      "shares": 1.04668491,
+      "shares": 1.04668503,
       "price": 234.69,
       "marketValue": 245.65
     },
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.045087,
       "targetWeight": 0.05,
-      "shares": 2.61244874,
+      "shares": 2.612449,
       "price": 184.68,
       "marketValue": 482.47
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.0278,
       "targetWeight": 0.03,
-      "shares": 0.58859265,
+      "shares": 0.58859269,
       "price": 505.41,
       "marketValue": 297.48
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.016031,
       "targetWeight": 0.025,
-      "shares": 0.35886804,
+      "shares": 0.358868,
       "price": 478.0,
       "marketValue": 171.54
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.023442,
       "targetWeight": 0.03,
-      "shares": 0.93409694,
+      "shares": 0.93409705,
       "price": 268.54,
       "marketValue": 250.84
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.016756,
       "targetWeight": 0.025,
-      "shares": 0.7578433,
+      "shares": 0.75784339,
       "price": 236.6,
       "marketValue": 179.31
     },
