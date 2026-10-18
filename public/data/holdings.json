@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-17",
+  "asOf": "2026-10-18",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.049293,
       "targetWeight": 0.06,
-      "shares": 0.94584369,
+      "shares": 0.94584358,
       "price": 529.05,
       "marketValue": 500.4
     },
@@ -33,7 +33,7 @@
       "name": "Google",
       "weight": 0.069931,
       "targetWeight": 0.05,
-      "shares": 2.08432324,
+      "shares": 2.08432307,
       "price": 340.59,
       "marketValue": 709.9
     },
@@ -51,7 +51,7 @@
       "name": "Meta",
       "weight": 0.046927,
       "targetWeight": 0.06,
-      "shares": 0.67159009,
+      "shares": 0.67159015,
       "price": 709.33,
       "marketValue": 476.38
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.035535,
       "targetWeight": 0.04,
-      "shares": 1.09728721,
+      "shares": 1.09728744,
       "price": 328.75,
       "marketValue": 360.73
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.024818,
       "targetWeight": 0.035,
-      "shares": 1.04668491,
+      "shares": 1.04668515,
       "price": 240.7,
       "marketValue": 251.94
     },
@@ -132,7 +132,7 @@
       "name": "GlobalFoundries",
       "weight": 0.036315,
       "targetWeight": 0.04,
-      "shares": 7.89737322,
+      "shares": 7.89737397,
       "price": 46.68,
       "marketValue": 368.65
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.032011,
       "targetWeight": 0.03,
-      "shares": 0.58859274,
+      "shares": 0.58859269,
       "price": 552.09,
       "marketValue": 324.96
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.018552,
       "targetWeight": 0.025,
-      "shares": 0.75784339,
+      "shares": 0.7578433,
       "price": 248.51,
       "marketValue": 188.33
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.018662,
       "targetWeight": 0.03,
-      "shares": 1.51735974,
+      "shares": 1.51735989,
       "price": 124.85,
       "marketValue": 189.44
     },
