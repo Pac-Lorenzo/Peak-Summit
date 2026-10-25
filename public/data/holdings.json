@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-24",
+  "asOf": "2026-10-25",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.048635,
       "targetWeight": 0.06,
-      "shares": 0.94584363,
+      "shares": 0.94584369,
       "price": 524.51,
       "marketValue": 496.1
     },
@@ -33,7 +33,7 @@
       "name": "Google",
       "weight": 0.065429,
       "targetWeight": 0.05,
-      "shares": 2.08432307,
+      "shares": 2.08432291,
       "price": 320.21,
       "marketValue": 667.42
     },
@@ -42,7 +42,7 @@
       "name": "NVIDIA",
       "weight": 0.056301,
       "targetWeight": 0.06,
-      "shares": 2.72235969,
+      "shares": 2.72235992,
       "price": 210.96,
       "marketValue": 574.31
     },
@@ -51,7 +51,7 @@
       "name": "Meta",
       "weight": 0.042309,
       "targetWeight": 0.06,
-      "shares": 0.67159027,
+      "shares": 0.67159015,
       "price": 642.62,
       "marketValue": 431.58
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.034603,
       "targetWeight": 0.04,
-      "shares": 1.09728733,
+      "shares": 1.09728721,
       "price": 321.68,
       "marketValue": 352.98
     },
@@ -87,7 +87,7 @@
       "name": "Taiwan Semiconductor",
       "weight": 0.068536,
       "targetWeight": 0.05,
-      "shares": 1.67047872,
+      "shares": 1.67047883,
       "price": 418.51,
       "marketValue": 699.11
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.034862,
       "targetWeight": 0.03,
-      "shares": 0.58859274,
+      "shares": 0.58859278,
       "price": 604.18,
       "marketValue": 355.62
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.018868,
       "targetWeight": 0.025,
-      "shares": 0.7578433,
+      "shares": 0.75784339,
       "price": 253.97,
       "marketValue": 192.47
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.020242,
       "targetWeight": 0.03,
-      "shares": 1.51735974,
+      "shares": 1.51735989,
       "price": 136.08,
       "marketValue": 206.48
     },

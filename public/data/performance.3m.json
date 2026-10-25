@@ -2,14 +2,9 @@
   "range": "3M",
   "points": [
     {
-      "date": "2026-07-24",
-      "portfolio": 122.817,
-      "benchmark": 117.2979
-    },
-    {
       "date": "2026-07-27",
       "portfolio": 122.6829,
-      "benchmark": 117.3233
+      "benchmark": 117.3234
     },
     {
       "date": "2026-07-28",
@@ -29,12 +24,12 @@
     {
       "date": "2026-07-31",
       "portfolio": 123.6339,
-      "benchmark": 118.5837
+      "benchmark": 118.5838
     },
     {
       "date": "2026-08-03",
       "portfolio": 127.1503,
-      "benchmark": 120.2727
+      "benchmark": 120.2728
     },
     {
       "date": "2026-08-04",
@@ -84,7 +79,7 @@
     {
       "date": "2026-08-17",
       "portfolio": 133.0552,
-      "benchmark": 122.6538
+      "benchmark": 122.6539
     },
     {
       "date": "2026-08-18",
@@ -114,12 +109,12 @@
     {
       "date": "2026-08-25",
       "portfolio": 126.02,
-      "benchmark": 121.5807
+      "benchmark": 121.5808
     },
     {
       "date": "2026-08-26",
       "portfolio": 126.6548,
-      "benchmark": 121.6077
+      "benchmark": 121.6078
     },
     {
       "date": "2026-08-27",
@@ -169,7 +164,7 @@
     {
       "date": "2026-09-10",
       "portfolio": 126.257,
-      "benchmark": 120.2981
+      "benchmark": 120.2982
     },
     {
       "date": "2026-09-11",
@@ -224,7 +219,7 @@
     {
       "date": "2026-09-25",
       "portfolio": 132.879,
-      "benchmark": 122.7483
+      "benchmark": 122.7484
     },
     {
       "date": "2026-09-28",
@@ -234,7 +229,7 @@
     {
       "date": "2026-09-29",
       "portfolio": 131.4535,
-      "benchmark": 121.6105
+      "benchmark": 121.6106
     },
     {
       "date": "2026-09-30",
@@ -249,12 +244,12 @@
     {
       "date": "2026-10-02",
       "portfolio": 133.7589,
-      "benchmark": 122.4762
+      "benchmark": 122.4763
     },
     {
       "date": "2026-10-05",
       "portfolio": 134.2949,
-      "benchmark": 123.3021
+      "benchmark": 123.3022
     },
     {
       "date": "2026-10-06",
@@ -309,7 +304,7 @@
     {
       "date": "2026-10-20",
       "portfolio": 127.9041,
-      "benchmark": 122.3823
+      "benchmark": 122.3824
     },
     {
       "date": "2026-10-21",

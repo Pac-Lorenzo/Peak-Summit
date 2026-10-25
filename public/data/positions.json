@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-24",
+  "asOf": "2026-10-25",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-10-23",
   "initialCapitalUsd": 8000.0,
@@ -29,8 +29,8 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94584363,
-      "entryPrice": 507.4835,
+      "shares": 0.94584369,
+      "entryPrice": 507.4834,
       "currentPrice": 524.51,
       "entryValue": 480.0,
       "marketValue": 496.1,
@@ -40,7 +40,7 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08432307,
+      "shares": 2.08432291,
       "entryPrice": 191.9088,
       "currentPrice": 320.21,
       "entryValue": 400.0,
@@ -51,7 +51,7 @@
     },
     {
       "ticker": "NVDA",
-      "shares": 2.72235969,
+      "shares": 2.72235992,
       "entryPrice": 176.3176,
       "currentPrice": 210.96,
       "entryValue": 480.0,
@@ -62,8 +62,8 @@
     },
     {
       "ticker": "META",
-      "shares": 0.67159027,
-      "entryPrice": 714.7215,
+      "shares": 0.67159015,
+      "entryPrice": 714.7216,
       "currentPrice": 642.62,
       "entryValue": 480.0,
       "marketValue": 431.58,
@@ -84,7 +84,7 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09728733,
+      "shares": 1.09728721,
       "entryPrice": 291.6283,
       "currentPrice": 321.68,
       "entryValue": 320.0,
@@ -106,7 +106,7 @@
     },
     {
       "ticker": "TSM",
-      "shares": 1.67047872,
+      "shares": 1.67047883,
       "entryPrice": 239.4523,
       "currentPrice": 418.51,
       "entryValue": 400.0,
@@ -183,7 +183,7 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58859274,
+      "shares": 0.58859278,
       "entryPrice": 407.7522,
       "currentPrice": 604.18,
       "entryValue": 240.0,
@@ -238,7 +238,7 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.7578433,
+      "shares": 0.75784339,
       "entryPrice": 263.9068,
       "currentPrice": 253.97,
       "entryValue": 200.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.51735974,
+      "shares": 1.51735989,
       "entryPrice": 158.1695,
       "currentPrice": 136.08,
       "entryValue": 240.0,
