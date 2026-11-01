@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-31",
+  "asOf": "2026-11-01",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-10-30",
   "initialCapitalUsd": 8000.0,
@@ -7,7 +7,7 @@
   "positions": [
     {
       "ticker": "AAPL",
-      "shares": 1.87775375,
+      "shares": 1.87775388,
       "entryPrice": 213.0205,
       "currentPrice": 344.63,
       "entryValue": 400.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94584363,
+      "shares": 0.94584352,
       "entryPrice": 507.4835,
       "currentPrice": 521.91,
       "entryValue": 480.0,
@@ -84,8 +84,8 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09728744,
-      "entryPrice": 291.6282,
+      "shares": 1.09728733,
+      "entryPrice": 291.6283,
       "currentPrice": 326.08,
       "entryValue": 320.0,
       "marketValue": 357.8,
@@ -106,7 +106,7 @@
     },
     {
       "ticker": "TSM",
-      "shares": 1.67047883,
+      "shares": 1.67047872,
       "entryPrice": 239.4523,
       "currentPrice": 406.13,
       "entryValue": 400.0,
@@ -150,8 +150,8 @@
     },
     {
       "ticker": "CRM",
-      "shares": 1.04668491,
-      "entryPrice": 267.5113,
+      "shares": 1.04668503,
+      "entryPrice": 267.5112,
       "currentPrice": 229.17,
       "entryValue": 280.0,
       "marketValue": 239.87,
@@ -172,8 +172,8 @@
     },
     {
       "ticker": "RTX",
-      "shares": 2.61244874,
-      "entryPrice": 153.1131,
+      "shares": 2.61244926,
+      "entryPrice": 153.113,
       "currentPrice": 199.8,
       "entryValue": 400.0,
       "marketValue": 521.97,
@@ -205,8 +205,8 @@
     },
     {
       "ticker": "NOC",
-      "shares": 0.35886804,
-      "entryPrice": 557.3079,
+      "shares": 0.358868,
+      "entryPrice": 557.308,
       "currentPrice": 557.54,
       "entryValue": 200.0,
       "marketValue": 200.08,
@@ -216,7 +216,7 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.78382898,
+      "shares": 0.78382906,
       "entryPrice": 306.1892,
       "currentPrice": 372.59,
       "entryValue": 240.0,
@@ -249,7 +249,7 @@
     },
     {
       "ticker": "LDOS",
-      "shares": 1.51735989,
+      "shares": 1.51735974,
       "entryPrice": 158.1695,
       "currentPrice": 142.98,
       "entryValue": 240.0,

@@ -1,12 +1,12 @@
 {
-  "asOf": "2026-10-31",
+  "asOf": "2026-11-01",
   "holdings": [
     {
       "ticker": "AAPL",
       "name": "Apple",
       "weight": 0.064289,
       "targetWeight": 0.05,
-      "shares": 1.87775375,
+      "shares": 1.87775388,
       "price": 344.63,
       "marketValue": 647.13
     },
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.049041,
       "targetWeight": 0.06,
-      "shares": 0.94584363,
+      "shares": 0.94584352,
       "price": 521.91,
       "marketValue": 493.65
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.035546,
       "targetWeight": 0.04,
-      "shares": 1.09728744,
+      "shares": 1.09728733,
       "price": 326.08,
       "marketValue": 357.8
     },
@@ -87,7 +87,7 @@
       "name": "Taiwan Semiconductor",
       "weight": 0.067398,
       "targetWeight": 0.05,
-      "shares": 1.67047883,
+      "shares": 1.67047872,
       "price": 406.13,
       "marketValue": 678.43
     },
@@ -123,7 +123,7 @@
       "name": "Salesforce",
       "weight": 0.02383,
       "targetWeight": 0.035,
-      "shares": 1.04668491,
+      "shares": 1.04668503,
       "price": 229.17,
       "marketValue": 239.87
     },
@@ -141,7 +141,7 @@
       "name": "Raytheon",
       "weight": 0.051855,
       "targetWeight": 0.05,
-      "shares": 2.61244874,
+      "shares": 2.61244926,
       "price": 199.8,
       "marketValue": 521.97
     },
@@ -168,7 +168,7 @@
       "name": "Northrop Grumman",
       "weight": 0.019877,
       "targetWeight": 0.025,
-      "shares": 0.35886804,
+      "shares": 0.358868,
       "price": 557.54,
       "marketValue": 200.08
     },
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.029013,
       "targetWeight": 0.03,
-      "shares": 0.78382898,
+      "shares": 0.78382906,
       "price": 372.59,
       "marketValue": 292.05
     },
@@ -204,7 +204,7 @@
       "name": "Leidos",
       "weight": 0.021553,
       "targetWeight": 0.03,
-      "shares": 1.51735989,
+      "shares": 1.51735974,
       "price": 142.98,
       "marketValue": 216.95
     },
