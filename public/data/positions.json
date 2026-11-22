@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-21",
+  "asOf": "2026-11-22",
   "entryDateUsed": "2025-07-28",
   "valuationDate": "2026-11-20",
   "initialCapitalUsd": 8000.0,
@@ -29,7 +29,7 @@
     },
     {
       "ticker": "MSFT",
-      "shares": 0.94767074,
+      "shares": 0.94767079,
       "entryPrice": 506.505,
       "currentPrice": 484.52,
       "entryValue": 480.0,
@@ -40,7 +40,7 @@
     },
     {
       "ticker": "GOOGL",
-      "shares": 2.08432307,
+      "shares": 2.08432324,
       "entryPrice": 191.9088,
       "currentPrice": 265.29,
       "entryValue": 400.0,
@@ -51,7 +51,7 @@
     },
     {
       "ticker": "NVDA",
-      "shares": 2.72235992,
+      "shares": 2.72235969,
       "entryPrice": 176.3176,
       "currentPrice": 125.53,
       "entryValue": 480.0,
@@ -84,8 +84,8 @@
     },
     {
       "ticker": "AVGO",
-      "shares": 1.09728733,
-      "entryPrice": 291.6283,
+      "shares": 1.09728744,
+      "entryPrice": 291.6282,
       "currentPrice": 304.41,
       "entryValue": 320.0,
       "marketValue": 334.03,
@@ -106,7 +106,7 @@
     },
     {
       "ticker": "TSM",
-      "shares": 1.67047872,
+      "shares": 1.67047883,
       "entryPrice": 239.4523,
       "currentPrice": 318.71,
       "entryValue": 400.0,
@@ -183,8 +183,8 @@
     },
     {
       "ticker": "LMT",
-      "shares": 0.58859274,
-      "entryPrice": 407.7522,
+      "shares": 0.58859269,
+      "entryPrice": 407.7523,
       "currentPrice": 565.5,
       "entryValue": 240.0,
       "marketValue": 332.85,
@@ -216,8 +216,8 @@
     },
     {
       "ticker": "GD",
-      "shares": 0.7838289,
-      "entryPrice": 306.1893,
+      "shares": 0.78382898,
+      "entryPrice": 306.1892,
       "currentPrice": 341.5,
       "entryValue": 240.0,
       "marketValue": 267.68,
@@ -227,7 +227,7 @@
     },
     {
       "ticker": "HII",
-      "shares": 0.93409705,
+      "shares": 0.93409694,
       "entryPrice": 256.9326,
       "currentPrice": 280.34,
       "entryValue": 240.0,
@@ -238,7 +238,7 @@
     },
     {
       "ticker": "LHX",
-      "shares": 0.7578433,
+      "shares": 0.75784339,
       "entryPrice": 263.9068,
       "currentPrice": 249.89,
       "entryValue": 200.0,

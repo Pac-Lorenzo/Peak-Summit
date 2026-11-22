@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-11-21",
+  "asOf": "2026-11-22",
   "holdings": [
     {
       "ticker": "AAPL",
@@ -24,7 +24,7 @@
       "name": "Microsoft",
       "weight": 0.052004,
       "targetWeight": 0.06,
-      "shares": 0.94767074,
+      "shares": 0.94767079,
       "price": 484.52,
       "marketValue": 459.17
     },
@@ -33,7 +33,7 @@
       "name": "Google",
       "weight": 0.062626,
       "targetWeight": 0.05,
-      "shares": 2.08432307,
+      "shares": 2.08432324,
       "price": 265.29,
       "marketValue": 552.95
     },
@@ -42,7 +42,7 @@
       "name": "NVIDIA",
       "weight": 0.038705,
       "targetWeight": 0.06,
-      "shares": 2.72235992,
+      "shares": 2.72235969,
       "price": 125.53,
       "marketValue": 341.74
     },
@@ -69,7 +69,7 @@
       "name": "Broadcom",
       "weight": 0.037831,
       "targetWeight": 0.04,
-      "shares": 1.09728733,
+      "shares": 1.09728744,
       "price": 304.41,
       "marketValue": 334.03
     },
@@ -87,7 +87,7 @@
       "name": "Taiwan Semiconductor",
       "weight": 0.060299,
       "targetWeight": 0.05,
-      "shares": 1.67047872,
+      "shares": 1.67047883,
       "price": 318.71,
       "marketValue": 532.4
     },
@@ -150,7 +150,7 @@
       "name": "Lockheed Martin",
       "weight": 0.037698,
       "targetWeight": 0.03,
-      "shares": 0.58859274,
+      "shares": 0.58859269,
       "price": 565.5,
       "marketValue": 332.85
     },
@@ -177,7 +177,7 @@
       "name": "General Dynamics",
       "weight": 0.030317,
       "targetWeight": 0.03,
-      "shares": 0.7838289,
+      "shares": 0.78382898,
       "price": 341.5,
       "marketValue": 267.68
     },
@@ -186,7 +186,7 @@
       "name": "Huntington Ingalls Industries",
       "weight": 0.029658,
       "targetWeight": 0.03,
-      "shares": 0.93409705,
+      "shares": 0.93409694,
       "price": 280.34,
       "marketValue": 261.86
     },
@@ -195,7 +195,7 @@
       "name": "L3Harris Technologies",
       "weight": 0.021449,
       "targetWeight": 0.025,
-      "shares": 0.7578433,
+      "shares": 0.75784339,
       "price": 249.89,
       "marketValue": 189.38
     },
