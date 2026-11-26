@@ -4,7 +4,7 @@
     {
       "date": "2026-10-26",
       "portfolio": 129.7842,
-      "benchmark": 121.7968
+      "benchmark": 121.7967
     },
     {
       "date": "2026-10-27",
@@ -79,12 +79,12 @@
     {
       "date": "2026-11-16",
       "portfolio": 119.8604,
-      "benchmark": 117.7516
+      "benchmark": 117.7515
     },
     {
       "date": "2026-11-17",
       "portfolio": 118.7242,
-      "benchmark": 116.5565
+      "benchmark": 116.5564
     },
     {
       "date": "2026-11-18",
@@ -99,7 +99,7 @@
     {
       "date": "2026-11-20",
       "portfolio": 110.3672,
-      "benchmark": 109.7726
+      "benchmark": 109.7725
     },
     {
       "date": "2026-11-23",
@@ -113,8 +113,8 @@
     },
     {
       "date": "2026-11-25",
-      "portfolio": 115.029,
-      "benchmark": 113.9594
+      "portfolio": 115.2991,
+      "benchmark": 114.0517
     }
   ]
 }
